@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\ReturnStockResource\Pages;
-use App\Filament\Resources\ReturnStockResource\RelationManagers;
-use App\Models\ReturnStock;
+use App\Filament\Resources\PermissionResource\Pages;
+use App\Filament\Resources\PermissionResource\RelationManagers;
+
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
@@ -13,37 +13,37 @@ use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Card;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Forms\Components\Select;
 
-use Filament\Forms\Components\Checkbox;
+use App\Models\Permission;
 
-class ReturnStockResource extends Resource
+// use Spatie\Permission\Models\Permission;
+
+class PermissionResource extends Resource
 {
-    protected static ?string $model = ReturnStock::class;
+    protected static ?string $model = Permission::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
-    protected static ?string $navigationGroup = 'Loan Management';
+    protected static ?string $navigationIcon = 'heroicon-o-key';
+    protected static ?string $navigationGroup = 'User Setting';
 
-    protected static ?int $navigationSort = 3;
-
+    protected static ?int $navigationSort = 1;
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 //
-
                 Card::make()
                 ->schema([
-                    // ...
-                    Select::make('loan_stock_id')  
-                    ->relationship('loanStock', 'id'),      
-                    Checkbox::make('isSucessful'),
-                    
-                ])
-                //
+                    TextInput::make('name')
+                    ->minLength(2)
+                    ->maxLength(255)
+                    ->unique(ignoreRecord: true),
+
+                ]) ->columns(2)
+               
             ]);
     }
 
@@ -53,15 +53,15 @@ class ReturnStockResource extends Resource
             ->columns([
                 //
                 TextColumn::make('id')->sortable(),
-                TextColumn::make('loanStock.id')->sortable(),
-                TextColumn::make('isSucessful') ->sortable(),   
-                TextColumn::make('created_at')->dateTime()
+                TextColumn::make('name'),
+                TextColumn::make('created_at')->dateTime('d-M-Y')->sortable(),
             ])
             ->filters([
                 //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
@@ -78,9 +78,9 @@ class ReturnStockResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListReturnStocks::route('/'),
-            'create' => Pages\CreateReturnStock::route('/create'),
-            'edit' => Pages\EditReturnStock::route('/{record}/edit'),
+            'index' => Pages\ListPermissions::route('/'),
+            'create' => Pages\CreatePermission::route('/create'),
+            'edit' => Pages\EditPermission::route('/{record}/edit'),
         ];
     }    
 }
