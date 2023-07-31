@@ -19,8 +19,5 @@ class Category extends Model
         return $this->hasMany(Stock::class);
     }
 
-    public function loanApproval():HasMany
-    {
-        return $this->hasMany(loanApproval::class);
-    }
+   
 }

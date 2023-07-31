@@ -42,7 +42,7 @@ class StockResource extends Resource
                 ->schema([
                     // ...
                     Select::make('category_id')  
-                    ->relationship('category', 'stockCategory'),      
+                    ->relationship('category', 'name'),      
                     TextInput::make('stockQuantity'),
                     TextInput::make('stockDescription'),
                     DatePicker::make('warrantyDate'),
@@ -60,7 +60,7 @@ class StockResource extends Resource
             ->columns([
                 //
                 TextColumn::make('id')->sortable(),
-                TextColumn::make('Category.stockCategory')->sortable(),
+                TextColumn::make('Category.name')->sortable(),
                 TextColumn::make('stockQuantity')->searchable()->sortable(),
                 TextColumn::make('stockDescription')->searchable()->sortable(),
                 TextColumn::make('price')->searchable()->sortable(),

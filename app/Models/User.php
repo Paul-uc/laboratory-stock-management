@@ -12,7 +12,8 @@ use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
 
-class User extends Authenticatable implements FilamentUser
+class User extends Authenticatable 
+//implements FilamentUser
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
@@ -52,7 +53,7 @@ class User extends Authenticatable implements FilamentUser
     ];
 
     
-    public function canAccessFilament(): bool{
-        return $this->hasRole('Admin', 'SuperAdmin');
-    }
+    // public function canAccessFilament(): bool{
+    //     return $this->hasRole('Admin', 'SuperAdmin', '');
+    // }
 }
