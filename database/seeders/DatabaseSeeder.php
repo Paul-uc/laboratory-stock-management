@@ -112,6 +112,11 @@ class DatabaseSeeder extends Seeder
         Permission::create(['name' => 'Create Permissions']);
         Permission::create(['name' => 'Update Permissions']);
         Permission::create(['name' => 'Delete Permissions']);
+
+        Permission::create(['name' => 'View Stock Codes']);
+        Permission::create(['name' => 'Create Stock Codes']);
+        Permission::create(['name' => 'Update Stock Codes']);
+        Permission::create(['name' => 'Delete Stock Codes']);
       
 
         $role1->givePermissionTo(Permission::all());
