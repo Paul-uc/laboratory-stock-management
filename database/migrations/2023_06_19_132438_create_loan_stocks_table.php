@@ -17,8 +17,14 @@ return new class extends Migration
             $table->foreignId('stock_id')->constrained()->cascadeOnDelete();
             $table->foreignId('stock_code_id')->constrained()->cascadeOnDelete();
             
-           
-            $table->string('loanRemark');
+            $table->string('name');
+            $table->string('_id');
+            $table->string('email');
+            $table->string('phoneNumber');
+            $table->string('reason');
+            $table->string('supervisorName');
+            $table->date('estReturnDate');
+            $table->boolean('termsAndCondition');
            
           
             $table->timestamps();

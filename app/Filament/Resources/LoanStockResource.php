@@ -8,6 +8,7 @@ use App\Models\LoanStock;
 use App\Models\Category;
 use App\Models\Stock;
 use App\Models\stockCode;
+use Filament\Forms\Components\Textarea;
 
 use Filament\Forms;
 use Filament\Resources\Form;
@@ -21,6 +22,7 @@ use Filament\Forms\Components\Card;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Checkbox;
 
 
 class LoanStockResource extends Resource
@@ -39,13 +41,12 @@ class LoanStockResource extends Resource
             ->schema([
                 Card::make()
                 ->schema([
-                    // ...
-                    
-                   
+                    // ...       
                     Select::make('category_id')  
                     ->label('Category')
                     ->options(Category::all()->pluck('name', 'id')->toArray())
-                    ->reactive(), 
+                    ->reactive() 
+                    ->required(),
 
                     Select::make('stock_code_id')  
                     ->label('Stock Code')
@@ -57,8 +58,8 @@ class LoanStockResource extends Resource
                         return $category->stockCode->pluck('code', 'id');
                     })
 
-                    ->reactive(), 
-
+                    ->reactive()
+                    ->required(),
 
                     Select::make('stock_id')  
                     ->options(function(callable $get){
@@ -68,9 +69,38 @@ class LoanStockResource extends Resource
                         }
                         return $stockCode->stock->pluck('serialNumber', 'id');
                     })
-                    ->label('Serial Number'),
+                    ->label('Serial Number')
+                    ->required(),
                     
-                    TextInput::make('loanRemark'),                       
+
+                    TextInput::make('name')
+                    ->label('Student/ Staff name'),  
+                    TextInput::make('_id')
+                    ->label('Student/ Staff ID'),                      
+                    TextInput::make('email')
+                    ->label('Email address')
+                    ->email(), 
+                    TextInput::make('phoneNumber')
+                    ->label('Phone Number')
+                    ->tel()
+                    ->prefix('60+'), 
+                    TextInput::make('supervisorName') 
+                    ->label('Supervisor Name'),
+
+                    TextArea::make('reason')
+                    ->label('Reason to Loan'),
+                     
+
+                    DatePicker::make('estReturnDate')
+                    ->label('Estimated Return Date'),
+                    
+                    
+                  
+                    
+                    Checkbox::make('termsAndCondition')
+                    ->label('By ticking, I hereby agree with the Terms and Conditions')
+                    ->required(),
+                    
                     
                     
                 ])->columns(2)
@@ -86,8 +116,12 @@ class LoanStockResource extends Resource
                 //
                 TextColumn::make('id')
                 ->sortable(),
-                TextColumn::make('stock.id')->sortable(),
-                TextColumn::make('loanRemark') ->sortable(),  
+                TextColumn::make('stock.serialNumber')->sortable(),
+                TextColumn::make('stockCode.code')->sortable(),
+                
+               
+                TextColumn::make('_id')->sortable(),    
+                TextColumn::make('estReturnDate')->sortable(), 
                
             ])
             ->filters([

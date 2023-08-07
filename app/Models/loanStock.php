@@ -12,10 +12,18 @@ class loanStock extends Model
     use HasFactory;
 
     protected $fillable = [
+        'category_id',
         'stock_id',
         'stock_code_id',
 
-        'loanRemark', 
+        'name',
+        '_id',
+        'email',
+        'phoneNumber',
+        'reason',
+        'supervisorName',
+        'estReturnDate', 
+        'termsAndCondition'
         
     ]; //
    
