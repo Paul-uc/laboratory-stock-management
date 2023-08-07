@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Card;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\Select;
 
 class StockCodeResource extends Resource
 {
@@ -35,6 +36,8 @@ class StockCodeResource extends Resource
                 Card::make()
                 ->schema([
                     // ...
+                    Select::make('category_id')  
+                    ->relationship('category', 'name'), 
                     TextInput::make('code')
                 ])
                 ->columns(2)
@@ -47,7 +50,7 @@ class StockCodeResource extends Resource
         return $table
             ->columns([
                 //
-                  
+                TextColumn::make('Category.name')->sortable(),       
                 TextColumn::make('code')->searchable()->sortable(),
                 TextColumn::make('created_at')->dateTime()
             ])
