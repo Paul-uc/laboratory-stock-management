@@ -38,6 +38,7 @@ class PermissionResource extends Resource
                 Card::make()
                 ->schema([
                     TextInput::make('name')
+                    ->label('Permission Name')
                     ->minLength(2)
                     ->maxLength(255)
                     ->unique(ignoreRecord: true),
@@ -53,7 +54,7 @@ class PermissionResource extends Resource
             ->columns([
                 //
                 TextColumn::make('id')->sortable(),
-                TextColumn::make('name'),
+                TextColumn::make('name')->label('Permission Name'),
                 TextColumn::make('created_at')->dateTime('d-M-Y')->sortable(),
             ])
             ->filters([
