@@ -59,8 +59,7 @@ class StockResource extends Resource
                     })
                     ->reactive(), 
                     
-                    TextInput::make('serialNumber'),
-                                       
+                    TextInput::make('serialNumber'),            
 
                     TextInput::make('stockDescription'),            
                  
@@ -84,11 +83,9 @@ class StockResource extends Resource
                 //
                 TextColumn::make('id')->sortable(),
                 TextColumn::make('Category.name')->sortable(),               
-                
-
-                TextColumn::make('stockQuantity')->searchable()->sortable(),
+                TextColumn::make('stockCode.code')->sortable(),                    
                 TextColumn::make('serialNumber')->searchable()->sortable(),
-                
+                TextColumn::make('stockQuantity')->searchable()->sortable(),
                 IconColumn::make('stockAvailability')  
                 ->boolean()
                 ->label('Ready to Loan')

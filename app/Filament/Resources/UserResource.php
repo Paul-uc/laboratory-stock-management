@@ -18,7 +18,9 @@ use Illuminate\Support\Facades\Hash;
 use Filament\Pages\Page;
 use Filament\Forms\Components\Card;
 use Filament\Forms\Components\Select;
-
+use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\DateTimePicker;
 
 class UserResource extends Resource
 {
@@ -37,18 +39,18 @@ class UserResource extends Resource
                 Card::make()
                 ->schema([
                     // ...
-                    Forms\Components\TextInput::make('name')
+                    TextInput::make('name')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('username')
+               TextInput::make('username')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('email')
+                TextInput::make('email')
                     ->email()
                     ->required()
                     ->maxLength(255),
-                Forms\Components\DateTimePicker::make('email_verified_at'),
-                Forms\Components\TextInput::make('password')
+                DateTimePicker::make('email_verified_at'),
+               TextInput::make('password')
                     ->password()
                     ->dehydrateStateUsing(fn ($state) => Hash::make($state))
                     ->dehydrated(fn ($state) => filled($state))
@@ -73,12 +75,12 @@ class UserResource extends Resource
         return $table
             ->columns([
                 
-                Tables\Columns\TextColumn::make('name')->searchable(),
-                Tables\Columns\TextColumn::make('username')->searchable(),
-                Tables\Columns\TextColumn::make('email')->searchable(),
-                Tables\Columns\TextColumn::make('email_verified_at')
-                    ->dateTime()->sortable(),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('name')->searchable(),
+                TextColumn::make('username')->searchable(),
+                TextColumn::make('email')->searchable(),
+                TextColumn::make('roles.name')
+                    ->sortable(),
+                TextColumn::make('email_verified_at')
                     ->dateTime()->sortable(),
                
             ])

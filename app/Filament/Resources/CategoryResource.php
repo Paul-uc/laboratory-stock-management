@@ -33,7 +33,7 @@ class CategoryResource extends Resource
                 Card::make()
                 ->schema([
                     // ...
-                    TextInput::make('name')
+                    TextInput::make('name')->label('Category Name'),
                 ])
                 ->columns(2)
 
@@ -47,7 +47,7 @@ class CategoryResource extends Resource
             ->columns([
                 //
                 
-                TextColumn::make('name')->searchable()->sortable(),
+                TextColumn::make('name')->label('Category Name')->searchable()->sortable(),
                 TextColumn::make('created_at')->dateTime()
                 
             ])
