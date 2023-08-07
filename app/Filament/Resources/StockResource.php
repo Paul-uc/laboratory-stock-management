@@ -84,15 +84,19 @@ class StockResource extends Resource
                 //
                 TextColumn::make('id')->sortable(),
                 TextColumn::make('Category.name')->sortable(),               
-                TextColumn::make('stockDescription')->searchable()->sortable(),
+                
 
                 TextColumn::make('stockQuantity')->searchable()->sortable(),
                 TextColumn::make('serialNumber')->searchable()->sortable(),
                 
-                IconColumn::make('stockAvailability')  ->boolean()
+                IconColumn::make('stockAvailability')  
+                ->boolean()
+                ->label('Ready to Loan')
                 ->trueIcon('heroicon-o-badge-check')
                 ->falseIcon('heroicon-o-x-circle')
                 ->sortable(),   
+
+                TextColumn::make('created_at')->dateTime('d-M-Y')->sortable(),
                 
             ])      
             ->filters([
