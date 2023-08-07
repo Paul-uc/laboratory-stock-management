@@ -13,7 +13,7 @@ class LoanApprovalController extends Controller
     public function index():View
     {
         //
-        return view('loanApproval.index');
+        return view('loan.index');
     }
 
     /**

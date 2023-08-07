@@ -18,7 +18,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Checkbox;
-
+use Filament\Tables\Columns\IconColumn;
 use Filament\Resources\Forms\Components;
 
 
@@ -41,6 +41,7 @@ class StockResource extends Resource
                 Card::make()
                 ->schema([
                     // ...
+                    TextInput::make('stockQuantity'),
                     Select::make('category_id')  
                     ->relationship('category', 'name'),      
                     TextInput::make('stockQuantity'),
@@ -64,7 +65,10 @@ class StockResource extends Resource
                 TextColumn::make('stockQuantity')->searchable()->sortable(),
                 TextColumn::make('stockDescription')->searchable()->sortable(),
                 TextColumn::make('price')->searchable()->sortable(),
-                TextColumn::make('stockAvailability') ->sortable(),   
+                IconColumn::make('stockAvailability')  ->boolean()
+                ->trueIcon('heroicon-o-badge-check')
+                ->falseIcon('heroicon-o-x-circle')
+                ->sortable(),   
                 TextColumn::make('created_at')->dateTime()
             ])      
             ->filters([

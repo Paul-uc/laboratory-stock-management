@@ -10,6 +10,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 
 class User extends Authenticatable 
@@ -52,6 +53,10 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    public function loan():HasMany
+    {
+        return $this->hasMany(Loan::class);
+    }
     
     // public function canAccessFilament(): bool{
     //     return $this->hasRole('Admin', 'SuperAdmin', '');
