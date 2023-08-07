@@ -13,7 +13,10 @@ return new class extends Migration
     {
         Schema::create('stocks', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('category_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('category_id')->constrained()->cascadeOnDelete(); 
+            $table->foreignId('stock_code_id')->constrained()->cascadeOnDelete();
+
+            $table->string('serialNumber');
             $table->string('stockDescription');
 
             $table->string('warrantyStartDate');

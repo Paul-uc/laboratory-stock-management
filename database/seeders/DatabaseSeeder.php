@@ -9,7 +9,7 @@ use Spatie\Permission\Models\Permission;
 use App\Models\User;
 use App\Models\Category;
 use App\Models\Stock;
-
+use App\Models\stockCode;
 
 class DatabaseSeeder extends Seeder
 {
@@ -42,8 +42,15 @@ class DatabaseSeeder extends Seeder
         Category::create(['name' => 'Beaker']);
         Category::create(['name' => 'Bunsen Burner']);
 
-        Stock::create(['category_id' => 1, 'stockAvailability'=> true, 'stockQuantity'=> 1, 'stockDescription'=> '', 'price' => '1', 'warrantyStartDate' => '', 'warrantyEndDate' => '']);
+        stockCode::create(['category_id' => 1 , 'code' => 'B001']);
+        stockCode::create(['category_id' => 1 , 'code' => 'B002']);
+        stockCode::create(['category_id' => 2 , 'code' => 'BB01']);
+        stockCode::create(['category_id' => 2 , 'code' => 'BB02']);
 
+        Stock::create(['category_id' => 1 ,'stock_code_id' => 1, 'serialNumber' => 'Beaker001', 'stockAvailability'=> true, 'stockQuantity'=> 1, 'stockDescription'=> '', 'price' => '1', 'warrantyStartDate' => '', 'warrantyEndDate' => '']);
+        Stock::create(['category_id' => 1 ,'stock_code_id' => 2, 'serialNumber' => 'Beaker002', 'stockAvailability'=> true, 'stockQuantity'=> 1, 'stockDescription'=> '', 'price' => '1', 'warrantyStartDate' => '', 'warrantyEndDate' => '']);
+        Stock::create(['category_id' => 2 ,'stock_code_id' => 3, 'serialNumber' => 'Bunsen001', 'stockAvailability'=> true, 'stockQuantity'=> 1, 'stockDescription'=> '', 'price' => '1', 'warrantyStartDate' => '', 'warrantyEndDate' => '']);
+        Stock::create(['category_id' => 2 ,'stock_code_id' => 4, 'serialNumber' => 'Bunsen002', 'stockAvailability'=> true, 'stockQuantity'=> 1, 'stockDescription'=> '', 'price' => '1', 'warrantyStartDate' => '', 'warrantyEndDate' => '']);
         
 
         //// Reset cached roles and permissions

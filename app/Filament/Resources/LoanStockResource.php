@@ -5,6 +5,10 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\LoanStockResource\Pages;
 use App\Filament\Resources\LoanStockResource\RelationManagers;
 use App\Models\LoanStock;
+use App\Models\Category;
+use App\Models\Stock;
+use App\Models\stockCode;
+
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
@@ -36,12 +40,40 @@ class LoanStockResource extends Resource
                 Card::make()
                 ->schema([
                     // ...
-                    Select::make('stock_id')  
-                    ->relationship('stock', 'id'),      
-                    TextInput::make('loanRemark'),                       
-                    DatePicker::make('estReturnDate'), 
                     
-                ])
+                   
+                    Select::make('category_id')  
+                    ->label('Category')
+                    ->options(Category::all()->pluck('name', 'id')->toArray())
+                    ->reactive(), 
+
+                    Select::make('stock_code_id')  
+                    ->label('Stock Code')
+                    ->options(function(callable $get){
+                        $category = Category::find($get('category_id'));
+                        if (!$category){
+                            return stockCode::all()->pluck('code', 'id');
+                        }
+                        return $category->stockCode->pluck('code', 'id');
+                    })
+
+                    ->reactive(), 
+
+
+                    Select::make('stock_id')  
+                    ->options(function(callable $get){
+                        $stockCode = stockCode::find($get('stock_code_id'));
+                        if (!$stockCode){
+                            return Stock::all()->pluck('serialNumber', 'id');
+                        }
+                        return $stockCode->stock->pluck('serialNumber', 'id');
+                    })
+                    ->label('Serial Number'),
+                    
+                    TextInput::make('loanRemark'),                       
+                    
+                    
+                ])->columns(2)
                 //
                
             ]);
@@ -56,8 +88,7 @@ class LoanStockResource extends Resource
                 ->sortable(),
                 TextColumn::make('stock.id')->sortable(),
                 TextColumn::make('loanRemark') ->sortable(),  
-                TextColumn::make('estReturnDate') ->sortable(),  
-                TextColumn::make('created_at')->dateTime()
+               
             ])
             ->filters([
                 //

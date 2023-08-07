@@ -4,7 +4,9 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\StockResource\Pages;
 use App\Filament\Resources\StockResource\RelationManagers;
+use App\Models\Category;
 use App\Models\Stock;
+use App\Models\stockCode;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
@@ -42,7 +44,24 @@ class StockResource extends Resource
                 ->schema([
                     // ...
                     Select::make('category_id')  
-                    ->relationship('category', 'name'), 
+                    ->label('Category')
+                    ->options(Category::all()->pluck('name', 'id')->toArray())
+                    ->reactive(), 
+
+                    Select::make('stock_code_id')  
+                    ->label('Stock Code')
+                    ->options(function(callable $get){
+                        $category = Category::find($get('category_id'));
+                        if (!$category){
+                            return stockCode::all()->pluck('code', 'id');
+                        }
+                        return $category->stockCode->pluck('code', 'id');
+                    })
+                    ->reactive(), 
+                    
+                    TextInput::make('serialNumber'),
+                                       
+
                     TextInput::make('stockDescription'),            
                  
                     DatePicker::make('warrantyEndDate'),
@@ -68,13 +87,13 @@ class StockResource extends Resource
                 TextColumn::make('stockDescription')->searchable()->sortable(),
 
                 TextColumn::make('stockQuantity')->searchable()->sortable(),
-                TextColumn::make('price')->searchable()->sortable(),
+                TextColumn::make('serialNumber')->searchable()->sortable(),
                 
                 IconColumn::make('stockAvailability')  ->boolean()
                 ->trueIcon('heroicon-o-badge-check')
                 ->falseIcon('heroicon-o-x-circle')
                 ->sortable(),   
-                TextColumn::make('created_at')->dateTime()
+                
             ])      
             ->filters([
                 //

@@ -14,9 +14,15 @@ class Category extends Model
         'name',
     ];
 
-    public function stock():HasMany
+   
+    public function stockCode():HasMany
     {
-        return $this->hasMany(Stock::class);
+        return $this->hasMany(stockCode::class);
+    }
+
+    public function loanStock():HasMany
+    {
+        return $this->hasMany(loanStock::class);
     }
 
     public function loan():HasMany

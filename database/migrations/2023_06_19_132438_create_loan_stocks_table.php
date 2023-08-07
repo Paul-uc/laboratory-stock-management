@@ -13,10 +13,13 @@ return new class extends Migration
     {
         Schema::create('loan_stocks', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('category_id')->constrained()->cascadeOnDelete(); 
             $table->foreignId('stock_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('stock_code_id')->constrained()->cascadeOnDelete();
+            
            
             $table->string('loanRemark');
-            $table->string('estReturnDate');
+           
           
             $table->timestamps();
         });
