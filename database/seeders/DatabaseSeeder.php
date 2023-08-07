@@ -42,7 +42,7 @@ class DatabaseSeeder extends Seeder
         Category::create(['name' => 'Beaker']);
         Category::create(['name' => 'Bunsen Burner']);
 
-        Stock::create(['category_id' => 1, 'stockAvailability'=> true, 'stockQuantity'=> 1, 'stockDescription'=> '', 'price' => '1', 'warrantyDate' => '']);
+        Stock::create(['category_id' => 1, 'stockAvailability'=> true, 'stockQuantity'=> 1, 'stockDescription'=> '', 'price' => '1', 'warrantyStartDate' => '', 'warrantyEndDate' => '']);
 
         
 

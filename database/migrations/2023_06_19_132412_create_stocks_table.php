@@ -14,11 +14,16 @@ return new class extends Migration
         Schema::create('stocks', function (Blueprint $table) {
             $table->id();
             $table->foreignId('category_id')->constrained()->cascadeOnDelete();
-            $table->boolean('stockAvailability')->default(false);
-            $table->integer('stockQuantity');
             $table->string('stockDescription');
+
+            $table->string('warrantyStartDate');
+            $table->string('warrantyEndDate');
+            
+           
+            $table->integer('stockQuantity');
             $table->integer('price');
-            $table->string('warrantyDate');
+            
+            $table->boolean('stockAvailability')->default(false);
            
             $table->timestamps();
         });

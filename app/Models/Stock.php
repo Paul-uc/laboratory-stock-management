@@ -13,10 +13,14 @@ class Stock extends Model
 
     protected $fillable = [
         'category_id',
-        'stockQuantity',
         'stockDescription',
+
+        'warrantyStartDate',
+        'warrantyEndDate',
+
+        'stockQuantity',   
         'price',
-        'warrantyDate',
+        
         'stockAvailability',
     ]; //
 

@@ -41,16 +41,19 @@ class StockResource extends Resource
                 Card::make()
                 ->schema([
                     // ...
-                    TextInput::make('stockQuantity'),
                     Select::make('category_id')  
-                    ->relationship('category', 'name'),      
+                    ->relationship('category', 'name'), 
+                    TextInput::make('stockDescription'),            
+                 
+                    DatePicker::make('warrantyEndDate'),
+                    DatePicker::make('warrantyStartDate'),
+
                     TextInput::make('stockQuantity'),
-                    TextInput::make('stockDescription'),
-                    DatePicker::make('warrantyDate'),
                     TextInput::make('price'),
+
                     Checkbox::make('stockAvailability'),
                    
-                ])
+                ])->columns(2)
   
             ]);
     }
@@ -61,10 +64,12 @@ class StockResource extends Resource
             ->columns([
                 //
                 TextColumn::make('id')->sortable(),
-                TextColumn::make('Category.name')->sortable(),
-                TextColumn::make('stockQuantity')->searchable()->sortable(),
+                TextColumn::make('Category.name')->sortable(),               
                 TextColumn::make('stockDescription')->searchable()->sortable(),
+
+                TextColumn::make('stockQuantity')->searchable()->sortable(),
                 TextColumn::make('price')->searchable()->sortable(),
+                
                 IconColumn::make('stockAvailability')  ->boolean()
                 ->trueIcon('heroicon-o-badge-check')
                 ->falseIcon('heroicon-o-x-circle')
