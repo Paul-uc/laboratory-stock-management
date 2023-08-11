@@ -16,8 +16,9 @@ class loanStock extends Model
         'stock_id',
         'stock_code_id',
 
-        'name',
+        'user_id',
         '_id',
+
         'email',
         'phoneNumber',
         'reason',

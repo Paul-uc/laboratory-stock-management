@@ -54,8 +54,8 @@ class DatabaseSeeder extends Seeder
         Stock::create(['category_id' => 2 ,'stock_code_id' => 4, 'serialNumber' => 'Bunsen002', 'stockAvailability'=> true, 'stockQuantity'=> 1, 'stockDescription'=> '', 'price' => '1', 'warrantyStartDate' => '', 'warrantyEndDate' => '']);
         
 
-        loanStock::create(['category_id' => 1 ,'stock_code_id' => 1, 'stock_id' => '1', 'name'=> 'Example User', '_id'=> 'Ex001', 'email'=> 'example@example.com', 'phoneNumber' => '100000000', 'reason' => 'testing', 'supervisorName' => 'Miss Chin', 'estReturnDate' => '2023-07-11 17:52:58.999999', 'termsAndCondition'=> 1]);
-        loanStock::create(['category_id' => 2 ,'stock_code_id' => 3, 'stock_id' => '3', 'name'=> 'Example User', '_id'=> 'Ex002', 'email'=> 'example@example.com', 'phoneNumber' => '200000000', 'reason' => 'testing2', 'supervisorName' => 'Miss Chin', 'estReturnDate' => '2023-07-12 17:52:58.999999', 'termsAndCondition'=> 1]);
+        loanStock::create(['category_id' => 1 ,'stock_code_id' => 1, 'stock_id' => '1', 'user_id'=> '2', '_id'=> '2', 'email'=> 'example@example.com', 'phoneNumber' => '100000000', 'reason' => 'testing', 'supervisorName' => 'Miss Chin', 'estReturnDate' => '2023-07-11 17:52:58.999999', 'termsAndCondition'=> 1]);
+        loanStock::create(['category_id' => 2 ,'stock_code_id' => 3, 'stock_id' => '3', 'user_id'=> '2', '_id'=> '2', 'email'=> 'example@example.com', 'phoneNumber' => '200000000', 'reason' => 'testing2', 'supervisorName' => 'Miss Chin', 'estReturnDate' => '2023-07-12 17:52:58.999999', 'termsAndCondition'=> 1]);
         
         //// Reset cached roles and permissions
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();

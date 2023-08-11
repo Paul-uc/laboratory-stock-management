@@ -11,6 +11,9 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
 
 
 class User extends Authenticatable 
@@ -19,7 +22,7 @@ class User extends Authenticatable
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
     protected $table = 'users';
-   
+ 
     
     /**
      * The attributes that are mass assignable.
@@ -57,6 +60,18 @@ class User extends Authenticatable
     {
         return $this->hasMany(Loan::class);
     }
+
+    public function userId():HasOne
+    {
+        return $this->hasOne(User::class, 'id');
+    }
+
+    public function user():BelongsTo
+    {
+        return $this->belongsTo(User::class, 'id');
+    }
+    
+
     
     // public function canAccessFilament(): bool{
     //     return $this->hasRole('Admin', 'SuperAdmin', '');

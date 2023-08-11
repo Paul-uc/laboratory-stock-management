@@ -18,8 +18,10 @@ return new class extends Migration
             $table->foreignId('stock_code_id')->constrained()->cascadeOnDelete();
             $table->foreignId('stock_id')->constrained()->cascadeOnDelete();
             
-            $table->string('name');
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            
             $table->string('_id');
+
             $table->string('email');
             $table->string('phoneNumber');
             $table->string('reason');

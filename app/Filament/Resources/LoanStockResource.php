@@ -8,6 +8,7 @@ use App\Models\LoanStock;
 use App\Models\Category;
 use App\Models\Stock;
 use App\Models\stockCode;
+use App\Models\User;
 use Filament\Forms\Components\Textarea;
 
 use Filament\Forms;
@@ -73,10 +74,26 @@ class LoanStockResource extends Resource
                     ->required(),
                     
 
-                    TextInput::make('name')
-                    ->label('Student/ Staff name'),  
-                    TextInput::make('_id')
-                    ->label('Student/ Staff ID'),                      
+                    
+                    Select::make('user_id')  
+                    ->label('Student/ Staff name')
+                    ->options(User::all()->pluck('name', 'id')->toArray())
+                    ->reactive() 
+                    ->required(),
+
+                    Select::make('_id') 
+                    ->label('Student/ Staff id')
+                    ->options(function(callable $get){
+                        $userId = User::find($get('user_id'));
+                        if (!$userId){
+                            return User::all()->pluck('username', 'id');
+                        }
+                        return $userId->userId->pluck('username', 'name');
+                    })
+                    ->reactive() 
+                    ->required(),
+                    
+                    
                     TextInput::make('email')
                     ->label('Email address')
                     ->email(), 
