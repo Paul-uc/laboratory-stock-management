@@ -7,23 +7,22 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 
-class returnStock extends Model
+class Approval extends Model
 {
     use HasFactory;
 
-    
     protected $fillable = [
         'loan_stock_id',
-        'isSucessful', 
-
+        'status',
+        'name',
+        'position',
+        'remark',       
     ]; //
 
-    public function approval():BelongsTo
+    public function loanStock():BelongsTo
     {
-        return $this->belongsTo(Approval::class);
+        return $this->belongsTo(loanStock::class);
     }
-
-
-
-  
 }
+
+

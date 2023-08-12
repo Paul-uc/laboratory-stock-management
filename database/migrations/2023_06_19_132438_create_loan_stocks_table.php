@@ -27,7 +27,7 @@ return new class extends Migration
             $table->string('reason');
             $table->string('supervisorName');
             $table->date('estReturnDate');
-            $table->boolean('termsAndCondition');
+            $table->boolean('termsAndCondition')->default(false);;
            
           
             $table->timestamps();

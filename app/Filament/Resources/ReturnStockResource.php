@@ -24,9 +24,9 @@ class ReturnStockResource extends Resource
     protected static ?string $model = ReturnStock::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
-    protected static ?string $navigationGroup = 'Loan Management';
+    protected static ?string $navigationGroup = 'Return Management';
 
-    protected static ?int $navigationSort = 3;
+    protected static ?int $navigationSort = 5;
 
 
     public static function form(Form $form): Form
@@ -38,8 +38,8 @@ class ReturnStockResource extends Resource
                 Card::make()
                 ->schema([
                     // ...
-                    Select::make('loan_stock_id')  
-                    ->relationship('loanStock', 'id'),      
+                    Select::make('approval_id')  
+                    ->relationship('approval', 'id'),      
                     Checkbox::make('isSucessful'),
                     
                 ])
@@ -53,8 +53,12 @@ class ReturnStockResource extends Resource
             ->columns([
                 //
                 TextColumn::make('id')->sortable(),
-                TextColumn::make('loanStock.id')->sortable(),
-                TextColumn::make('isSucessful') ->sortable(),   
+                TextColumn::make('approval.id')->sortable(),
+                TextColumn::make('isSucessful')  ->boolean()
+                ->label('Return Status')
+                ->trueIcon('heroicon-o-badge-check')
+                ->falseIcon('heroicon-o-x-circle')
+                ->sortable(),      
                 TextColumn::make('created_at')->dateTime()
             ])
             ->filters([

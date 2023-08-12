@@ -11,12 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('return_stocks', function (Blueprint $table) {
+        Schema::create('approvals', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('approval_id')->constrained()->cascadeOnDelete();
-            $table->boolean('isSucessful')->default(false);
-          
+            $table->foreignId('loan_stock_id')->constrained()->cascadeOnDelete();
+            $table->boolean('status')->default(false);
+            $table->string('name');
+            $table->string('position');
+            $table->string('remark');
+            
             $table->timestamps();
+           
         });
     }
 
@@ -25,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('return_stocks');
+        Schema::dropIfExists('approvals');
     }
 };
