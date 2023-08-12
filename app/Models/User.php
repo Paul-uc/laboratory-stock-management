@@ -70,7 +70,11 @@ class User extends Authenticatable
     {
         return $this->belongsTo(User::class, 'id');
     }
-    
+
+    public function loanstock():HasMany
+    {
+        return $this->hasMany(loanstock::class, 'loan_stock_id');
+    }
 
     
     // public function canAccessFilament(): bool{

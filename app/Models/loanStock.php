@@ -17,12 +17,13 @@ class loanStock extends Model
         'stock_code_id',
 
         'user_id',
-        '_id',
+        'userId',
 
         'email',
         'phoneNumber',
         'reason',
         'supervisorName',
+        'startLoanDate', 
         'estReturnDate', 
         'termsAndCondition'
         
@@ -43,6 +44,11 @@ class loanStock extends Model
         return $this->belongsTo(stockCode::class);
     }
 
+
+    public function user():BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
     
     public function loanstock():HasOne
     {

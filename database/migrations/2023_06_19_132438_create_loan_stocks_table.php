@@ -20,13 +20,14 @@ return new class extends Migration
             
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             
-            $table->string('_id');
+            $table->string('userId');
 
             $table->string('email');
             $table->string('phoneNumber');
             $table->string('reason');
             $table->string('supervisorName');
-            $table->date('estReturnDate');
+            $table->date('startLoanDate')->format('d-m-Y');
+            $table->date('estReturnDate')->format('d-m-Y');
             $table->boolean('termsAndCondition')->default(false);;
            
           
