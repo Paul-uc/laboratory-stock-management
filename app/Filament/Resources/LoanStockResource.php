@@ -112,21 +112,25 @@ class LoanStockResource extends Resource
                     TextInput::make('supervisorName') 
                     ->label('TAR UMT supervisor(s) or lecturer(s) name involved in approved project (if applicable)') ,
 
-                    TextArea::make('reason')
-                    ->label('Reason to Loan'),
-                     
-
                     DatePicker::make('startLoanDate')
                     ->label('Start Loan Date'),
                     
                     DatePicker::make('estReturnDate')
                     ->label('Estimated Return Date'),
                     
+                    TextArea::make('reason')
+                    ->label('Reason to Loan')
+                    ->columnSpan(2)
+                    ,
+                    
+
+                   
                   
                     
                     Checkbox::make('termsAndCondition')
                     ->label('By ticking, I hereby agree with the Terms and Conditions')
-                    ->required(),
+                    ->required()
+                    ,
                     
                     
                     
