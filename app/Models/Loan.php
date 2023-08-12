@@ -12,10 +12,15 @@ class Loan extends Model
 
     protected $fillable = [
         'category_id',
-        'start date',
-        'return date',
-        'description',
         'user_id',
+        'username',
+        'email',
+        'phoneNumber',
+        'reason',
+        'supervisorName',
+        'startLoanDate',
+        'estReturnDate',
+        'termsAndCondition'
     ];
 
     public function user():BelongsTo

@@ -16,9 +16,16 @@ return new class extends Migration
         Schema::create('loans', function (Blueprint $table) {
             $table->id();
             $table->foreignId('category_id')->constrained()->cascadeOnDelete();
-            $table->date('start date');
-            $table->date('return date');
-            $table->string('description');
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->string('username');
+            $table->email('email');
+            $table->string('phoneNumber');
+            $table->string('reason');
+            $table->string('supervisorName');
+            $table->date('startLoanDate');
+            $table->date('estReturnDate');
+            $table->boolean('termsAndCondition')->default(false);
+            
             $table->timestamps();
         });
     }
