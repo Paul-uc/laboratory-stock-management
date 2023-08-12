@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\LoanApprovalController;
+use App\Http\Controllers\LoanController;
 use Illuminate\Support\Facades\Route;
 use App\Models\Category;
 
@@ -30,8 +30,11 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::resource('/loans', LoanController::class,);
-
     
+    Route::get('/categories/{category}', function(Category $category) {
+return response()->json($category);
+
+    });
     
 });
 

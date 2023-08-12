@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
+use App\Models\Loan;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
-class LoanApprovalController extends Controller
+class LoanController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,7 +15,8 @@ class LoanApprovalController extends Controller
     public function index():View
     {
         //
-        return view('loan.index');
+        $loans = Loan::all();
+        return view('loans.index', compact('loans'));
     }
 
     /**
@@ -22,6 +25,9 @@ class LoanApprovalController extends Controller
     public function create()
     {
         //
+        $categories = Category::all(); // Fetch categories
+        return view('loans.create', compact('categories'));
+        
     }
 
     /**
