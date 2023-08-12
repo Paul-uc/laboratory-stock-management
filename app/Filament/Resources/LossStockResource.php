@@ -72,10 +72,21 @@ class LossStockResource extends Resource
         return $table
             ->columns([
                 //
-                TextColumn::make('id')->sortable(),
-                TextColumn::make('loan_stock.id')->sortable(),
-                TextColumn::make('lostType') ->sortable(),   
-                TextColumn::make('created_at')->dateTime()
+                TextColumn::make('id')
+                ->label('Loss Stock Id')
+                ->sortable(),
+
+                TextColumn::make('approval.id')
+                ->label('Approval Id')
+                ->sortable(),
+
+                TextColumn::make('lostType') 
+                ->label('Loss Type')
+                ->sortable(),  
+                 
+                TextColumn::make('created_at')
+                ->label('Loss At')
+                ->dateTime()
             ])
             ->filters([
                 //

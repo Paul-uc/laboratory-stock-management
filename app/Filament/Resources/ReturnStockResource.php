@@ -21,6 +21,7 @@ use Filament\Forms\Components\Select;
 
 use Filament\Forms\Components\Checkbox;
 use Filament\Tables\Columns\IconColumn;
+use Filament\Forms\Components\Textarea;
 
 class ReturnStockResource extends Resource
 {
@@ -69,7 +70,8 @@ class ReturnStockResource extends Resource
 
                 
 
-                    Checkbox::make('isSucessful'),
+                    TextArea::make('remark')
+                    ->label('Remarks'),
                     
                 ])
                 //
@@ -81,14 +83,21 @@ class ReturnStockResource extends Resource
         return $table
             ->columns([
                 //
-                TextColumn::make('id')->sortable(),
-                TextColumn::make('approval.id')->sortable(),
-                IconColumn::make('isSucessful')  ->boolean()
-                ->label('Return Status')
-                ->trueIcon('heroicon-o-badge-check')
-                ->falseIcon('heroicon-o-x-circle')
-                ->sortable(),      
-                TextColumn::make('created_at')->dateTime()
+                TextColumn::make('id')
+                ->label('Returned Stock Id')
+                ->sortable(),
+                
+                TextColumn::make('approval.id')
+                ->label('Approval Id')
+                ->sortable(),
+
+                TextColumn::make('remark')
+                ->label('Remarks')
+                ->searchable(),
+
+                TextColumn::make('created_at')
+                ->label('Returned At')
+                ->dateTime()
             ])
             ->filters([
                 //

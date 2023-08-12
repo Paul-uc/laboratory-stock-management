@@ -13,8 +13,8 @@ class returnStock extends Model
 
     
     protected $fillable = [
-        'loan_stock_id',
-        'isSucessful', 
+        'approval_id',
+        'remark', 
 
     ]; //
 
