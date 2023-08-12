@@ -7,6 +7,7 @@ use App\Filament\Resources\LossStockResource\RelationManagers;
 use App\Models\Approval;
 use App\Models\LossStock;
 use App\Models\returnStock;
+
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
@@ -76,7 +77,7 @@ class LossStockResource extends Resource
                 ->label('Loss Stock Id')
                 ->sortable(),
 
-                TextColumn::make('approval.id')
+                TextColumn::make('approval_id')
                 ->label('Approval Id')
                 ->sortable(),
 
