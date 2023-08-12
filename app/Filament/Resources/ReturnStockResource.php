@@ -18,6 +18,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\Select;
 
 use Filament\Forms\Components\Checkbox;
+use Filament\Tables\Columns\IconColumn;
 
 class ReturnStockResource extends Resource
 {
@@ -54,7 +55,7 @@ class ReturnStockResource extends Resource
                 //
                 TextColumn::make('id')->sortable(),
                 TextColumn::make('approval.id')->sortable(),
-                TextColumn::make('isSucessful')  ->boolean()
+                IconColumn::make('isSucessful')  ->boolean()
                 ->label('Return Status')
                 ->trueIcon('heroicon-o-badge-check')
                 ->falseIcon('heroicon-o-x-circle')
