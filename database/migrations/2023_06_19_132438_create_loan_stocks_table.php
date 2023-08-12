@@ -28,7 +28,7 @@ return new class extends Migration
             $table->string('supervisorName');
             $table->date('startLoanDate')->format('d-m-Y');
             $table->date('estReturnDate')->format('d-m-Y');
-            $table->boolean('termsAndCondition')->default(false);;
+            $table->boolean('termsAndCondition')->default(false);
            
           
             $table->timestamps();
