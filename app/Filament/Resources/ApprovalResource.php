@@ -42,7 +42,7 @@ class ApprovalResource extends Resource
                 ->schema([
                     // ...
                     Select::make('loan_stock_id')
-                    ->label('Loan Stock')
+                    ->label('Loan Stock ID')
                     ->options(function () {
                         // Get all loan stock IDs
                         $allLoanStockIds = LoanStock::pluck('id');
@@ -59,20 +59,24 @@ class ApprovalResource extends Resource
                         // Create options with unapproved loan stock records
                         $options = $unapprovedLoanStock->pluck('id', 'id');
                 
-                        return $options;
-                
-                        
+                        return $options;                 
                     })
                     ->reactive()
                     ->required(),
                 
 
                     
-                    Checkbox::make('status'),
+                    Checkbox::make('status')
+                    ->label('Approval Status'),
+
                     TextInput::make('name')
-                    ->label('Supervisor Name'),
+                    ->label('Supervisor Name')
+                    ->required(),
+                    
                     TextInput::make('position')
-                    ->label('Position'),
+                    ->label('Position')
+                    ->required(),
+
                     TextInput::make('remark')
                     ->label('Remark'),
                     
