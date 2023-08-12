@@ -40,7 +40,8 @@ class ReturnStockResource extends Resource
                 ->schema([
                     // ...
                     Select::make('approval_id')  
-                    ->relationship('approval', 'id'),      
+                    ->relationship('approval', 'id'), 
+                         
                     Checkbox::make('isSucessful'),
                     
                 ])

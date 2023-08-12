@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-
+use Illuminate\Database\Eloquent\Relations\HasOne;
 class loanStock extends Model
 {
     use HasFactory;
@@ -43,5 +43,11 @@ class loanStock extends Model
         return $this->belongsTo(stockCode::class);
     }
 
+    
+    public function loanstock():HasOne
+    {
+        return $this->hasOne(loanstock::class, 'id');
+    }
+    
     
 }

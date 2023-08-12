@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\ApprovalResource\Pages;
 use App\Filament\Resources\ApprovalResource\RelationManagers;
 use App\Models\Approval;
+use App\Models\loanStock;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
@@ -40,8 +41,33 @@ class ApprovalResource extends Resource
                 Card::make()
                 ->schema([
                     // ...
-                    Select::make('loan_stock_id')  
-                    ->relationship('loanStock', 'id'),      
+                    Select::make('loan_stock_id')
+                    ->label('Loan Stock')
+                    ->options(function () {
+                        // Get all loan stock IDs
+                        $allLoanStockIds = LoanStock::pluck('id');
+                
+                        // Get the IDs of approved loan stock records
+                        $approvedLoanIds = Approval::pluck('loan_stock_id');
+                
+                        // Filter out the approved loan stock IDs
+                        $unapprovedLoanStockIds = $allLoanStockIds->diff($approvedLoanIds);
+                
+                        // Fetch the loan stock records for the unapproved IDs
+                        $unapprovedLoanStock = LoanStock::whereIn('id', $unapprovedLoanStockIds)->get();
+                
+                        // Create options with unapproved loan stock records
+                        $options = $unapprovedLoanStock->pluck('id', 'id');
+                
+                        return $options;
+                
+                        
+                    })
+                    ->reactive()
+                    ->required(),
+                
+
+                    
                     Checkbox::make('status'),
                     TextInput::make('name')
                     ->label('Supervisor Name'),
