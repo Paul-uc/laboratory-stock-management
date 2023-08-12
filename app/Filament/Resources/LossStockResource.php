@@ -4,7 +4,9 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\LossStockResource\Pages;
 use App\Filament\Resources\LossStockResource\RelationManagers;
+use App\Models\Approval;
 use App\Models\LossStock;
+use App\Models\returnStock;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
@@ -35,8 +37,30 @@ class LossStockResource extends Resource
                 Card::make()
                 ->schema([
                     // ...
-                    Select::make('loan_stock_id')  
-                    ->relationship('loanStock', 'id'),      
+                   
+                    Select::make('approval_id')
+                    ->label('Approval ID')
+                    ->options(function (callable $get) {
+                        // Get all approval IDs with status having true boolean value
+                    $approvedApprovalIds = Approval::where('status', true)->pluck('id')->toArray();
+
+                    // Get approval IDs associated with "loss stock" records
+                    $lossStockApprovalIds = LossStock::whereIn('approval_id', $approvedApprovalIds)->pluck('approval_id')->toArray();
+
+                    // Get approval IDs associated with "return stock" records
+                    $returnStockApprovalIds = returnStock::whereIn('approval_id', $approvedApprovalIds)->pluck('approval_id')->toArray();
+
+                    // Combine the excluded approval IDs from both "loss stock" and "return stock"
+                    $excludedApprovalIds = array_merge($lossStockApprovalIds, $returnStockApprovalIds);
+
+                    // Retrieve approval records that are not in the excluded list
+                    $approvalQuery = Approval::whereNotIn('id', $excludedApprovalIds);
+
+                    return $approvalQuery->pluck('id', 'id');
+                    })
+                    ->reactive()
+                    ->required(),  
+                       
                     TextInput::make('lostType'),
                     
                 ])

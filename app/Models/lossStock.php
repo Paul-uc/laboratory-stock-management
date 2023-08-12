@@ -10,7 +10,7 @@ class lossStock extends Model
     use HasFactory;
 
     protected $fillable = [
-        'loan_stock_id',
+        'approval_id',
         'lostType',
         
 ]; //
