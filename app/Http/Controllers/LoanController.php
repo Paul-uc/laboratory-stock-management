@@ -15,11 +15,19 @@ class LoanController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index():View
+    public function index(Loan $loan):View
     {
         //
-        $loans = Loan::all();
+       
+        // Get the authenticated user's username
+        $username = auth()->user()->username;
+
+        // Retrieve loans with the same username
+        $loans = Loan::where('username', $username)->get();
+    
         return view('loans.index', compact('loans'));
+
+      
     }
 
     /**
@@ -50,11 +58,17 @@ class LoanController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Loan $loan)
     {
-        //
+        // Check if the authenticated user owns this loan
+        if ($loan->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized'); // You can customize the error message and response code
+        }
+    
+        // The user is authorized, proceed to show the loan
+        return view('loans.show', compact('loan'));
     }
-
+    
     /**
      * Show the form for editing the specified resource.
      */
