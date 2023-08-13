@@ -83,7 +83,7 @@ class LoanController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Loan $loan):RedirectResponse
+    public function destroy(Loan $loan) :RedirectResponse
     {
         //
         $loan->delete();

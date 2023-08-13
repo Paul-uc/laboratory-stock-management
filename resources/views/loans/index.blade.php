@@ -62,7 +62,7 @@
                                     <form method="POST" class="text-red-400 hover:text-red-600" action="{{ route('loans.destroy', $loan) }}">
                                         @csrf
                                         @method('DELETE')
-                                        <a href="{{ route('loans.destroy', $loan) }}" onclick="loan.preventDefault();
+                                        <a href="{{ route('loans.destroy', $loan) }}" onclick="event.preventDefault();
                                         this.closest('form').submit();">
                                             Delete
                                         </a>
