@@ -17,15 +17,67 @@
                     <thead class="text-lg text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
                             <th scope="col" class="px-6 py-3">
-                                Title
+                                Index Number
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                Start Date
+                                Cateogry Name
                             </th>
-                           
+                            <th scope="col" class="px-6 py-3">
+                                Student/Staff ID
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Start Loan Date
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Estimated Return Date
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Action
+                            </th>
                         </tr>
                     </thead>
-                  
+                    <tbody>
+                        @forelse($loans as $loan)
+                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                {{ $loan->id }}
+                            </th>
+                            <td class="px-6 py-4">
+                                {{ $loan->category->name }}
+                            </td>
+                            <td class="px-6 py-4">
+                                {{ $loan->username }}
+                            </td>
+                            <td class="px-6 py-4">
+                                {{ $loan->startLoanDate }}
+                            </td>
+                            </td>
+                            <td class="px-6 py-4">
+                                {{ $loan->estReturnDate }}
+                            </td>
+                            <td class="px-6 py-4">
+                                <div class="flex space-x-2">
+                                    <a href="{{ route('loans.edit', $loan) }}" class="text-green-400 hover:text-green-600">Edit</a>
+
+                                    <form method="POST" class="text-red-400 hover:text-red-600" action="{{ route('loans.destroy', $loan) }}">
+                                        @csrf
+                                        @method('DELETE')
+                                        <a href="{{ route('loans.destroy', $loan) }}" onclick="loan.preventDefault();
+                                        this.closest('form').submit();">
+                                            Delete
+                                        </a>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="4" class="px-6 py-4 text-center text-gray-500 dark:text-gray-400">
+                                No Loans found
+                            </td>
+                        </tr>
+                        @endforelse
+                    </tbody>
                 </table>
             </div>
         </div>

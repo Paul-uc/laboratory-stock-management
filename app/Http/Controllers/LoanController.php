@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateLoanRequest;
+use App\Http\Requests\UpdateLoanRequest;
 use App\Models\Category;
 use App\Models\Loan;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -33,9 +36,15 @@ class LoanController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CreateLoanRequest $request)
     {
         //
+        $data = $request->validated();
+        $data['user_id'] = auth()->id();
+        Loan::create($data);
+        return to_route('loans.index');
+
+
     }
 
     /**
@@ -49,24 +58,35 @@ class LoanController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Loan $loan):View 
     {
-        //
+        // 
+        $categories = Category::all();
+        
+        return view('loans.edit', compact('categories', 'loan'));
+
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateLoanRequest $request, Loan $loan)
     {
         //
+        $data = $request->validated();
+        
+        $loan->update($data);
+       
+        return to_route('loans.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Loan $loan):RedirectResponse
     {
         //
+        $loan->delete();
+        return to_route('loans.index');
     }
 }
