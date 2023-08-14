@@ -50,9 +50,9 @@ class loanStock extends Model
         return $this->belongsTo(User::class);
     }
     
-    public function loanstock():HasOne
+    public function approval():HasOne
     {
-        return $this->hasOne(loanstock::class, 'id');
+        return $this->hasOne(Approval::class, 'id');
     }
     
     

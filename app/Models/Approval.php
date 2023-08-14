@@ -27,6 +27,11 @@ class Approval extends Model
         return $this->belongsTo(loanstock::class, 'id');
     }
 
+    public function loan():BelongsTo
+    {
+        return $this->belongsTo(Loan::class, 'id');
+    }
+
 }
 
 
