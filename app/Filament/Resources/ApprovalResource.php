@@ -23,6 +23,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\Select;
 
 use Filament\Forms\Components\Checkbox;
+use Filament\Tables\Actions\Action;
 use Filament\Tables\Columns\IconColumn;
 
 class ApprovalResource extends Resource
@@ -41,11 +42,7 @@ class ApprovalResource extends Resource
                 //
                 Card::make()
                     ->schema([
-                        // ...
-
-                   
-
-                    
+                        // ...            
                         Select::make('loan_stock_id')
 
                             ->label('Loan Stock Serial Number')
@@ -67,11 +64,13 @@ class ApprovalResource extends Resource
                                 foreach ($availableLoanStockIds as $loanStockId) {
                                     $stock = Stock::find($loanStockId); // Assuming Stock model has the serial number
                                     if ($stock) {
-                                        $options[$loanStockId] = $stock->serialNumber;
+                                        $formattedOption = "{$stock->serialNumber} ";
+                                        $options[$loanStockId] = $formattedOption;
                                     }
                                 }
-
+                               
                                 return $options;
+                                dd($options);
                             })
                             ->reactive()
                             ->required(),
@@ -134,8 +133,9 @@ class ApprovalResource extends Resource
                         TextInput::make('remark')
                             ->label('Remark'),
 
-                    ])
-            ]);
+                        ]),
+                    
+                    ]);
     }
 
     public static function table(Table $table): Table
@@ -156,6 +156,7 @@ class ApprovalResource extends Resource
                     ->trueIcon('heroicon-o-badge-check')
                     ->falseIcon('heroicon-o-x-circle')
                     ->sortable(),
+
                 TextColumn::make('name')
                     ->label('Supervisor Name')
                     ->sortable(),
@@ -170,6 +171,10 @@ class ApprovalResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
+                Action::make('Dowload pdf')
+                ->icon('heroicon-o-document-download')
+                ->url(fn (Approval $record) => route('approval.pdf.download', $record))
+                ->openUrlInNewTab(),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),

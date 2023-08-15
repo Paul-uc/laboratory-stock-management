@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DownloadPdfController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\LoanController;
 use Illuminate\Support\Facades\Route;
@@ -35,6 +36,8 @@ Route::middleware('auth')->group(function () {
 return response()->json($category);
 
     });
+
+    Route::get('/{record}/pdf/download', [DownloadPdfController::class, 'download'])->name('approval.pdf.download');
     
 });
 
