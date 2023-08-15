@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('approvals', function (Blueprint $table) {
             $table->id();
             $table->foreignId('loan_stock_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('stock_id')->constrained()->cascadeOnDelete();
+            $table->string('userId')->constrained()->cascadeOnDelete();
             $table->boolean('status')->default(false);
             $table->string('name');
             $table->string('position');

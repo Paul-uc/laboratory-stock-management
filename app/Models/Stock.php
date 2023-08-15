@@ -43,5 +43,10 @@ class Stock extends Model
         return $this->hasMany(loanStock::class);
     }
 
+    public function approvals():HasMany
+    {
+        return $this->hasMany(Approval::class);
+    }
+
     
 }

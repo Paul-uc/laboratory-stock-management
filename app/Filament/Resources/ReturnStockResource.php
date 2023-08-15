@@ -7,6 +7,7 @@ use App\Filament\Resources\ReturnStockResource\RelationManagers;
 use App\Models\Approval;
 use App\Models\lossStock;
 use App\Models\ReturnStock;
+use App\Models\User;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
@@ -68,7 +69,25 @@ class ReturnStockResource extends Resource
                     ->reactive()
                     ->required(),
 
+                    Select::make('userId') 
+                    ->label('Student/ Staff id')
+                    ->options(function (callable $get) {
+                        $selectedUserId = $get('user_id'); // Get the previously selected value
                 
+                        $options = User::all()->pluck('username', 'id'); // Default options
+                        
+                        if ($selectedUserId) {
+                            $selectedUser = User::find($selectedUserId);
+                            if ($selectedUser) {
+                                $options = User::where('id', $selectedUser->id)
+                                    ->pluck('username', 'id');
+                            }
+                        }
+                        
+                        return $options;
+                    })
+                    ->reactive() 
+                    ->required(),
 
                     TextArea::make('remark')
                     ->label('Remarks'),
@@ -89,6 +108,10 @@ class ReturnStockResource extends Resource
                 
                 TextColumn::make('approval.id')
                 ->label('Approval Id')
+                ->sortable(),
+
+                TextColumn::make('user.username')->sortable()
+                ->label('Student/ Staff ID')
                 ->sortable(),
 
                 TextColumn::make('remark')

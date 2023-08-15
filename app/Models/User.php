@@ -76,6 +76,11 @@ class User extends Authenticatable
         return $this->hasMany(loanstock::class, 'loan_stock_id');
     }
 
+    public function approvals():HasMany
+    {
+        return $this->hasMany(Approval::class, 'approval_id');
+    }
+
     
     // public function canAccessFilament(): bool{
     //     return $this->hasRole('Admin', 'SuperAdmin', '');

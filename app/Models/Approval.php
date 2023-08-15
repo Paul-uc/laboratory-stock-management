@@ -14,7 +14,9 @@ class Approval extends Model
     use HasFactory;
 
     protected $fillable = [
+        'stock_id',
         'loan_stock_id',
+        'userId',
         'status',
         'name',
         'position',
@@ -31,6 +33,17 @@ class Approval extends Model
     {
         return $this->belongsTo(Loan::class, 'id');
     }
+
+    public function user():BelongsTo
+    {
+        return $this->belongsTo(User::class, 'id');
+    }
+
+    public function stock():BelongsTo
+    {
+        return $this->belongsTo(Stock::class);
+    }
+
 
 }
 

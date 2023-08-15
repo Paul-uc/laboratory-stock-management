@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('return_stocks', function (Blueprint $table) {
             $table->id();
             $table->foreignId('approval_id')->constrained()->cascadeOnDelete();
+            $table->string('userId')->constrained()->cascadeOnDelete();
             $table->string('remark')->nullable();
           
             $table->timestamps();

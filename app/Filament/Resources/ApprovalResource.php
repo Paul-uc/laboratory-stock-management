@@ -6,6 +6,9 @@ use App\Filament\Resources\ApprovalResource\Pages;
 use App\Filament\Resources\ApprovalResource\RelationManagers;
 use App\Models\Approval;
 use App\Models\loanStock;
+use App\Models\Stock;
+use App\Models\stockCode;
+use App\Models\User;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
@@ -18,16 +21,14 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Card;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\DatePicker;
+
 use Filament\Forms\Components\Checkbox;
 use Filament\Tables\Columns\IconColumn;
 
 class ApprovalResource extends Resource
 {
     protected static ?string $model = Approval::class;
-
-   
-
+    
     protected static ?string $navigationIcon = 'heroicon-o-collection';
     protected static ?string $navigationGroup = 'Loan Management';
 
@@ -39,48 +40,101 @@ class ApprovalResource extends Resource
             ->schema([
                 //
                 Card::make()
-                ->schema([
-                    // ...
-                    Select::make('loan_stock_id')
-                    ->label('Loan Stock ID')
-                    ->options(function () {
-                        // Get all loan stock IDs
-                        $allLoanStockIds = LoanStock::pluck('id');
-                
-                        // Get the IDs of approved loan stock records
-                        $approvedLoanIds = Approval::pluck('loan_stock_id');
-                
-                        // Filter out the approved loan stock IDs
-                        $unapprovedLoanStockIds = $allLoanStockIds->diff($approvedLoanIds);
-                
-                        // Fetch the loan stock records for the unapproved IDs
-                        $unapprovedLoanStock = LoanStock::whereIn('id', $unapprovedLoanStockIds)->get();
-                
-                        // Create options with unapproved loan stock records
-                        $options = $unapprovedLoanStock->pluck('id', 'id');
-                
-                        return $options;                 
-                    })
-                    ->reactive()
-                    ->required(),
-                
+                    ->schema([
+                        // ...
+
+                   
 
                     
-                    Checkbox::make('status')
-                    ->label('Approval Status'),
+                        Select::make('loan_stock_id')
 
-                    TextInput::make('name')
-                    ->label('Supervisor Name')
-                    ->required(),
-                    
-                    TextInput::make('position')
-                    ->label('Position')
-                    ->required(),
+                            ->label('Loan Stock Serial Number')
+                            ->options(function () {
+                                // Get IDs from LoanStock model
+                                $loanStockIds = LoanStock::pluck('id');
 
-                    TextInput::make('remark')
-                    ->label('Remark'),
-                    
-                ])
+                                // Get loan_stock_id values from Approval model
+                                $approvalLoanStockIds = Approval::pluck('loan_stock_id');
+
+                                // Compare and find the difference in IDs
+                                $availableLoanStockIds = $loanStockIds->diff($approvalLoanStockIds);
+
+                                // Retrieve loan_stock_id that hasn't been registered in Approval model
+                                $availableLoanStockIds = $availableLoanStockIds->all();
+
+                                // Format the IDs to serial number form
+                                $options = [];
+                                foreach ($availableLoanStockIds as $loanStockId) {
+                                    $stock = Stock::find($loanStockId); // Assuming Stock model has the serial number
+                                    if ($stock) {
+                                        $options[$loanStockId] = $stock->serialNumber;
+                                    }
+                                }
+
+                                return $options;
+                            })
+                            ->reactive()
+                            ->required(),
+
+                            Select::make('stock_id')
+
+                            ->label('Loan Stock Serial Number')
+                            ->options(function(callable $get){
+                                $stockCode = stockCode::find($get('stock_code_id'));
+                                if (!$stockCode){
+                                    return Stock::all()->pluck('serialNumber', 'id');
+                                }
+                                return $stockCode->stock->pluck('serialNumber', 'id');
+                            })
+                            ->relationship('stock','serialNumber')
+                            ->label('Serial Number')
+                            ->required(),
+                            
+
+                        Select::make('userId')
+                            ->label('Student/Staff ID')
+                            ->options(function (callable $get) {
+                                $selectedLoanStockId = $get('loan_stock_id'); // Get the previously selected loan_stock_id
+
+                                $options = [];
+
+                                if ($selectedLoanStockId) {
+                                    $selectedLoanStock = LoanStock::find($selectedLoanStockId);
+
+                                    if ($selectedLoanStock) {
+                                        $selectedUserId = $selectedLoanStock->userId; // Assuming there's a userId column in the LoanStock model
+
+                                        if ($selectedUserId) {
+                                            $user = User::find($selectedUserId); // Assuming User model exists with a 'username' attribute
+                                            if ($user) {
+                                                $formattedOption = "{$user->username} ";
+                                                $options[$selectedUserId] = $formattedOption;
+                                            }
+                                        }
+                                    }
+                                }
+
+                                return $options;
+                            })
+                            ->reactive()
+                            ->required(),
+
+
+                        Checkbox::make('status')
+                            ->label('Approval Status'),
+
+                        TextInput::make('name')
+                            ->label('Supervisor Name')
+                            ->required(),
+
+                        TextInput::make('position')
+                            ->label('Position')
+                            ->required(),
+
+                        TextInput::make('remark')
+                            ->label('Remark'),
+
+                    ])
             ]);
     }
 
@@ -90,16 +144,24 @@ class ApprovalResource extends Resource
             ->columns([
                 //
                 TextColumn::make('id')->sortable(),
-                TextColumn::make('loanStock.id')->sortable(),
+                
+               
+                TextColumn::make('loan_stock_id'),
+                TextColumn::make('stock.serialNumber')
+                ->label('Stock Serial Number') ,
+                
                 IconColumn::make('status')
-                ->boolean()
-                ->label('Approval Status')
-                ->trueIcon('heroicon-o-badge-check')
-                ->falseIcon('heroicon-o-x-circle')
-                ->sortable(),   
-                TextColumn::make('name') ->sortable(), 
-                TextColumn::make('position') ->sortable(),   
-                TextColumn::make('remark') ->sortable(),     
+                    ->boolean()
+                    ->label('Approval Status')
+                    ->trueIcon('heroicon-o-badge-check')
+                    ->falseIcon('heroicon-o-x-circle')
+                    ->sortable(),
+                TextColumn::make('name')
+                    ->label('Supervisor Name')
+                    ->sortable(),
+
+                TextColumn::make('position')->sortable(),
+                TextColumn::make('remark')->sortable(),
                 TextColumn::make('created_at')->dateTime()
             ])
             ->filters([
@@ -113,14 +175,14 @@ class ApprovalResource extends Resource
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -128,5 +190,5 @@ class ApprovalResource extends Resource
             'create' => Pages\CreateApproval::route('/create'),
             'edit' => Pages\EditApproval::route('/{record}/edit'),
         ];
-    }    
+    }
 }

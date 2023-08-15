@@ -147,7 +147,9 @@ class LoanStockResource extends Resource
                 //
                 TextColumn::make('id')
                 ->sortable(),
-                TextColumn::make('stock.serialNumber')->sortable(),
+                TextColumn::make('stock.serialNumber')
+                ->label('Serial Number')
+                ->sortable(),
                 TextColumn::make('stockCode.code')->sortable(),
                 
                
