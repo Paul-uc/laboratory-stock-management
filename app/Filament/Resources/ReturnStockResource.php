@@ -49,19 +49,19 @@ class ReturnStockResource extends Resource
                     Select::make('approval_id')
                     ->label('Approval ID')
                     ->options(function (callable $get) {
-                        // Get all approval IDs with status having true boolean value
+                        // Get all Return IDs with status having true boolean value
                     $approvedApprovalIds = Approval::where('status', true)->pluck('id')->toArray();
 
-                    // Get approval IDs associated with "loss stock" records
+                    // Get Return IDs associated with "loss stock" records
                     $lossStockApprovalIds = LossStock::whereIn('approval_id', $approvedApprovalIds)->pluck('approval_id')->toArray();
 
-                    // Get approval IDs associated with "return stock" records
+                    // Get Return IDs associated with "return stock" records
                     $returnStockApprovalIds = ReturnStock::whereIn('approval_id', $approvedApprovalIds)->pluck('approval_id')->toArray();
 
-                    // Combine the excluded approval IDs from both "loss stock" and "return stock"
+                    // Combine the excluded Return IDs from both "loss stock" and "return stock"
                     $excludedApprovalIds = array_merge($lossStockApprovalIds, $returnStockApprovalIds);
 
-                    // Retrieve approval records that are not in the excluded list
+                    // Retrieve Return records that are not in the excluded list
                     $approvalQuery = Approval::whereNotIn('id', $excludedApprovalIds);
 
                     return $approvalQuery->pluck('id', 'id');
@@ -69,18 +69,26 @@ class ReturnStockResource extends Resource
                     ->reactive()
                     ->required(),
 
-                    Select::make('userId') 
+                    Select::make('user_id') 
                     ->label('Student/ Staff id')
                     ->options(function (callable $get) {
-                        $selectedUserId = $get('user_id'); // Get the previously selected value
-                
-                        $options = User::all()->pluck('username', 'id'); // Default options
+                        $selectedLoanStockId = $get('approval_id'); // Get the previously selected value
                         
-                        if ($selectedUserId) {
-                            $selectedUser = User::find($selectedUserId);
-                            if ($selectedUser) {
-                                $options = User::where('id', $selectedUser->id)
-                                    ->pluck('username', 'id');
+                        $options = [];
+
+                        if ($selectedLoanStockId) {
+                            $selectedLoanStock = Approval::find($selectedLoanStockId);
+
+                            if ($selectedLoanStock) {
+                                $selectedUserId = $selectedLoanStock->userId; // Assuming there's a userId column in the LoanStock model
+
+                                if ($selectedUserId) {
+                                    $user = User::find($selectedUserId); // Assuming User model exists with a 'username' attribute
+                                    if ($user) {
+                                        $formattedOption = "{$user->username} ";
+                                        $options[$selectedUserId] = $formattedOption;
+                                    }
+                                }
                             }
                         }
                         

@@ -15,7 +15,7 @@ class returnStock extends Model
     protected $fillable = [
         'approval_id',
         'remark', 
-        'userId',
+        'user_id',
 
     ]; //
 

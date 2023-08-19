@@ -37,7 +37,7 @@ class StockCodeResource extends Resource
                 ->schema([
                     // ...
                     Select::make('category_id')  
-                    ->relationship('category', 'name'), 
+                    ->relationship('category', 'categoryName'), 
                     TextInput::make('code')
                 ])
                 ->columns(2)

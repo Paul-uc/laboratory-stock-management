@@ -60,6 +60,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Loan::class);
     }
+    public function username():HasOne
+    {
+        return $this->hasOne(User::class, 'username');
+    }
 
     public function userId():HasOne
     {
