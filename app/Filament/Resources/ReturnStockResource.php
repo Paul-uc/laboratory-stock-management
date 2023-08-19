@@ -90,21 +90,21 @@ class ReturnStockResource extends Resource
                     ->reactive() 
                     ->required(),
 
-                    TextInput::make('username')
+                    Select::make('username')
                     ->label('Student/Staff ID Number')
-                    ->default(function (callable $get) {
-                        $username = $get('user_id'); // Get the previously selected user ID
-                        if ($username) {
-                            $selectedUser = User::find($username);
-                            
+                    ->options(function (callable $get) {
+                        $options = []; // Default options
+                        $selectedUserID = $get('user_id'); // Get the previously selected value
+                        
+                        if ($selectedUserID) {
+                            $selectedUser = User::find($selectedUserID);
                             if ($selectedUser) {
-                               $autofill =  $selectedUser->username;
-                                return $autofill; // Return the username
+                                $options = User::where('id', $selectedUserID)
+                                    ->pluck('username', 'id');
                             }
                         }
-                        return ; // If no username is found, return null
-                    })
-                   
+                        
+                        return $options;})
                     ->required()
                     ->reactive(),
 
