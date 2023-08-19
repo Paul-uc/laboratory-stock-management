@@ -164,6 +164,7 @@ class ApprovalResource extends Resource
                 TextColumn::make('position')->sortable(),
                 TextColumn::make('remark')->sortable(),
                 TextColumn::make('created_at')->dateTime()
+                ->label('Approved At')
             ])
             ->filters([
                 //

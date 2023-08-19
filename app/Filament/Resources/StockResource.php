@@ -82,7 +82,7 @@ class StockResource extends Resource
             ->columns([
                 //
                 TextColumn::make('id')->sortable(),
-                TextColumn::make('Category.name')->sortable(),               
+                TextColumn::make('Category.categoryName')->sortable(),               
                 TextColumn::make('stockCode.code')->sortable(),                    
                 TextColumn::make('serialNumber')->searchable()->sortable(),
                 TextColumn::make('stockQuantity')->searchable()->sortable(),

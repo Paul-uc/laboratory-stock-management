@@ -50,7 +50,7 @@ class StockCodeResource extends Resource
         return $table
             ->columns([
                 //
-                TextColumn::make('Category.name')->label('Category Name')->sortable(),       
+                TextColumn::make('Category.categoryName')->label('Category Name')->sortable(),       
                 TextColumn::make('code')->label('Stock Code')->searchable()->sortable(),
                 TextColumn::make('created_at')->dateTime()
             ])
