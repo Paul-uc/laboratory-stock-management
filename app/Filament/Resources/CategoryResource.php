@@ -46,7 +46,7 @@ class CategoryResource extends Resource
         return $table
             ->columns([
                 //
-                
+                TextColumn::make('id')->sortable(),
                 TextColumn::make('categoryName')->label('Category Name')->searchable()->sortable(),
                 TextColumn::make('created_at')->dateTime()
                 
