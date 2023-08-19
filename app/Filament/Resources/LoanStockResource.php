@@ -45,7 +45,7 @@ class LoanStockResource extends Resource
                     // ...       
                     Select::make('category_id')  
                     ->label('Category')
-                    ->options(Category::all()->pluck('name', 'id')->toArray())
+                    ->options(Category::all()->pluck('categoryName', 'id')->toArray())
                     ->reactive() 
                     ->required(),
 

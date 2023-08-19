@@ -72,25 +72,17 @@ class ReturnStockResource extends Resource
                     Select::make('user_id') 
                     ->label('Student/ Staff id')
                     ->options(function (callable $get) {
-                        $selectedLoanStockId = $get('approval_id'); // Get the previously selected value
+                        $selectedUserId = $get('approval_id'); // Get the previously selected value
                         
-                        $options = [];
-
-                        if ($selectedLoanStockId) {
-                            $selectedLoanStock = Approval::find($selectedLoanStockId);
-
-                            if ($selectedLoanStock) {
-                                $selectedUserId = $selectedLoanStock->userId; // Assuming there's a userId column in the LoanStock model
-
-                                if ($selectedUserId) {
-                                    $user = User::find($selectedUserId); // Assuming User model exists with a 'username' attribute
-                                    if ($user) {
-                                        $formattedOption = "{$user->username} ";
-                                        $options[$selectedUserId] = $formattedOption;
-                                    }
-                                }
+                        if ($selectedUserId) {
+                            $selectedUser = Approval::find($selectedUserId);
+                            if ($selectedUser) {
+                                $options = Approval::where('id', $selectedUser->id)
+                                    ->pluck('username', 'id');
                             }
                         }
+                        
+                        return $options;
                         
                         return $options;
                     })
