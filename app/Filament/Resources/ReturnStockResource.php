@@ -23,6 +23,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Checkbox;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 
 class ReturnStockResource extends Resource
 {
@@ -72,22 +73,40 @@ class ReturnStockResource extends Resource
                     Select::make('user_id') 
                     ->label('Student/ Staff id')
                     ->options(function (callable $get) {
-                        $selectedUserId = $get('approval_id'); // Get the previously selected value
+                        $selectedApprovalId = $get('approval_id'); // Get the previously selected value
                         
-                        if ($selectedUserId) {
-                            $selectedUser = Approval::find($selectedUserId);
+                        $options = []; // Default options
+
+                        if ($selectedApprovalId) {
+                            $selectedUser = Approval::find($selectedApprovalId);
                             if ($selectedUser) {
-                                $options = Approval::where('id', $selectedUser->id)
-                                    ->pluck('username', 'id');
+                                $options = Approval::where('id', $selectedUser->userId)
+                                    ->pluck('userId', 'userId');
+                                    
                             }
                         }
-                        
-                        return $options;
-                        
                         return $options;
                     })
                     ->reactive() 
                     ->required(),
+
+                    TextInput::make('username')
+                    ->label('Student/Staff ID Number')
+                    ->default(function (callable $get) {
+                        $username = $get('user_id'); // Get the previously selected user ID
+                        if ($username) {
+                            $selectedUser = User::find($username);
+                            
+                            if ($selectedUser) {
+                               $autofill =  $selectedUser->username;
+                                return $autofill; // Return the username
+                            }
+                        }
+                        return ; // If no username is found, return null
+                    })
+                   
+                    ->required()
+                    ->reactive(),
 
                     TextArea::make('remark')
                     ->label('Remarks'),
@@ -110,7 +129,7 @@ class ReturnStockResource extends Resource
                 ->label('Approval Id')
                 ->sortable(),
 
-                TextColumn::make('user.username')->sortable()
+                TextColumn::make('user_id')->sortable()
                 ->label('Student/ Staff ID')
                 ->sortable(),
 

@@ -16,6 +16,7 @@ class returnStock extends Model
         'approval_id',
         'remark', 
         'user_id',
+        'username',
 
     ]; //
 

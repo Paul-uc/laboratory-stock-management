@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('approval_id')->constrained()->cascadeOnDelete();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->string('username')->nullable();
             $table->string('remark')->nullable();
           
             $table->timestamps();
