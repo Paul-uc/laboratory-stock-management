@@ -171,6 +171,11 @@ class ApprovalResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
+                Action::make('Send pdf')
+                ->icon('heroicon-o-document-download')
+                ->url(fn (Approval $record) => route('approval.download', $record))
+                ->openUrlInNewTab(),
+
                 Action::make('Dowload pdf')
                 ->icon('heroicon-o-document-download')
                 ->url(fn (Approval $record) => route('approval.pdf.download', $record))

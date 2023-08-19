@@ -44,9 +44,9 @@ class DatabaseSeeder extends Seeder
         ]);
         
         //Default Category 
-        Category::create(['name' => 'Beaker']);
-        Category::create(['name' => 'Bunsen Burner']);
-        Category::create(['name' => 'Burner Stand']);
+        Category::create(['categoryName' => 'Beaker']);
+        Category::create(['categoryName' => 'Bunsen Burner']);
+        Category::create(['categoryName' => 'Burner Stand']);
 
         stockCode::create(['category_id' => 1 , 'code' => 'B001']);
         stockCode::create(['category_id' => 1 , 'code' => 'B002']);
@@ -70,13 +70,13 @@ class DatabaseSeeder extends Seeder
         loanStock::create(['category_id' => 3 ,'stock_code_id' => 5, 'stock_id' => 5, 'user_id'=> '2', 'userId'=> '2', 'email'=> 'example@example.com', 'phoneNumber' => '200000000', 'reason' => 'testing3', 'supervisorName' => 'Miss Chin', 'startLoanDate' => '2023-07-01 17:52:58.999999','estReturnDate' => '2023-07-12 17:52:58.999999', 'termsAndCondition'=> 1]);
         loanStock::create(['category_id' => 3 ,'stock_code_id' => 6, 'stock_id' => 6, 'user_id'=> '2', 'userId'=> '2', 'email'=> 'example@example.com', 'phoneNumber' => '200000000', 'reason' => 'testing3', 'supervisorName' => 'Miss Chin', 'startLoanDate' => '2023-07-01 17:52:58.999999','estReturnDate' => '2023-07-12 17:52:58.999999', 'termsAndCondition'=> 1]);
 
-        Approval::create(['loan_stock_id' => 1 , 'stock_id' => 1,'userId'=> 'admin','status' => 1, 'name'=> 'Moderator', 'position'=> 'dean', 'remark'=> 'testing' ]);
-        Approval::create(['loan_stock_id' => 2 , 'stock_id' => 2,'userId'=> 'admin','status' => 1, 'name'=> 'Moderator', 'position'=> 'dean', 'remark'=> 'testing' ]);
-        Approval::create(['loan_stock_id' => 3 , 'stock_id' => 3,'userId'=> 'admin','status' => 1, 'name'=> 'Moderator', 'position'=> 'dean', 'remark'=> 'testing']);
-        Approval::create(['loan_stock_id' => 4 , 'stock_id' => 4,'userId'=> 'admin','status' => 1, 'name'=> 'Moderator', 'position'=> 'dean', 'remark'=> 'testing']);
+        Approval::create(['loan_stock_id' => 1 , 'stock_id' => 1,'userId'=> 2,'status' => 1, 'name'=> 'Moderator', 'position'=> 'dean', 'remark'=> 'testing' ]);
+        Approval::create(['loan_stock_id' => 2 , 'stock_id' => 2,'userId'=> 2,'status' => 1, 'name'=> 'Moderator', 'position'=> 'dean', 'remark'=> 'testing' ]);
+        Approval::create(['loan_stock_id' => 3 , 'stock_id' => 3,'userId'=> 2,'status' => 1, 'name'=> 'Moderator', 'position'=> 'dean', 'remark'=> 'testing']);
+        Approval::create(['loan_stock_id' => 4 , 'stock_id' => 4,'userId'=> 2,'status' => 1, 'name'=> 'Moderator', 'position'=> 'dean', 'remark'=> 'testing']);
 
-        returnStock::create(['approval_id' => 1 ,'userId'=> 'admin', 'remark' => 'test', ]);
-        returnStock::create(['approval_id' => 2 ,'userId'=> 'admin', 'remark' => 'test', ]);
+        returnStock::create(['approval_id' => 1 ,'userId'=> '21AMR03020', 'remark' => 'test', ]);
+        returnStock::create(['approval_id' => 2 ,'userId'=> '21AMR03020', 'remark' => 'test', ]);
        
         lossStock::create(['approval_id' => 3 ,'lostType' => 'damaged', ]);
 

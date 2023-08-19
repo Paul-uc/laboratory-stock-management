@@ -1,46 +1,44 @@
 <?php
-
+      
 namespace App\Http\Controllers;
-use Barryvdh\DomPDF\Facade\Pdf;
-
+       
+use Illuminate\Http\Request;
+use App\Mail\MailExample;
 use App\Models\Approval;
 use App\Models\Category;
 use App\Models\Stock;
 use App\Models\User;
-
-use App\Mail\MailExample;
-use App\Mail\SentMail;
+use PDF;
 use Mail;
-use App\Policies\CategoryPolicy;
-use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
-use LaravelDaily\Invoices\Invoice;
-use LaravelDaily\Invoices\Classes\Buyer;
-use LaravelDaily\Invoices\Classes\InvoiceItem;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail as FacadesMail;
-
-class DownloadPdfController extends Controller
+    
+class PDFController extends Controller
 {
-    public function download($id)
+       
+    /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index($id)
     {
         $approval = Approval::find($id);
 
         if ($approval) {
-            // Assign fetched data to variables
+            //Assign fetched data to variables
             $username = $approval->userId;
+            
             if ($username) {
                 $user = User::find($username); // Assuming User model exists with a 'username' attribute
-
               
-                if ($username) {
-                    $formattedOption = "{$user->username} ";
+                if ($user) {
+                    $formattedOption = "{$user->username}";
                     $username = $formattedOption;
                 }
             }
             $name = $approval->userId;
 
             $user = User::find($name); // Assuming User model exists with a 'name' attribute
-            if ($name) {
+            if ($user) {
                 $formattedOption = "{$user->name} ";
                 $name = $formattedOption;
             }
@@ -59,6 +57,8 @@ class DownloadPdfController extends Controller
                 $categoryName = $formattedOption;
             }
            
+            
+           
            
 
             $loan_stock_id = $approval->loan_stock_id;
@@ -67,27 +67,27 @@ class DownloadPdfController extends Controller
             $names = $approval->name;
             $position = $approval->position;
             $remark = $approval->remark;
+        
+            $data = [
+            'title' => 'TARUMT Loan Request Approval',    
+            'name' => $name,
+            'username' => $username,
+            'category' => $categoryName,
+            'loan_stock_id' => $loan_stock_id,
+            'status' => $statusString,
+            
+            'names' => $names,
+            'position' => $position,
+            'remark' => $remark];
 
-
-
-
-            $pdf = Pdf::loadView(
-                'pdf.index',
-                [
-                    'name' => $name,
-                    'username' => $username,
-                    'category' => $categoryName,
-                    'loan_stock_id' => $loan_stock_id,
-                    'status' => $statusString,
-                    'names' => $names,
-                    'position' => $position,
-                    'remark' => $remark
-                ],
-            );
-            return $pdf->download('Approval.pdf');
-        }
+        $pdf = PDF::loadView('pdf.index', $data);
+        $data["pdf"] = $pdf;
+  
+        Mail::to(["your@gmail.com"])->send(new MailExample($data));
+    
+        dd('Mail sent successfully');
+        return redirect();
     }
-
-    
-    
+      
+    }
 }
