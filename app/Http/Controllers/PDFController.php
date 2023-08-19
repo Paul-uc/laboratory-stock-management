@@ -85,7 +85,7 @@ class PDFController extends Controller
   
         Mail::to(["your@gmail.com"])->send(new MailExample($data));
     
-        dd('Mail sent successfully');
+        
         return redirect();
     }
       
