@@ -60,6 +60,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(Loan::class);
     }
+
+  public function returnStock():HasMany
+    {
+        return $this->hasMany(returnStock::class);
+    }
+
     public function username():HasOne
     {
         return $this->hasOne(User::class, 'username');

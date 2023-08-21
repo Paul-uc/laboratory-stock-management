@@ -7,7 +7,7 @@ use App\Filament\Resources\LossStockResource\RelationManagers;
 use App\Models\Approval;
 use App\Models\LossStock;
 use App\Models\returnStock;
-
+use App\Models\User;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
@@ -28,7 +28,7 @@ class LossStockResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-collection';
     protected static ?string $navigationGroup = 'Return Management';
 
-    protected static ?int $navigationSort = 5;
+    protected static ?int $navigationSort = 4;
 
     public static function form(Form $form): Form
     {
@@ -62,7 +62,46 @@ class LossStockResource extends Resource
                     ->reactive()
                     ->required(),  
                        
-                    TextInput::make('lostType'),
+                    Select::make('user_id') 
+                    ->label('Student/ Staff id')
+                    ->options(function (callable $get) {
+                        $selectedApprovalId = $get('approval_id'); // Get the previously selected value
+                        
+                        $options = []; // Default options
+
+                        if ($selectedApprovalId) {
+                            $selectedUser = Approval::find($selectedApprovalId);
+                            if ($selectedUser) {
+                                $options = Approval::where('id', $selectedUser->userId)
+                                    ->pluck('userId', 'id');
+                                    
+                            }
+                        }
+                        return $options;
+                    })
+                    ->reactive() 
+                    ->required(),
+
+                    Select::make('username')
+                    ->label('Student/Staff ID Number')
+                    ->options(function (callable $get) {
+                        $options = []; // Default options
+                        $selectedUserID = $get('user_id'); // Get the previously selected value
+                        
+                        if ($selectedUserID) {
+                            $selectedUser = User::find($selectedUserID);
+                            if ($selectedUser) {
+                                $options = User::where('id', $selectedUserID)
+                                    ->pluck('username', 'id');
+                            }
+                        }
+                        
+                        return $options;})
+                    ->required()
+                    ->reactive(),
+
+                    TextInput::make('lostType')
+                    ->required(),
                     
                 ])
             ]);
@@ -80,6 +119,12 @@ class LossStockResource extends Resource
                 TextColumn::make('approval_id')
                 ->label('Approval Id')
                 ->sortable(),
+
+                TextColumn::make('username')
+                ->sortable()
+                ->label('Student/ Staff ID')
+                ->sortable(),
+
 
                 TextColumn::make('lostType') 
                 ->label('Loss Type')

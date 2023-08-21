@@ -44,9 +44,7 @@ class ReturnStockResource extends Resource
                 Card::make()
                 ->schema([
                     // ...
-                      
-                   
-                   
+               
                     Select::make('approval_id')
                     ->label('Approval ID')
                     ->options(function (callable $get) {
@@ -109,7 +107,8 @@ class ReturnStockResource extends Resource
                     ->reactive(),
 
                     TextArea::make('remark')
-                    ->label('Remarks'),
+                    ->label('Remarks')
+                    ,
                     
                 ])
                 //
@@ -129,7 +128,8 @@ class ReturnStockResource extends Resource
                 ->label('Approval Id')
                 ->sortable(),
 
-                TextColumn::make('user_id')->sortable()
+                TextColumn::make('username')
+                ->sortable()
                 ->label('Student/ Staff ID')
                 ->sortable(),
 

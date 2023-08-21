@@ -13,7 +13,9 @@ return new class extends Migration
     {
         Schema::create('loss_stocks', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('approval_id')->constrained()->cascadeOnDelete();         
+            $table->foreignId('approval_id')->constrained()->cascadeOnDelete();   
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->string('username')->nullable();      
             $table->string('lostType');
             $table->timestamps();
         });
