@@ -11,7 +11,7 @@
 
         <!-- Email or Username -->
         <div>
-            <x-input-label for="input_type" :value="__('Email/Username')" />
+            <x-input-label for="input_type" :value="__('Email/ID Number')" />
             <x-text-input id="input_type" class="block mt-1 w-full" type="text" name="input_type" :value="old('input_type')" required autofocus />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
             <x-input-error :messages="$errors->get('username')" class="mt-2" />
