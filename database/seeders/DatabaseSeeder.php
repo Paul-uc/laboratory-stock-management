@@ -95,7 +95,7 @@ class DatabaseSeeder extends Seeder
         $user3->assignRole($role3);
 
 
-        // create permissions
+        // // create permissions
         Permission::create(['name' => 'View Users']);
         Permission::create(['name' => 'Create Users']);
         Permission::create(['name' => 'Update Users']);
@@ -151,7 +151,10 @@ class DatabaseSeeder extends Seeder
         $role2->givePermissionTo(['View Users', 'Create Users','Update Users', 'Delete Users']);
         $role3->givePermissionTo(['']);
 
-
+        // $this->call([
+        //     AuthSeeder::class,
+           
+        // ]);
 
     }
 }

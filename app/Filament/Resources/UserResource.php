@@ -40,9 +40,12 @@ class UserResource extends Resource
                 ->schema([
                     // ...
                     TextInput::make('name')
+                    ->translateLabel()
                     ->required()
                     ->maxLength(255),
+                    
                TextInput::make('username')
+               ->translateLabel()
                     ->required()
                     ->maxLength(255),
                 TextInput::make('email')
@@ -75,12 +78,17 @@ class UserResource extends Resource
         return $table
             ->columns([
                 
-                TextColumn::make('name')->searchable(),
-                TextColumn::make('username')->searchable(),
-                TextColumn::make('email')->searchable(),
+                TextColumn::make('name')->searchable()
+                ->translateLabel(),
+                TextColumn::make('username')->searchable()
+                ->translateLabel(),
+                TextColumn::make('email')->searchable()
+                ->translateLabel(),
                 TextColumn::make('roles.name')
+                ->translateLabel()
                     ->sortable(),
                 TextColumn::make('email_verified_at')
+                ->translateLabel()
                     ->dateTime('d-M-Y')->sortable(),
                
             ])
