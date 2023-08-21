@@ -64,7 +64,12 @@ class RoleResource extends Resource
                 //
                 TextColumn::make('id')->sortable(),
                 TextColumn::make('name')->label('Roles Name'),
-                TextColumn::make('permissions.name')->label('Permission Allowed'),
+                TextColumn::make('permissions_count')
+                ->translateLabel()
+                   
+                    ->counts('permissions')
+                   
+                    ->sortable()->label('Permission Allowed'),
                 TextColumn::make('created_at')->dateTime('d-M-Y')->sortable(),
             ])
             ->filters([

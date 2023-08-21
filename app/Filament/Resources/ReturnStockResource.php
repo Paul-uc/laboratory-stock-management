@@ -81,7 +81,7 @@ class ReturnStockResource extends Resource
                             $selectedUser = Approval::find($selectedApprovalId);
                             if ($selectedUser) {
                                 $options = Approval::where('id', $selectedUser->userId)
-                                    ->pluck('userId', 'userId');
+                                    ->pluck('userId', 'id');
                                     
                             }
                         }

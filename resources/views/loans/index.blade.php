@@ -43,7 +43,7 @@
                                 {{ $loan->id }}
                             </th>
                             <td class="px-6 py-4">
-                                {{ $loan->category->name }}
+                                {{ $loan->category->categoryName }}
                             </td>
                             <td class="px-6 py-4">
                                 {{ $loan->username }}

@@ -20,10 +20,10 @@ class LoanController extends Controller
         //
        
         // Get the authenticated user's username
-        $username = auth()->user()->username;
+        $username = auth()->user()->id;
 
-        // Retrieve loans with the same username
-        $loans = Loan::where('username', $username)->get();
+        // // Retrieve loans with the same username
+         $loans = Loan::where('user_id', $username)->get();
     
         return view('loans.index', compact('loans'));
 
