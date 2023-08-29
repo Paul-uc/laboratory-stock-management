@@ -15,7 +15,11 @@ return new class extends Migration
             $table->id();
             $table->foreignId('approval_id')->constrained()->cascadeOnDelete();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->string('username')->nullable();
+            $table->foreignId('stock_id')->constrained()->cascadeOnDelete();
+            $table->string('userId')->constrained()->cascadeOnDelete();
+            $table->boolean('status')->default(false);
+            $table->string('name');
+            $table->string('position');
             $table->string('remark')->nullable();
           
             $table->timestamps();
