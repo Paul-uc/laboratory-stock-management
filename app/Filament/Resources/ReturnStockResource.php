@@ -5,8 +5,11 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\ReturnStockResource\Pages;
 use App\Filament\Resources\ReturnStockResource\RelationManagers;
 use App\Models\Approval;
+use App\Models\loanStock;
 use App\Models\lossStock;
 use App\Models\ReturnStock;
+use App\Models\Stock;
+use App\Models\stockCode;
 use App\Models\User;
 use Filament\Forms;
 use Filament\Resources\Form;
@@ -88,29 +91,79 @@ class ReturnStockResource extends Resource
                     ->reactive() 
                     ->required(),
 
-                    Select::make('username')
-                    ->label('Student/Staff ID Number')
+                  
+
+                    
+                    Select::make('stock_id') 
+                    ->label('Stock id')
                     ->options(function (callable $get) {
-                        $options = []; // Default options
-                        $selectedUserID = $get('user_id'); // Get the previously selected value
+                        $selectedApprovalId = $get('approval_id'); // Get the previously selected value
                         
-                        if ($selectedUserID) {
-                            $selectedUser = User::find($selectedUserID);
+                        $options = [];
+
+                        if ($selectedApprovalId) {
+                            $selectedUser = Approval::find($selectedApprovalId);
                             if ($selectedUser) {
-                                $options = User::where('id', $selectedUserID)
-                                    ->pluck('username', 'id');
+                                $options = Approval::where('id', $selectedUser->stock_id)
+                                    ->pluck('stock_id', 'id');
+                                    
                             }
                         }
-                        
-                        return $options;})
-                    ->required()
-                    ->reactive(),
-
-                    TextArea::make('remark')
-                    ->label('Remarks')
-                    ,
+                        return $options;
+                    })
+                    ->reactive() 
+                    ->required(),
                     
+
+                Select::make('userId')
+                    ->label('Student/Staff ID')
+                    ->options(function (callable $get) {
+                        $selectedLoanStockId = $get('approval_id'); // Get the previously selected loan_stock_id
+
+                        $options = [];
+
+                        if ($selectedLoanStockId) {
+                            $selectedLoanStock = loanStock::find($selectedLoanStockId);
+
+                            if ($selectedLoanStock) {
+                                $selectedUserId = $selectedLoanStock->userId; // Assuming there's a userId column in the LoanStock model
+
+                                if ($selectedUserId) {
+                                    $user = User::find($selectedUserId); // Assuming User model exists with a 'username' attribute
+                                    if ($user) {
+                                        $formattedOption = "{$user->username} ";
+                                        $options[$selectedUserId] = $formattedOption;
+                                    }
+                                }
+                            }
+                        }
+
+                        return $options;
+                    })
+                    ->reactive()
+                    ->required(),
+
+
+                TextInput::make('name')
+                    ->label('Supervisor Name')
+                    ->required(),
+
+                TextInput::make('position')
+                    ->label('Position')
+                    ->required(),
+
+                TextInput::make('remark')
+                    ->label('Remark'),
+
+                    
+                Checkbox::make('status')
+                ->label('Approval Status'),
+
+
                 ])
+                ->columns(2),
+                    
+                
                 //
             ]);
     }

@@ -17,7 +17,7 @@ class returnStock extends Model
     protected $fillable = [
         'approval_id',
         'user_id',
-        'loan_stock_id',
+        'stock_id',
         'userId',
         'status',
         'name',
@@ -36,6 +36,11 @@ class returnStock extends Model
         return $this->belongsTo(User::class);
     }
 
+   
 
+    public function stock():BelongsTo
+    {
+        return $this->belongsTo(Stock::class);
+    }
   
 }
