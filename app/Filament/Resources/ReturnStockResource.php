@@ -18,7 +18,7 @@ use Filament\Resources\Table;
 use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-
+use Filament\Tables\Actions\Action;
 use Filament\Forms\Components\Card;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\Select;
@@ -200,6 +200,16 @@ class ReturnStockResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
+                Tables\Actions\DeleteAction::make(),
+                Action::make('Send pdf')
+                ->icon('heroicon-o-paper-airplane')
+                ->url(fn (ReturnStock $record) => route('returnStock.download', $record))
+                ->openUrlInNewTab(),
+
+                Action::make('Dowload pdf')
+                ->icon('heroicon-o-document-download')
+                ->url(fn (ReturnStock $record) => route('returnStock.pdf.download', $record))
+                ->openUrlInNewTab(),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),

@@ -4,6 +4,7 @@ use App\Http\Controllers\DownloadPdfController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\LoanController;
 use App\Http\Controllers\PDFController;
+use App\Http\Controllers\ReturnStockPdfController;
 use App\Models\Approval;
 use Illuminate\Support\Facades\Route;
 use App\Models\Category;
@@ -35,6 +36,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('/loans', LoanController::class,);
     
     Route::get('/{record}/pdf/download', [DownloadPdfController::class, 'download'])->name('approval.pdf.download');
+    Route::get('/{record}/pdf/download', [ReturnStockPdfController::class, 'download'])->name('returnStock.pdf.download');
     
     Route::get('/categories/{category}', function(Category $category) {
 return response()->json($category);
@@ -42,6 +44,7 @@ return response()->json($category);
     });
 
     Route::get('/{record}/send-email-pdf/index', [PDFController::class, 'index'])->name('approval.download');
+    Route::get('/{record}/send-email-pdf/index', [PDFController::class, 'index'])->name('returnStock.download');
     ;
    
 
