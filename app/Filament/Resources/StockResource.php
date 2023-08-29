@@ -8,9 +8,9 @@ use App\Models\Category;
 use App\Models\Stock;
 use App\Models\stockCode;
 use Filament\Forms;
-use Filament\Resources\Form;
+use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Resources\Table;
+use Filament\Tables\Table;
 use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -30,7 +30,7 @@ class StockResource extends Resource
 {
     protected static ?string $model = Stock::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-archive';
+    protected static ?string $navigationIcon = 'heroicon-o-archive-box';
     protected static ?string $navigationGroup = 'Stock Management';
 
     protected static ?int $navigationSort = 2;
@@ -89,7 +89,7 @@ class StockResource extends Resource
                 IconColumn::make('stockAvailability')  
                 ->boolean()
                 ->label('Ready to Loan')
-                ->trueIcon('heroicon-o-badge-check')
+                ->trueIcon('heroicon-o-check-badge')
                 ->falseIcon('heroicon-o-x-circle')
                 ->sortable(),   
 

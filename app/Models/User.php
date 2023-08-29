@@ -16,14 +16,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 
 
-class User extends Authenticatable 
+class User extends Authenticatable
 //implements FilamentUser
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
     protected $table = 'users';
- 
-    
+
+
     /**
      * The attributes that are mass assignable.
      *
@@ -91,7 +91,7 @@ class User extends Authenticatable
         return $this->hasMany(Approval::class, 'approval_id');
     }
 
-    
+
     // public function canAccessFilament(): bool{
     //     return $this->hasRole('Admin', 'SuperAdmin', '');
     // }

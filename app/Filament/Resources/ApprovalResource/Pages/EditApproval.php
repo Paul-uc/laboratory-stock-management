@@ -10,7 +10,7 @@ class EditApproval extends EditRecord
 {
     protected static string $resource = ApprovalResource::class;
 
-    protected function getActions(): array
+    protected function getHeaderActions(): array
     {
         return [
             Actions\DeleteAction::make(),

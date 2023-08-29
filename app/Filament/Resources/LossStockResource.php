@@ -9,9 +9,9 @@ use App\Models\LossStock;
 use App\Models\returnStock;
 use App\Models\User;
 use Filament\Forms;
-use Filament\Resources\Form;
+use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Resources\Table;
+use Filament\Tables\Table;
 use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -25,7 +25,7 @@ class LossStockResource extends Resource
 {
     protected static ?string $model = LossStock::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
     protected static ?string $navigationGroup = 'Return Management';
 
     protected static ?int $navigationSort = 5;

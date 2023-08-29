@@ -10,7 +10,7 @@ class EditReturnStock extends EditRecord
 {
     protected static string $resource = ReturnStockResource::class;
 
-    protected function getActions(): array
+    protected function getHeaderActions(): array
     {
         return [
             Actions\DeleteAction::make(),

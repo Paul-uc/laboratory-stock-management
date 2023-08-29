@@ -10,9 +10,9 @@ use App\Models\Stock;
 use App\Models\stockCode;
 use App\Models\User;
 use Filament\Forms;
-use Filament\Resources\Form;
+use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Resources\Table;
+use Filament\Tables\Table;
 use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -29,8 +29,8 @@ use Filament\Tables\Columns\IconColumn;
 class ApprovalResource extends Resource
 {
     protected static ?string $model = Approval::class;
-    
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+
+    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
     protected static ?string $navigationGroup = 'Loan Management';
 
     protected static ?int $navigationSort = 4;
@@ -68,27 +68,26 @@ class ApprovalResource extends Resource
                                         $options[$loanStockId] = $formattedOption;
                                     }
                                 }
-                               
+
                                 return $options;
-                                
                             })
                             ->reactive()
                             ->required(),
 
-                            Select::make('stock_id')
+                        Select::make('stock_id')
 
                             ->label('Loan Stock Serial Number')
-                            ->options(function(callable $get){
+                            ->options(function (callable $get) {
                                 $stockCode = stockCode::find($get('stock_code_id'));
-                                if (!$stockCode){
+                                if (!$stockCode) {
                                     return Stock::all()->pluck('serialNumber', 'id');
                                 }
                                 return $stockCode->stock->pluck('serialNumber', 'id');
                             })
-                            ->relationship('stock','serialNumber')
+                            ->relationship('stock', 'serialNumber')
                             ->label('Serial Number')
                             ->required(),
-                            
+
 
                         Select::make('userId')
                             ->label('Student/Staff ID')
@@ -133,9 +132,9 @@ class ApprovalResource extends Resource
                         TextInput::make('remark')
                             ->label('Remark'),
 
-                        ]),
-                    
-                    ]);
+                    ]),
+
+            ]);
     }
 
     public static function table(Table $table): Table
@@ -144,16 +143,16 @@ class ApprovalResource extends Resource
             ->columns([
                 //
                 TextColumn::make('id')->sortable(),
-                
-               
+
+
                 TextColumn::make('loan_stock_id'),
                 TextColumn::make('stock.serialNumber')
-                ->label('Stock Serial Number') ,
-                
+                    ->label('Stock Serial Number'),
+
                 IconColumn::make('status')
                     ->boolean()
                     ->label('Approval Status')
-                    ->trueIcon('heroicon-o-badge-check')
+                    ->trueIcon('heroicon-o-check-badge')
                     ->falseIcon('heroicon-o-x-circle')
                     ->sortable(),
 
@@ -164,7 +163,7 @@ class ApprovalResource extends Resource
                 TextColumn::make('position')->sortable(),
                 TextColumn::make('remark')->sortable(),
                 TextColumn::make('created_at')->dateTime()
-                ->label('Approved At')
+                    ->label('Approved At')
             ])
             ->filters([
                 //
@@ -173,14 +172,14 @@ class ApprovalResource extends Resource
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
                 Action::make('Send pdf')
-                ->icon('heroicon-o-paper-airplane')
-                ->url(fn (Approval $record) => route('approval.download', $record))
-                ->openUrlInNewTab(),
+                    ->icon('heroicon-o-paper-airplane')
+                    ->url(fn (Approval $record) => route('approval.download', $record))
+                    ->openUrlInNewTab(),
 
                 Action::make('Dowload pdf')
-                ->icon('heroicon-o-document-download')
-                ->url(fn (Approval $record) => route('approval.pdf.download', $record))
-                ->openUrlInNewTab(),
+                    ->icon('heroicon-o-document-arrow-down')
+                    ->url(fn (Approval $record) => route('approval.pdf.download', $record))
+                    ->openUrlInNewTab(),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),

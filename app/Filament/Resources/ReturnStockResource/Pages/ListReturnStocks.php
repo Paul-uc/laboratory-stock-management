@@ -10,7 +10,7 @@ class ListReturnStocks extends ListRecords
 {
     protected static string $resource = ReturnStockResource::class;
 
-    protected function getActions(): array
+    protected function getHeaderActions(): array
     {
         return [
             Actions\CreateAction::make(),

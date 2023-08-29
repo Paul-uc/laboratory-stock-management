@@ -12,9 +12,9 @@ use App\Models\Stock;
 use App\Models\stockCode;
 use App\Models\User;
 use Filament\Forms;
-use Filament\Resources\Form;
+use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Resources\Table;
+use Filament\Tables\Table;
 use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -32,7 +32,7 @@ class ReturnStockResource extends Resource
 {
     protected static ?string $model = ReturnStock::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
     protected static ?string $navigationGroup = 'Return Management';
 
     protected static ?int $navigationSort = 4;
@@ -183,7 +183,7 @@ class ReturnStockResource extends Resource
                 IconColumn::make('status')
                     ->boolean()
                     ->label('Return Status')
-                    ->trueIcon('heroicon-o-badge-check')
+                    ->trueIcon('heroicon-o-check-badge')
                     ->falseIcon('heroicon-o-x-circle')
                     ->sortable(),
 
@@ -209,7 +209,7 @@ class ReturnStockResource extends Resource
                 ->openUrlInNewTab(),
 
                 Action::make('Dowload pdf')
-                ->icon('heroicon-o-document-download')
+                ->icon('heroicon-o-document-arrow-down')
                 ->url(fn (ReturnStock $record) => route('returnStock.pdf.download', $record))
                 ->openUrlInNewTab(),
             ])

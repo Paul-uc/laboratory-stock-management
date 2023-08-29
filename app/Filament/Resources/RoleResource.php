@@ -6,9 +6,9 @@ use App\Filament\Resources\RoleResource\Pages;
 use App\Filament\Resources\RoleResource\RelationManagers;
 use App\Models\Role;
 use Filament\Forms;
-use Filament\Resources\Form;
+use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Resources\Table;
+use Filament\Tables\Table;
 use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -29,7 +29,7 @@ class RoleResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-finger-print';
     protected static ?string $navigationGroup = 'User Setting';
-   
+
 
     protected static ?int $navigationSort = 1;
 
@@ -66,9 +66,9 @@ class RoleResource extends Resource
                 TextColumn::make('name')->label('Roles Name'),
                 TextColumn::make('permissions_count')
                 ->translateLabel()
-                   
+
                     ->counts('permissions')
-                   
+
                     ->sortable()->label('Permission Allowed'),
                 TextColumn::make('created_at')->dateTime('d-M-Y')->sortable(),
             ])
@@ -83,14 +83,14 @@ class RoleResource extends Resource
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
