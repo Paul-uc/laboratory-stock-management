@@ -36,7 +36,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('/loans', LoanController::class,);
     
     Route::get('/{record}/pdf/download', [DownloadPdfController::class, 'download'])->name('approval.pdf.download');
-    Route::get('/{record}/pdf/download', [ReturnStockPdfController::class, 'download'])->name('returnStock.pdf.download');
+    Route::get('/{record}/download', [ReturnStockPdfController::class, 'download'])->name('returnStock.pdf.download');
     
     Route::get('/categories/{category}', function(Category $category) {
 return response()->json($category);
@@ -44,7 +44,8 @@ return response()->json($category);
     });
 
     Route::get('/{record}/send-email-pdf/index', [PDFController::class, 'index'])->name('approval.download');
-    Route::get('/{record}/send-email-pdf/index', [PDFController::class, 'index'])->name('returnStock.download');
+    Route::get('/{record}/index', [PDFController::class, 'index'])->name('returnStock.download');
+
     ;
    
 

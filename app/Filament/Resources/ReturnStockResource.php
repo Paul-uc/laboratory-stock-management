@@ -35,7 +35,7 @@ class ReturnStockResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-collection';
     protected static ?string $navigationGroup = 'Return Management';
 
-    protected static ?int $navigationSort = 5;
+    protected static ?int $navigationSort = 4;
 
 
     public static function form(Form $form): Form
@@ -173,26 +173,28 @@ class ReturnStockResource extends Resource
         return $table
             ->columns([
                 //
-                TextColumn::make('id')
-                ->label('Returned Stock Id')
-                ->sortable(),
+                TextColumn::make('id')->sortable(),
                 
-                TextColumn::make('approval.id')
-                ->label('Approval Id')
-                ->sortable(),
+               
+                TextColumn::make('stock_id'),
+                TextColumn::make('stock.serialNumber')
+                ->label('Stock Serial Number') ,
+                
+                IconColumn::make('status')
+                    ->boolean()
+                    ->label('Return Status')
+                    ->trueIcon('heroicon-o-badge-check')
+                    ->falseIcon('heroicon-o-x-circle')
+                    ->sortable(),
 
-                TextColumn::make('username')
-                ->sortable()
-                ->label('Student/ Staff ID')
-                ->sortable(),
+                TextColumn::make('name')
+                    ->label('Supervisor Name')
+                    ->sortable(),
 
-                TextColumn::make('remark')
-                ->label('Remarks')
-                ->searchable(),
-
-                TextColumn::make('created_at')
+                TextColumn::make('position')->sortable(),
+                TextColumn::make('remark')->sortable(),
+                TextColumn::make('created_at')->dateTime()
                 ->label('Returned At')
-                ->dateTime()
             ])
             ->filters([
                 //
