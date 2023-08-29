@@ -78,7 +78,7 @@ class DatabaseSeeder extends Seeder
         returnStock::create(['approval_id' => 1 ,'stock_id' => 1,'user_id'=> 2,'userId'=> 2,'status' => 1, 'name'=> 'Moderator', 'position'=> 'dean', 'remark'=> 'testing' ]);
         returnStock::create(['approval_id' => 2 ,'stock_id' => 2, 'user_id'=> 2, 'userId'=> 2,'status' => 1, 'name'=> 'Moderator', 'position'=> 'dean', 'remark'=> 'testing'  ]);
        
-        lossStock::create(['approval_id' => 3 ,'stock_id' => 3,'user_id'=> 2,'userId'=> 2, 'name'=> 'Moderator', 'position'=> 'dean', 'remark'=> 'testing' ]);
+        lossStock::create(['approval_id' => 3 ,'stock_id' => 3,'user_id'=> 2,'status' => 1,'userId'=> 2, 'name'=> 'Moderator', 'position'=> 'dean', 'remark'=> 'testing' ]);
 
         //// Reset cached roles and permissions
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();

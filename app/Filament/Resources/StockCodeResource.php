@@ -14,9 +14,10 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Card;
+
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Section;
 
 class StockCodeResource extends Resource
 {
@@ -33,7 +34,9 @@ class StockCodeResource extends Resource
         return $form
             ->schema([
                 //
-                Card::make()
+                Section::make('Enter New Stock Code')
+                ->description('Please ensure the information entered is accurate and correct')
+                ->aside()
                 ->schema([
                     // ...
                     Select::make('category_id')  

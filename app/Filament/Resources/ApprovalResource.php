@@ -25,9 +25,16 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Checkbox;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Columns\IconColumn;
+use Filament\Forms\Components\Section;
+use Filament\Tables\Columns\Layout\Split;
+use Filament\Tables\Columns\Layout\Stack;
+use Filament\Tables\Columns\Layout\Panel;
+use Filament\Support\Enums\FontWeight;
+
 
 class ApprovalResource extends Resource
 {
+
     protected static ?string $model = Approval::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
@@ -40,7 +47,9 @@ class ApprovalResource extends Resource
         return $form
             ->schema([
                 //
-                Card::make()
+                Section::make('Approval Request')
+                    ->description('Please ensure the information entered by the student is accurate and correct')
+                    ->aside()
                     ->schema([
                         // ...            
                         Select::make('loan_stock_id')
@@ -118,11 +127,11 @@ class ApprovalResource extends Resource
                             ->required(),
 
 
-                        Checkbox::make('status')
-                            ->label('Approval Status'),
+
 
                         TextInput::make('name')
                             ->label('Supervisor Name')
+
                             ->required(),
 
                         TextInput::make('position')
@@ -131,6 +140,9 @@ class ApprovalResource extends Resource
 
                         TextInput::make('remark')
                             ->label('Remark'),
+
+                        Checkbox::make('status')
+                            ->label('Approval Status'),
 
                     ]),
 
@@ -143,8 +155,6 @@ class ApprovalResource extends Resource
             ->columns([
                 //
                 TextColumn::make('id')->sortable(),
-
-
                 TextColumn::make('loan_stock_id'),
                 TextColumn::make('stock.serialNumber')
                     ->label('Stock Serial Number'),
@@ -155,15 +165,20 @@ class ApprovalResource extends Resource
                     ->trueIcon('heroicon-o-check-badge')
                     ->falseIcon('heroicon-o-x-circle')
                     ->sortable(),
+              
+                    TextColumn::make('name')
+                        ->label('Supervisor Name')
+                        ->weight(FontWeight::Bold)
+                        ->sortable(),
 
-                TextColumn::make('name')
-                    ->label('Supervisor Name')
-                    ->sortable(),
-
-                TextColumn::make('position')->sortable(),
+                    TextColumn::make('position')->sortable(),
+                
                 TextColumn::make('remark')->sortable(),
                 TextColumn::make('created_at')->dateTime()
+                    ->icon('heroicon-m-calendar-days')
                     ->label('Approved At')
+
+
             ])
             ->filters([
                 //

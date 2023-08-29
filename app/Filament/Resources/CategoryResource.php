@@ -13,8 +13,9 @@ use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Card;
+
 use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\Section;
 
 class CategoryResource extends Resource
 {
@@ -30,12 +31,14 @@ class CategoryResource extends Resource
         return $form
             ->schema([
                 //
-                Card::make()
+                Section::make('Enter New Category')
+                ->description('Please ensure the information entered is accurate and correct')
+                ->aside()
                 ->schema([
                     // ...
                     TextInput::make('categoryName')->label('Category Name'),
                 ])
-                ->columns(2)
+                ->columnSpan('full')
 
                 
             ]);

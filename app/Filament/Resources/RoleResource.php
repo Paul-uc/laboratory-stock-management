@@ -13,9 +13,11 @@ use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Card;
+
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Section;
+use Filament\Support\Enums\FontWeight;
 
 
 // use Spatie\Permission\Models\Role;
@@ -38,7 +40,9 @@ class RoleResource extends Resource
         return $form
             ->schema([
                 //
-                Card::make()
+                Section::make('Enter New Role')
+                ->description('Please ensure the information entered is accurate and correct')
+                ->aside()
                 ->schema([
                     // ...
                     TextInput::make('name')
@@ -53,7 +57,7 @@ class RoleResource extends Resource
                     ->relationship('permissions', 'name')
                     ->preload(),
                 ])
-                ->columns(2)
+                
             ]);
     }
 
@@ -63,7 +67,7 @@ class RoleResource extends Resource
             ->columns([
                 //
                 TextColumn::make('id')->sortable(),
-                TextColumn::make('name')->label('Roles Name'),
+                TextColumn::make('name')->label('Roles Name')   ->weight(FontWeight::Bold),
                 TextColumn::make('permissions_count')
                 ->translateLabel()
 

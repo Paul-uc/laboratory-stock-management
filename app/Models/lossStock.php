@@ -11,9 +11,13 @@ class lossStock extends Model
 
     protected $fillable = [
         'approval_id',
-        'lostType',
         'user_id',
-        'username',
+        'stock_id',
+        'userId',
+        'status',
+        'name',
+        'position',
+        'remark', 
         
 ]; //
 

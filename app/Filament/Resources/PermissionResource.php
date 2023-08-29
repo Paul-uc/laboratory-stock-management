@@ -16,6 +16,8 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Card;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\Section;
+
 
 use App\Models\Permission;
 
@@ -35,7 +37,9 @@ class PermissionResource extends Resource
         return $form
             ->schema([
                 //
-                Card::make()
+                Section::make('Create new Permission')              
+                ->description('Please ensure the information entered is accurate and correct')
+                ->aside()
                 ->schema([
                     TextInput::make('name')
                     ->label('Permission Name')
@@ -43,7 +47,7 @@ class PermissionResource extends Resource
                     ->maxLength(255)
                     ->unique(ignoreRecord: true),
 
-                ]) ->columns(2)
+                ]) 
                
             ]);
     }

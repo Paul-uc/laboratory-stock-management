@@ -22,6 +22,7 @@ use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Checkbox;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Resources\Forms\Components;
+use Filament\Forms\Components\Wizard;
 
 
 
@@ -40,40 +41,55 @@ class StockResource extends Resource
         return $form
             ->schema([
                 //
-                Card::make()
-                ->schema([
-                    // ...
-                    Select::make('category_id')  
-                    ->label('Category')
-                    ->options(Category::all()->pluck('categoryName', 'id')->toArray())
-                    ->reactive(), 
 
-                    Select::make('stock_code_id')  
-                    ->label('Stock Code')
-                    ->options(function(callable $get){
-                        $category = Category::find($get('category_id'));
-                        if (!$category){
-                            return stockCode::all()->pluck('code', 'id');
-                        }
-                        return $category->stockCode->pluck('code', 'id');
-                    })
-                    ->reactive(), 
-                    
-                    TextInput::make('serialNumber'),            
-
-                    TextInput::make('stockDescription'),            
-                 
-                    DatePicker::make('warrantyEndDate'),
-                    DatePicker::make('warrantyStartDate'),
-
-                    TextInput::make('stockQuantity'),
-                    TextInput::make('price'),
-
-                    Checkbox::make('stockAvailability'),
-                   
-                ])->columns(2)
+                Wizard::make([
+                    Wizard\Step::make('Select Stock Category')
+                    ->description('Select stock Category for the new Stock')
+                        ->icon('heroicon-m-wrench')
+                        ->columns(1)
+                        ->schema([
+                            // ...
+                            Select::make('category_id')  
+                            ->label('Category')
+                            ->options(Category::all()->pluck('categoryName', 'id')->toArray())
+                            ->reactive(), 
+        
+                            Select::make('stock_code_id')  
+                            ->label('Stock Code')
+                            ->options(function(callable $get){
+                                $category = Category::find($get('category_id'));
+                                if (!$category){
+                                    return stockCode::all()->pluck('code', 'id');
+                                }
+                                return $category->stockCode->pluck('code', 'id');
+                            })
+                            ->reactive(), 
+                        ]),
+                    Wizard\Step::make('Enter Stock Details ')
+                    ->description('Enter Stock Details for the new stock')
+                        ->icon('heroicon-m-wrench')
+                        ->columns(1)
+                        ->schema([
+                            // ...
+                            TextInput::make('serialNumber'),            
+                            TextInput::make('stockDescription'),                                    
+                            DatePicker::make('warrantyEndDate'),
+                            DatePicker::make('warrantyStartDate'),
+                        ]),
+                    Wizard\Step::make('Enter Stock Quantity ')
+                    ->description('Enter the quantity of Stock')
+                        ->icon('heroicon-m-wrench')
+                        ->columns(1)
+                        ->schema([
+                            // ...
+                            TextInput::make('stockQuantity'),
+                            TextInput::make('price'),
+                            Checkbox::make('stockAvailability'),
+                        ]),
+                ])->columnSpan('full')
+                    ]);
   
-            ]);
+           
     }
 
     public static function table(Table $table): Table

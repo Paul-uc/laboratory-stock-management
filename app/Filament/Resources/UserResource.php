@@ -21,6 +21,9 @@ use Filament\Forms\Components\Select;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\Section;
+use Filament\Support\Enums\FontWeight;
+
 
 class UserResource extends Resource
 {
@@ -36,7 +39,10 @@ class UserResource extends Resource
         return $form
             ->schema([
                 
-                Card::make()
+                Section::make('Create New User')
+                
+                ->description('Please ensure the information entered is accurate and correct')
+                ->aside()
                 ->schema([
                     // ...
                     TextInput::make('name')
@@ -68,7 +74,7 @@ class UserResource extends Resource
                     ->multiple()
                     ->relationship('permissions', 'name')
                     ->preload(),
-                ])->columns(2)
+                ])
                
             ]);
     }
@@ -81,6 +87,7 @@ class UserResource extends Resource
                 TextColumn::make('name')->searchable()
                 ->translateLabel(),
                 TextColumn::make('username')->searchable()
+                ->weight(FontWeight::Bold)
                 ->translateLabel(),
                 TextColumn::make('email')->searchable()
                 ->translateLabel(),

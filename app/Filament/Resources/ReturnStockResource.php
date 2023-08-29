@@ -27,6 +27,8 @@ use Filament\Forms\Components\Checkbox;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Section;
+use Filament\Support\Enums\FontWeight;
 
 class ReturnStockResource extends Resource
 {
@@ -43,128 +45,115 @@ class ReturnStockResource extends Resource
         return $form
             ->schema([
                 //
+                Section::make('Return Stock Management')
+                    ->description('Please ensure everything is returned in good condition')
+                    ->aside()
+                    ->schema([
 
-                Card::make()
-                ->schema([
-                    // ...
-               
-                    Select::make('approval_id')
-                    ->label('Approval ID')
-                    ->options(function (callable $get) {
-                        // Get all Return IDs with status having true boolean value
-                    $approvedApprovalIds = Approval::where('status', true)->pluck('id')->toArray();
+                        Select::make('approval_id')
+                            ->label('Approval ID')
+                            ->options(function (callable $get) {
+                                // Get all Return IDs with status having true boolean value
+                                $approvedApprovalIds = Approval::where('status', true)->pluck('id')->toArray();
 
-                    // Get Return IDs associated with "loss stock" records
-                    $lossStockApprovalIds = LossStock::whereIn('approval_id', $approvedApprovalIds)->pluck('approval_id')->toArray();
+                                // Get Return IDs associated with "loss stock" records
+                                $lossStockApprovalIds = LossStock::whereIn('approval_id', $approvedApprovalIds)->pluck('approval_id')->toArray();
 
-                    // Get Return IDs associated with "return stock" records
-                    $returnStockApprovalIds = ReturnStock::whereIn('approval_id', $approvedApprovalIds)->pluck('approval_id')->toArray();
+                                // Get Return IDs associated with "return stock" records
+                                $returnStockApprovalIds = ReturnStock::whereIn('approval_id', $approvedApprovalIds)->pluck('approval_id')->toArray();
 
-                    // Combine the excluded Return IDs from both "loss stock" and "return stock"
-                    $excludedApprovalIds = array_merge($lossStockApprovalIds, $returnStockApprovalIds);
+                                // Combine the excluded Return IDs from both "loss stock" and "return stock"
+                                $excludedApprovalIds = array_merge($lossStockApprovalIds, $returnStockApprovalIds);
 
-                    // Retrieve Return records that are not in the excluded list
-                    $approvalQuery = Approval::whereNotIn('id', $excludedApprovalIds);
+                                // Retrieve Return records that are not in the excluded list
+                                $approvalQuery = Approval::whereNotIn('id', $excludedApprovalIds);
 
-                    return $approvalQuery->pluck('id', 'id');
-                    })
-                    ->reactive()
-                    ->required(),
+                                return $approvalQuery->pluck('id', 'id');
+                            })
+                            ->reactive()
+                            ->required(),
 
-                    Select::make('user_id') 
-                    ->label('Student/ Staff id')
-                    ->options(function (callable $get) {
-                        $selectedApprovalId = $get('approval_id'); // Get the previously selected value
-                        
-                        $options = []; // Default options
+                        Select::make('user_id')
+                            ->label('Student/ Staff id')
+                            ->options(function (callable $get) {
+                                $selectedApprovalId = $get('approval_id'); // Get the previously selected value
 
-                        if ($selectedApprovalId) {
-                            $selectedUser = Approval::find($selectedApprovalId);
-                            if ($selectedUser) {
-                                $options = Approval::where('id', $selectedUser->userId)
-                                    ->pluck('userId', 'id');
-                                    
-                            }
-                        }
-                        return $options;
-                    })
-                    ->reactive() 
-                    ->required(),
+                                $options = []; // Default options
 
-                  
-
-                    
-                    Select::make('stock_id') 
-                    ->label('Stock id')
-                    ->options(function (callable $get) {
-                        $selectedApprovalId = $get('approval_id'); // Get the previously selected value
-                        
-                        $options = [];
-
-                        if ($selectedApprovalId) {
-                            $selectedUser = Approval::find($selectedApprovalId);
-                            if ($selectedUser) {
-                                $options = Approval::where('id', $selectedUser->stock_id)
-                                    ->pluck('stock_id', 'id');
-                                    
-                            }
-                        }
-                        return $options;
-                    })
-                    ->reactive() 
-                    ->required(),
-                    
-
-                Select::make('userId')
-                    ->label('Student/Staff ID')
-                    ->options(function (callable $get) {
-                        $selectedLoanStockId = $get('approval_id'); // Get the previously selected loan_stock_id
-
-                        $options = [];
-
-                        if ($selectedLoanStockId) {
-                            $selectedLoanStock = loanStock::find($selectedLoanStockId);
-
-                            if ($selectedLoanStock) {
-                                $selectedUserId = $selectedLoanStock->userId; // Assuming there's a userId column in the LoanStock model
-
-                                if ($selectedUserId) {
-                                    $user = User::find($selectedUserId); // Assuming User model exists with a 'username' attribute
-                                    if ($user) {
-                                        $formattedOption = "{$user->username} ";
-                                        $options[$selectedUserId] = $formattedOption;
+                                if ($selectedApprovalId) {
+                                    $selectedUser = Approval::find($selectedApprovalId);
+                                    if ($selectedUser) {
+                                        $options = Approval::where('id', $selectedUser->userId)
+                                            ->pluck('userId', 'id');
                                     }
                                 }
-                            }
-                        }
-
-                        return $options;
-                    })
-                    ->reactive()
-                    ->required(),
+                                return $options;
+                            })
+                            ->reactive()
+                            ->required(),
 
 
-                TextInput::make('name')
-                    ->label('Supervisor Name')
-                    ->required(),
-
-                TextInput::make('position')
-                    ->label('Position')
-                    ->required(),
-
-                TextInput::make('remark')
-                    ->label('Remark'),
-
-                    
-                Checkbox::make('status')
-                ->label('Approval Status'),
 
 
-                ])
-                ->columns(2),
-                    
-                
-                //
+                        Select::make('stock_id')
+                            ->label('Stock id')
+                            ->options(function (callable $get) {
+                                $selectedApprovalId = $get('approval_id'); // Get the previously selected value
+
+                                $options = [];
+
+                                if ($selectedApprovalId) {
+                                    $selectedUser = Approval::find($selectedApprovalId);
+                                    if ($selectedUser) {
+                                        $options = Approval::where('id', $selectedUser->stock_id)
+                                            ->pluck('stock_id', 'id');
+                                    }
+                                }
+                                return $options;
+                            })
+                            ->reactive()
+                            ->required(),
+
+                        Select::make('userId')
+                            ->label('Student/Staff ID')
+                            ->options(function (callable $get) {
+                                $selectedLoanStockId = $get('approval_id'); // Get the previously selected loan_stock_id
+
+                                $options = [];
+
+                                if ($selectedLoanStockId) {
+                                    $selectedLoanStock = loanStock::find($selectedLoanStockId);
+
+                                    if ($selectedLoanStock) {
+                                        $selectedUserId = $selectedLoanStock->userId; // Assuming there's a userId column in the LoanStock model
+
+                                        if ($selectedUserId) {
+                                            $user = User::find($selectedUserId); // Assuming User model exists with a 'username' attribute
+                                            if ($user) {
+                                                $formattedOption = "{$user->username} ";
+                                                $options[$selectedUserId] = $formattedOption;
+                                            }
+                                        }
+                                    }
+                                }
+
+                                return $options;
+                            })
+                            ->reactive()
+                            ->required(),
+                        TextInput::make('name')
+                            ->label('Supervisor Name')
+                            ->required(),
+
+                        TextInput::make('position')
+                            ->label('Position')
+                            ->required(),
+
+                        TextInput::make('remark')
+                            ->label('Remark'),
+                        Checkbox::make('status')
+                            ->label('Approval Status')->columnSpan('full'),
+                    ])
             ]);
     }
 
@@ -174,57 +163,53 @@ class ReturnStockResource extends Resource
             ->columns([
                 //
                 TextColumn::make('id')->sortable(),
-                
-               
                 TextColumn::make('stock_id'),
                 TextColumn::make('stock.serialNumber')
-                ->label('Stock Serial Number') ,
-                
+                    ->label('Stock Serial Number'),
                 IconColumn::make('status')
                     ->boolean()
                     ->label('Return Status')
                     ->trueIcon('heroicon-o-check-badge')
                     ->falseIcon('heroicon-o-x-circle')
                     ->sortable(),
-
                 TextColumn::make('name')
                     ->label('Supervisor Name')
+                    ->weight(FontWeight::Bold)
                     ->sortable(),
-
                 TextColumn::make('position')->sortable(),
                 TextColumn::make('remark')->sortable(),
                 TextColumn::make('created_at')->dateTime()
-                ->label('Returned At')
+                    ->label('Returned At')
             ])
             ->filters([
                 //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                
                 Tables\Actions\DeleteAction::make(),
                 Action::make('Send pdf')
-                ->icon('heroicon-o-paper-airplane')
-                ->url(fn (ReturnStock $record) => route('returnStock.download', $record))
-                ->openUrlInNewTab(),
+                    ->icon('heroicon-o-paper-airplane')
+                    ->url(fn (ReturnStock $record) => route('returnStock.download', $record))
+                    ->openUrlInNewTab(),
 
                 Action::make('Dowload pdf')
-                ->icon('heroicon-o-document-arrow-down')
-                ->url(fn (ReturnStock $record) => route('returnStock.pdf.download', $record))
-                ->openUrlInNewTab(),
+                    ->icon('heroicon-o-document-arrow-down')
+                    ->url(fn (ReturnStock $record) => route('returnStock.pdf.download', $record))
+                    ->openUrlInNewTab(),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -232,5 +217,5 @@ class ReturnStockResource extends Resource
             'create' => Pages\CreateReturnStock::route('/create'),
             'edit' => Pages\EditReturnStock::route('/{record}/edit'),
         ];
-    }    
+    }
 }
