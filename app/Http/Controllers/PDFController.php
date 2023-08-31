@@ -1,7 +1,7 @@
 <?php
-      
+
 namespace App\Http\Controllers;
-       
+
 use Illuminate\Http\Request;
 use App\Mail\MailExample;
 use App\Models\Approval;
@@ -10,10 +10,10 @@ use App\Models\Stock;
 use App\Models\User;
 use PDF;
 use Mail;
-    
+
 class PDFController extends Controller
 {
-       
+
     /**
      * Show the application dashboard.
      *
@@ -26,10 +26,10 @@ class PDFController extends Controller
         if ($approval) {
             //Assign fetched data to variables
             $username = $approval->userId;
-            
+
             if ($username) {
                 $user = User::find($username); // Assuming User model exists with a 'username' attribute
-              
+
                 if ($user) {
                     $formattedOption = "{$user->username}";
                     $username = $formattedOption;
@@ -56,10 +56,10 @@ class PDFController extends Controller
                 $formattedOption = "{$category->categoryName} ";
                 $categoryName = $formattedOption;
             }
-           
-            
-           
-           
+
+
+
+
 
             $loan_stock_id = $approval->loan_stock_id;
             $status = $approval->status;
@@ -67,27 +67,27 @@ class PDFController extends Controller
             $names = $approval->name;
             $position = $approval->position;
             $remark = $approval->remark;
-        
-            $data = [
-            'title' => 'TARUMT Loan Request Approval',    
-            'name' => $name,
-            'username' => $username,
-            'category' => $categoryName,
-            'loan_stock_id' => $loan_stock_id,
-            'status' => $statusString,
-            
-            'names' => $names,
-            'position' => $position,
-            'remark' => $remark];
 
-        $pdf = PDF::loadView('pdf.index', $data);
-        $data["pdf"] = $pdf;
-  
-        Mail::to(["your@gmail.com"])->send(new MailExample($data));
-    
-        
-        return redirect();
-    }
-      
+            $data = [
+                'title' => 'TARUMT Loan Request Approval',
+                'name' => $name,
+                'username' => $username,
+                'category' => $categoryName,
+                'loan_stock_id' => $loan_stock_id,
+                'status' => $statusString,
+
+                'names' => $names,
+                'position' => $position,
+                'remark' => $remark
+            ];
+
+            $pdf = PDF::loadView('pdf.index', $data);
+            $data["pdf"] = $pdf;
+
+            Mail::to(["your@gmail.com"])->send(new MailExample($data));
+
+
+            return redirect();
+        }
     }
 }

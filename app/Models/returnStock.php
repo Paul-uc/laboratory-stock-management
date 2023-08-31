@@ -23,6 +23,7 @@ class returnStock extends Model
         'name',
         'position',
         'remark', 
+        'loan_stock_id',
       
 
     ]; //

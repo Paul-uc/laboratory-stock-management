@@ -19,7 +19,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Forms\Components\Card;
 use Filament\Tables\Columns\TextColumn;
-
+use Filament\Tables\Actions\Action;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Checkbox;
@@ -196,6 +196,15 @@ class LossStockResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
+                Action::make('Send pdf')
+                ->icon('heroicon-o-paper-airplane')
+                ->url(fn (LossStock $record) => route('returnStock.download', $record))
+                ->openUrlInNewTab(),
+
+            Action::make('Dowload pdf')
+                ->icon('heroicon-o-document-arrow-down')
+                ->url(fn (LossStock $record) => route('returnStock.pdf.download', $record))
+                ->openUrlInNewTab(),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),

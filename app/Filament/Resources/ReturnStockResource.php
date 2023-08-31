@@ -29,6 +29,8 @@ use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Section;
 use Filament\Support\Enums\FontWeight;
+use Filament\Forms\Components\Field;
+use Illuminate\Support\Carbon;
 
 class ReturnStockResource extends Resource
 {
@@ -40,11 +42,13 @@ class ReturnStockResource extends Resource
     protected static ?int $navigationSort = 4;
 
 
+
     public static function form(Form $form): Form
     {
+
+
         return $form
             ->schema([
-                //
                 Section::make('Return Stock Management')
                     ->description('Please ensure everything is returned in good condition')
                     ->aside()
@@ -141,6 +145,78 @@ class ReturnStockResource extends Resource
                             })
                             ->reactive()
                             ->required(),
+
+                        Select::make('loan_stock_id',)
+                            ->label('Estimated Return Date')
+                            ->options(function (callable $get) {
+                                $selectedApprovalkId = $get('approval_id'); // Get the previously selected loan_stock_id
+
+                                $options = [];
+
+                                if ($selectedApprovalkId) {
+
+                                    $selectedApproval = Approval::find($selectedApprovalkId);
+
+
+                                    if ($selectedApproval) {
+                                        $selectedLoanStock = $selectedApproval->loan_stock_id; // Assuming there's a userId column in the LoanStock model
+
+                                        if ($selectedLoanStock) {
+                                            $loanStock = loanStock::find($selectedLoanStock); // Assuming User model exists with a 'username' attribute
+                                            if ($loanStock) {
+
+                                                $formattedOption = "{$loanStock->estReturnDate} ";
+                                                $options[$selectedLoanStock] = $formattedOption;
+                                            }
+                                        }
+                                    }
+                                }
+
+                                return $options;
+                            })
+                            ->reactive()
+                            ->required(),
+
+                        Select::make('penalty',)
+                            ->label('Penalty')
+                            ->options(function (callable $get) {
+                                $approvalId = $get('approval_id'); // Get the previously selected loan_stock_id
+
+                                $options = [];
+
+                                if ($approvalId) {
+                                    $selectedApproval = Approval::find($approvalId);
+                                        if ($selectedApproval) {
+                                            $selectedLoanStock = $selectedApproval->loan_stock_id; // Assuming there's a userId column in the LoanStock model
+
+                                            if ($selectedLoanStock) {
+                                                $loanStock = loanStock::find($selectedLoanStock); // Assuming User model exists with a 'username' attribute
+                                                if ($loanStock) {
+
+                                                    $selectedLoanStock = "{$loanStock->estReturnDate} ";
+                                                    // Compare estimated return date with current date
+                                                    $currentDate = Carbon::now();
+                                                    $estReturnDateCarbon = Carbon::parse($selectedLoanStock);
+
+                                                    // Calculate the difference in days
+                                                    $daysDifference = $currentDate->diffInDays($estReturnDateCarbon);
+
+                                                    // Calculate penalties based on the difference (customize this logic as needed)
+                                                    $penaltyAmount = $daysDifference * 10; // Example penalty calculation
+
+                                                    // Add penalty information to the options array
+                                                    $options[$selectedLoanStock] = " (Penalty: $penaltyAmount)";
+                                                }
+                                            }
+                                        }
+                                    
+                                }
+
+                                return $options;
+                            })
+                            ->reactive()
+                            ->required(),
+
                         TextInput::make('name')
                             ->label('Supervisor Name')
                             ->required(),
@@ -186,7 +262,7 @@ class ReturnStockResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                
+
                 Tables\Actions\DeleteAction::make(),
                 Action::make('Send pdf')
                     ->icon('heroicon-o-paper-airplane')

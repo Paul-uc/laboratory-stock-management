@@ -2,37 +2,37 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\returnStock;
-use Illuminate\Http\Request;
-use Barryvdh\DomPDF\Facade\Pdf;
-
-
+use App\Mail\MailExample;
 use App\Models\Category;
+use App\Models\returnStock;
 use App\Models\Stock;
 use App\Models\User;
+use PDF;
+use Mail;
+use Illuminate\Http\Request;
 
-class ReturnStockPdfController extends Controller
+class SentReturnStockPdfController extends Controller
 {
-    public function download($id)
+   public function index($id)
     {
         $approval = returnStock::find($id);
 
         if ($approval) {
-            // Assign fetched data to variables
+            //Assign fetched data to variables
             $username = $approval->userId;
+
             if ($username) {
                 $user = User::find($username); // Assuming User model exists with a 'username' attribute
 
-              
-                if ($username) {
-                    $formattedOption = "{$user->username} ";
+                if ($user) {
+                    $formattedOption = "{$user->username}";
                     $username = $formattedOption;
                 }
             }
             $name = $approval->userId;
 
             $user = User::find($name); // Assuming User model exists with a 'name' attribute
-            if ($name) {
+            if ($user) {
                 $formattedOption = "{$user->name} ";
                 $name = $formattedOption;
             }
@@ -50,34 +50,38 @@ class ReturnStockPdfController extends Controller
                 $formattedOption = "{$category->categoryName} ";
                 $categoryName = $formattedOption;
             }
-           
-           
 
-            $loan_stock_id = $approval->id;
+
+
+
+
+            $loan_stock_id = $approval->loan_stock_id;
             $status = $approval->status;
             $statusString = $status ? 'Approved' : 'Not Approved';
             $names = $approval->name;
             $position = $approval->position;
             $remark = $approval->remark;
 
+            $data = [
+                'title' => 'TARUMT Return Stock Summary Report',
+                'name' => $name,
+                'username' => $username,
+                'category' => $categoryName,
+                'loan_stock_id' => $loan_stock_id,
+                'status' => $statusString,
+
+                'names' => $names,
+                'position' => $position,
+                'remark' => $remark
+            ];
+
+            $pdf = PDF::loadView('pdf.return', $data);
+            $data["pdf"] = $pdf;
+
+            Mail::to(["your@gmail.com"])->send(new MailExample($data));
 
 
-
-            $pdf = Pdf::loadView(
-                'pdf.return',
-                [
-                    'title' => 'TARUMT Return Stock Summary Report',
-                    'name' => $name,
-                    'username' => $username,
-                    'category' => $categoryName,
-                    'loan_stock_id' => $loan_stock_id,
-                    'status' => $statusString,
-                    'names' => $names,
-                    'position' => $position,
-                    'remark' => $remark
-                ],
-            );
-            return $pdf->download('ReturnStock.pdf');
+            return redirect();
         }
     }
 }
