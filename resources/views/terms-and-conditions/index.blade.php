@@ -45,7 +45,7 @@
                 </p>
 
                 <p class="mt-6">
-                    If you have any questions about these terms and conditions, please <a href="{{ route('contact') }}">contact us</a>.
+                    If you have any questions about these terms and conditions, please <a href="{{ route('contact') }}" target="_blank" class="text-blue-500">contact us</a>.
                 </p>
             </div>
         </div>

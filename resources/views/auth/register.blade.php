@@ -1,7 +1,10 @@
 <x-guest-layout>
-    <form method="POST" action="{{ route('register') }}">
+    <form method="POST" action="{{ route('register') }}" id="registerForm">
         @csrf
-
+        <div>   <input type="hidden" class="g-recaptcha" name="recaptcha_token" id="recaptcha_token">
+        <x-input-error :messages="$errors->get('recaptcha_token')" class="mt-2" />
+        </div>
+     
         <!-- Name -->
         <div>
             <x-input-label for="name" :value="__('Name')" />
@@ -52,9 +55,39 @@
                 {{ __('Already registered?') }}
             </a>
 
-            <x-primary-button class="ml-4">
+            <x-primary-button class="ml-4" typwe="button" onclick="onClick(event)">
                 {{ __('Register') }}
             </x-primary-button>
         </div>
     </form>
+    @push('scripts')
+        <script>
+            function onClick(e) {
+                e.preventDefault();
+                grecaptcha.ready(function() {
+                    grecaptcha.execute('{{ config('services.recaptcha.site_key') }}', {action: 'register'}).then(function(token) {
+                        document.getElementById("recaptcha_token").value = token;
+                        document.getElementById('registerForm').submit();
+                    });
+                });
+            }
+        </script>
+{{--        <script>--}}
+{{--            function onSubmit(token) {--}}
+{{--                document.getElementById("registerForm").submit();--}}
+{{--            }--}}
+{{--        </script>--}}
+        <script>
+            grecaptcha.ready(function () {
+                document.getElementById('registerForm').addEventListener("submit", function (event) {
+                    event.preventDefault();
+                    grecaptcha.execute('{{ config('services.recaptcha.site_key') }}', { action: 'register' })
+                        .then(function (token) {
+                            document.getElementById("recaptcha_token").value = token;
+                             document.getElementById('registerForm').submit();
+                        });
+                });
+            });
+        </script>
+    @endpush
 </x-guest-layout>
