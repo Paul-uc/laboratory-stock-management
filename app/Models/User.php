@@ -56,6 +56,11 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    public function isAdmin()
+{
+    return $this->roles->whereIn('name', ['SuperAdmin', 'Admin'])->count() > 0;
+}
+
     public function loans():HasMany
     {
         return $this->hasMany(Loan::class);

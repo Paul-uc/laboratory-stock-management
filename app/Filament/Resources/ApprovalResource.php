@@ -93,9 +93,10 @@ class ApprovalResource extends Resource
                                 }
                                 return $stockCode->stock->pluck('serialNumber', 'id');
                             })
-                            ->relationship('stock', 'serialNumber')
+                          
                             ->label('Serial Number')
-                            ->required(),
+                            ->required()
+                            ->same('loan_stock_id'),
 
 
                         Select::make('userId')

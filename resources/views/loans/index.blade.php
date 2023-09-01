@@ -57,16 +57,18 @@
                             </td>
                             <td class="px-6 py-4">
                                 <div class="flex space-x-2">
-                                    <a href="{{ route('loans.edit', $loan) }}" class="text-green-400 hover:text-green-600">Edit</a>
+                                    @if(auth()->user()->isAdmin()) 
+                                        <a href="{{ route('loans.edit', $loan) }}" class="text-green-400 hover:text-green-600">Edit</a>
 
-                                    <form method="POST" class="text-red-400 hover:text-red-600" action="{{ route('loans.destroy', $loan) }}">
-                                        @csrf
-                                        @method('DELETE')
-                                        <a href="{{ route('loans.destroy', $loan) }}" onclick="event.preventDefault();
-                                        this.closest('form').submit();">
-                                            Delete
-                                        </a>
-                                    </form>
+                                        <form method="POST" class="text-red-400 hover:text-red-600" action="{{ route('loans.destroy', $loan) }}">
+                                            @csrf
+                                            @method('DELETE')
+                                            <a href="{{ route('loans.destroy', $loan) }}" onclick="event.preventDefault();
+                                            this.closest('form').submit();">
+                                                Delete
+                                            </a>
+                                        </form>
+                                    @endif
                                 </div>
                             </td>
                         </tr>

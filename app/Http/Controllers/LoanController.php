@@ -18,12 +18,17 @@ class LoanController extends Controller
     public function index(Loan $loan):View
     {
         //
-       
-        // Get the authenticated user's username
-        $username = auth()->user()->id;
+        $isAdminOrSuperAdmin = auth()->user()->hasAnyRole(['Admin', 'SuperAdmin']);
 
-        // // Retrieve loans with the same username
-         $loans = Loan::where('user_id', $username)->get();
+        if ($isAdminOrSuperAdmin) {
+            // User is an admin or superadmin, retrieve all loans
+            $loans = Loan::all();
+        } else {
+            // User is not an admin or superadmin, retrieve loans for the authenticated user
+            $username = auth()->user()->id;
+            $loans = Loan::where('user_id', $username)->get();
+        }
+      
     
         return view('loans.index', compact('loans'));
 

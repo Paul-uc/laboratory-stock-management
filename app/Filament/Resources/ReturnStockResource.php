@@ -175,48 +175,57 @@ class ReturnStockResource extends Resource
                             ->reactive()
                             ->required(),
 
-                        Select::make('penalty')
+                            Select::make('penalty')
                             ->label('Penalty')
                             ->options(function (callable $get) {
                                 $approvalId = $get('approval_id'); // Get the previously selected loan_stock_id
-
+                        
                                 $options = [];
-
+                        
                                 if ($approvalId) {
                                     $selectedApproval = Approval::find($approvalId);
                                     if ($selectedApproval) {
-                                        $selectedLoanStock = $selectedApproval->loan_stock_id; // Assuming there's a userId column in the LoanStock model
-
-                                        if ($selectedLoanStock) {
-                                            $loanStock = loanStock::find($selectedLoanStock); // Assuming User model exists with a 'username' attribute
+                                        $selectedLoanStockId = $selectedApproval->loan_stock_id;
+                        
+                                        if ($selectedLoanStockId) {
+                                            $loanStock = LoanStock::find($selectedLoanStockId);
+                        
                                             if ($loanStock) {
-
-                                                $selectedLoanStock = "{$loanStock->estReturnDate} ";
+                                                $estReturnDate = $loanStock->estReturnDate;
+                        
                                                 // Compare estimated return date with current date
                                                 $currentDate = Carbon::now();
-                                                $estReturnDateCarbon = Carbon::parse($selectedLoanStock);
-
+                                                $estReturnDateCarbon = Carbon::parse($estReturnDate);
+                        
                                                 if ($currentDate > $estReturnDateCarbon) {
                                                     // Calculate the difference in days
                                                     $daysDifference = $currentDate->diffInDays($estReturnDateCarbon);
-
+                        
                                                     // Calculate penalties based on the difference (customize this logic as needed)
                                                     $penaltyAmount = $daysDifference * 1; // Example penalty calculation
-
+                        
+                                                    // Save the calculated penalty in the "penalty" attribute
+                                                    $selectedApproval->update(['penalty' => $penaltyAmount]);
+                        
                                                     // Add penalty information to the options array
-                                                    $options[$selectedLoanStock] = "Penalty: $penaltyAmount";
+                                                    $options[$penaltyAmount] = "Penalty: $penaltyAmount";
                                                 } else {
-                                                    $options[$selectedLoanStock] = "No penalty needed.";
+                                                    // No penalty needed
+                                                    $selectedApproval->update(['penalty' => null]); // Remove any previously set penalty value
+                                                    $options['No penalty needed'] = "No penalty needed";
                                                 }
                                             }
                                         }
                                     }
                                 }
-
+                        
                                 return $options;
                             })
                             ->reactive()
                             ->required(),
+                        
+
+                          
 
                         TextInput::make('name')
                             ->label('Supervisor Name')
@@ -230,9 +239,10 @@ class ReturnStockResource extends Resource
 
                         TextInput::make('remark')
                         ->string()
-                            ->label('Remark'),
+                            ->label('Return Stock Remark'),
+
                         Checkbox::make('status')
-                            ->label('Approval Status')->columnSpan('full'),
+                            ->label('Return Status')->columnSpan('full'),
                     ])
             ]);
     }

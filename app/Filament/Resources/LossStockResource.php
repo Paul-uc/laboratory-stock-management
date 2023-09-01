@@ -183,7 +183,8 @@ class LossStockResource extends Resource
     
                     TextInput::make('remark')
                     ->string()
-                        ->label('Remark'),
+                    ->required()
+                        ->label('Loss Type'),
     
                         
                     Checkbox::make('status')
