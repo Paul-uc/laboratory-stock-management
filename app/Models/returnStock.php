@@ -24,6 +24,7 @@ class returnStock extends Model
         'position',
         'remark', 
         'loan_stock_id',
+        'penalty',
       
 
     ]; //
@@ -37,6 +38,10 @@ class returnStock extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function loanStock():BelongsTo
+    {
+        return $this->belongsTo(loanStock::class);
+    }
    
 
     public function stock():BelongsTo

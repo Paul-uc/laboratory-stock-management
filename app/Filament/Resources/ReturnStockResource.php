@@ -177,7 +177,7 @@ class ReturnStockResource extends Resource
                             ->reactive()
                             ->required(),
 
-                        Select::make('penalty',)
+                        Select::make('penalty')
                             ->label('Penalty')
                             ->options(function (callable $get) {
                                 $approvalId = $get('approval_id'); // Get the previously selected loan_stock_id
@@ -186,30 +186,33 @@ class ReturnStockResource extends Resource
 
                                 if ($approvalId) {
                                     $selectedApproval = Approval::find($approvalId);
-                                        if ($selectedApproval) {
-                                            $selectedLoanStock = $selectedApproval->loan_stock_id; // Assuming there's a userId column in the LoanStock model
+                                    if ($selectedApproval) {
+                                        $selectedLoanStock = $selectedApproval->loan_stock_id; // Assuming there's a userId column in the LoanStock model
 
-                                            if ($selectedLoanStock) {
-                                                $loanStock = loanStock::find($selectedLoanStock); // Assuming User model exists with a 'username' attribute
-                                                if ($loanStock) {
+                                        if ($selectedLoanStock) {
+                                            $loanStock = loanStock::find($selectedLoanStock); // Assuming User model exists with a 'username' attribute
+                                            if ($loanStock) {
 
-                                                    $selectedLoanStock = "{$loanStock->estReturnDate} ";
-                                                    // Compare estimated return date with current date
-                                                    $currentDate = Carbon::now();
-                                                    $estReturnDateCarbon = Carbon::parse($selectedLoanStock);
+                                                $selectedLoanStock = "{$loanStock->estReturnDate} ";
+                                                // Compare estimated return date with current date
+                                                $currentDate = Carbon::now();
+                                                $estReturnDateCarbon = Carbon::parse($selectedLoanStock);
 
+                                                if ($currentDate > $estReturnDateCarbon) {
                                                     // Calculate the difference in days
                                                     $daysDifference = $currentDate->diffInDays($estReturnDateCarbon);
 
                                                     // Calculate penalties based on the difference (customize this logic as needed)
-                                                    $penaltyAmount = $daysDifference * 10; // Example penalty calculation
+                                                    $penaltyAmount = $daysDifference * 1; // Example penalty calculation
 
                                                     // Add penalty information to the options array
-                                                    $options[$selectedLoanStock] = " (Penalty: $penaltyAmount)";
+                                                    $options[$selectedLoanStock] = "Penalty: $penaltyAmount";
+                                                } else {
+                                                    $options[$selectedLoanStock] = "No penalty needed.";
                                                 }
                                             }
                                         }
-                                    
+                                    }
                                 }
 
                                 return $options;
@@ -252,7 +255,14 @@ class ReturnStockResource extends Resource
                     ->label('Supervisor Name')
                     ->weight(FontWeight::Bold)
                     ->sortable(),
-                TextColumn::make('position')->sortable(),
+
+                TextColumn::make('penalty')
+                    ->label('Penalty Amount')
+                    ->weight(FontWeight::Bold)
+                    ->sortable(),
+
+                
+              
                 TextColumn::make('remark')->sortable(),
                 TextColumn::make('created_at')->dateTime()
                     ->label('Returned At')

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('loan_stock_id')->constrained()->cascadeOnDelete();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->foreignId('stock_id')->constrained()->cascadeOnDelete();
+            $table->string('penalty')->constrained()->cascadeOnDelete();
             $table->string('userId')->constrained()->cascadeOnDelete();
             $table->boolean('status')->default(false);
             $table->string('name');
