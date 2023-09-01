@@ -45,8 +45,6 @@ class ReturnStockResource extends Resource
 
     public static function form(Form $form): Form
     {
-
-
         return $form
             ->schema([
                 Section::make('Return Stock Management')
@@ -222,13 +220,16 @@ class ReturnStockResource extends Resource
 
                         TextInput::make('name')
                             ->label('Supervisor Name')
+                            ->string()
                             ->required(),
 
                         TextInput::make('position')
                             ->label('Position')
+                            ->string()
                             ->required(),
 
                         TextInput::make('remark')
+                        ->string()
                             ->label('Remark'),
                         Checkbox::make('status')
                             ->label('Approval Status')->columnSpan('full'),
@@ -261,11 +262,10 @@ class ReturnStockResource extends Resource
                     ->weight(FontWeight::Bold)
                     ->sortable(),
 
-                
-              
                 TextColumn::make('remark')->sortable(),
                 TextColumn::make('created_at')->dateTime()
-                    ->label('Returned At')
+                ->dateTime('d-M-Y')->sortable()
+                    ->label('Returned At'),
             ])
             ->filters([
                 //

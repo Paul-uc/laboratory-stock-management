@@ -36,9 +36,9 @@ class DatabaseSeeder extends Seeder
         Approval::create(['loan_stock_id' => 3, 'stock_id' => 3, 'userId' => 2, 'status' => 1, 'name' => 'Moderator', 'position' => 'dean', 'remark' => 'testing']);
         Approval::create(['loan_stock_id' => 4, 'stock_id' => 4, 'userId' => 2, 'status' => 1, 'name' => 'Moderator', 'position' => 'dean', 'remark' => 'testing']);
 
-        returnStock::create(['loan_stock_id' => 1, 'approval_id' => 1, 'stock_id' => 1, 'user_id' => 2, 'penalty' => 20, 'userId' => 2, 'status' => 1, 'name' => 'Moderator', 'position' => 'dean', 'remark' => 'testing', 'created_at' => '2023-07-11 17:52:58.999999']);
-        returnStock::create(['loan_stock_id' => 2, 'approval_id' => 2, 'stock_id' => 2, 'user_id' => 2, 'penalty' => 20, 'userId' => 2, 'status' => 1, 'name' => 'Moderator', 'position' => 'dean', 'remark' => 'testing', 'created_at' => '2023-07-11 17:52:58.999999']);
+        returnStock::create(['loan_stock_id' => 1, 'approval_id' => 1, 'stock_id' => 1, 'user_id' => 2, 'penalty' => 'No penalty needed', 'userId' => 2, 'status' => 1, 'name' => 'Moderator', 'position' => 'dean', 'remark' => 'testing', 'created_at' => '2023-07-11 17:52:58.999999']);
+        returnStock::create(['loan_stock_id' => 2, 'approval_id' => 2, 'stock_id' => 2, 'user_id' => 2, 'penalty' => 'No penalty needed', 'userId' => 2, 'status' => 1, 'name' => 'Moderator', 'position' => 'dean', 'remark' => 'testing', 'created_at' => '2023-07-11 17:52:58.999999']);
 
-        lossStock::create(['approval_id' => 3, 'stock_id' => 3, 'user_id' => 2, 'status' => 1, 'userId' => 2, 'name' => 'Moderator', 'position' => 'dean', 'remark' => 'testing']);
+        lossStock::create(['loan_stock_id' => 3,'approval_id' => 3, 'stock_id' => 3, 'user_id' => 2, 'status' => 1, 'userId' => 2, 'name' => 'Moderator', 'position' => 'dean', 'remark' => 'testing']);
     }
 }

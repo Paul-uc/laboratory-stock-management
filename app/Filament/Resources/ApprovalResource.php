@@ -131,14 +131,16 @@ class ApprovalResource extends Resource
 
                         TextInput::make('name')
                             ->label('Supervisor Name')
-
+->string()
                             ->required(),
 
                         TextInput::make('position')
                             ->label('Position')
+                            ->string()
                             ->required(),
 
                         TextInput::make('remark')
+                        ->string()
                             ->label('Remark'),
 
                         Checkbox::make('status')
@@ -177,6 +179,7 @@ class ApprovalResource extends Resource
                 TextColumn::make('created_at')->dateTime()
                     ->icon('heroicon-m-calendar-days')
                     ->label('Approved At')
+                    ->dateTime('d-M-Y')->sortable(),
 
 
             ])

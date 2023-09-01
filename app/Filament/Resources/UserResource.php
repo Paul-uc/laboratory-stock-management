@@ -20,9 +20,11 @@ use Filament\Forms\Components\Card;
 use Filament\Forms\Components\Select;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Section;
 use Filament\Support\Enums\FontWeight;
+use Filament\Notifications\Notification;
+use Illuminate\Validation\ValidationException;
 
 
 class UserResource extends Resource
@@ -46,19 +48,21 @@ class UserResource extends Resource
                 ->schema([
                     // ...
                     TextInput::make('name')
-                    ->translateLabel()
+                    ->doesntEndWith(['admin'])
+                    ->alpha()
                     ->required()
                     ->maxLength(255),
                     
                TextInput::make('username')
-               ->translateLabel()
+             
                     ->required()
                     ->maxLength(255),
                 TextInput::make('email')
                     ->email()
                     ->required()
                     ->maxLength(255),
-                DateTimePicker::make('email_verified_at'),
+
+                DatePicker::make('email_verified_at'),
                TextInput::make('password')
                     ->password()
                     ->dehydrateStateUsing(fn ($state) => Hash::make($state))
@@ -79,6 +83,16 @@ class UserResource extends Resource
             ]);
     }
 
+
+ 
+protected function onValidationError(ValidationException $exception): void
+{
+    Notification::make()
+        ->title($exception->getMessage())
+        ->danger()
+        ->send();
+}
+
     public static function table(Table $table): Table
     {
         return $table
@@ -96,6 +110,7 @@ class UserResource extends Resource
                     ->sortable(),
                 TextColumn::make('email_verified_at')
                 ->translateLabel()
+                ->icon('heroicon-m-calendar-days')
                     ->dateTime('d-M-Y')->sortable(),
                
             ])

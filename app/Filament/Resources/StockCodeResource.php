@@ -40,8 +40,12 @@ class StockCodeResource extends Resource
                 ->schema([
                     // ...
                     Select::make('category_id')  
-                    ->relationship('category', 'categoryName'), 
+                    ->relationship('category', 'categoryName')->required(), 
                     TextInput::make('code')
+                    ->required()
+                    ->string(),
+                 
+                    TextInput::make('stockDescription') ->alphaNum()->required(),
                 ])
                 ->columns(2)
 
@@ -56,7 +60,12 @@ class StockCodeResource extends Resource
                 TextColumn::make('id')->sortable(),
                 TextColumn::make('Category.categoryName')->label('Category Name')->sortable(),       
                 TextColumn::make('code')->label('Stock Code')->searchable()->sortable(),
-                TextColumn::make('created_at')->dateTime()
+                TextColumn::make('serial_numbers_count')->label('Stock Quantity')
+                ->searchable()
+                ->sortable() 
+                ->counts('serial_numbers'),
+                TextColumn::make('stockDescription')->label('Stock Description')->searchable()->sortable(),
+                TextColumn::make('created_at')->dateTime('d-M-Y')->sortable() ->icon('heroicon-m-calendar-days'),
             ])
             ->filters([
                 //

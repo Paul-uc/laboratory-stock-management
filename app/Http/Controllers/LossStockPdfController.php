@@ -2,32 +2,32 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\returnStock;
+use App\Models\Category;
+use App\Models\lossStock;
+use App\Models\Stock;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 
-
-use App\Models\Category;
-use App\Models\Stock;
-use App\Models\User;
-
-class ReturnStockPdfController extends Controller
+class LossStockPdfController extends Controller
 {
     public function download($id)
     {
-        $returnStockModel = returnStock::find($id);
+        $lossStockModel = lossStock::find($id);
 
-        if ($returnStockModel) {
+        if ($lossStockModel) {
             // Assign fetched data to variables
-            $username = $returnStockModel->userId;
+            $username = $lossStockModel->userId;
             if ($username) {
                 $user = User::find($username); // Assuming User model exists with a 'username' attribute
+
+              
                 if ($username) {
                     $formattedOption = "{$user->username} ";
                     $username = $formattedOption;
                 }
             }
-            $name = $returnStockModel->userId;
+            $name = $lossStockModel->userId;
 
             $user = User::find($name); // Assuming User model exists with a 'name' attribute
             if ($name) {
@@ -35,32 +35,35 @@ class ReturnStockPdfController extends Controller
                 $name = $formattedOption;
             }
 
-            $category_id = $returnStockModel->stock_id;
-            $stock = Stock::find($category_id); // Assuming Stock model exists with a 'category_id' attribute
+            $category_id = $lossStockModel->stock_id;
+            $stock = Stock::find($category_id); // Assuming User model exists with a 'name' attribute
             if ($stock) {
                 $formattedOption = "{$stock->category_id} ";
                 $category_id = $formattedOption;
             }
 
             $categoryName = $category_id;
-            $category = Category::find($categoryName); // Assuming Category model exists with a 'categoryName' attribute
+            $category = Category::find($categoryName); // Assuming User model exists with a 'name' attribute
             if ($categoryName) {
                 $formattedOption = "{$category->categoryName} ";
                 $categoryName = $formattedOption;
             }
-        
-            $loan_stock_id = $returnStockModel->id;
-            $status = $returnStockModel->status;
-            $statusString = $status ? 'Returned' : 'Not Returned';
-            $names = $returnStockModel->name;
-            $position = $returnStockModel->position;
-            $remark = $returnStockModel->remark;
-            $penalty = $returnStockModel->penalty;
+           
+           
+
+            $loan_stock_id = $lossStockModel->loan_stock_id;
+            $status = $lossStockModel->status;
+            $statusString = $status ? 'Paid' : 'Pending for payment';
+            $names = $lossStockModel->name;
+            $position = $lossStockModel->position;
+            $remark = $lossStockModel->remark;
+
+
+
 
             $pdf = Pdf::loadView(
-                'pdf.return',
+                'pdf.loss',
                 [
-                    'title' => 'TARUMT Return Stock Summary Report',
                     'name' => $name,
                     'username' => $username,
                     'category' => $categoryName,
@@ -68,11 +71,10 @@ class ReturnStockPdfController extends Controller
                     'status' => $statusString,
                     'names' => $names,
                     'position' => $position,
-                    'remark' => $remark,
-                    'penalty' => $penalty
+                    'remark' => $remark
                 ],
             );
-            return $pdf->download('ReturnStock.pdf');
+            return $pdf->download('lossStock.pdf');
         }
     }
 }

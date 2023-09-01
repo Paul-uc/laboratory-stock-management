@@ -36,7 +36,10 @@ class CategoryResource extends Resource
                 ->aside()
                 ->schema([
                     // ...
-                    TextInput::make('categoryName')->label('Category Name'),
+                    TextInput::make('categoryName')
+                    ->label('Category Name')
+                    ->required()
+                    ->alpha(),
                 ])
                 ->columnSpan('full')
 
@@ -51,7 +54,7 @@ class CategoryResource extends Resource
                 //
                 TextColumn::make('id')->sortable(),
                 TextColumn::make('categoryName')->label('Category Name')->searchable()->sortable(),
-                TextColumn::make('created_at')->dateTime()
+                TextColumn::make('created_at')->dateTime('d-M-Y')->sortable(),
                 
             ])
             ->filters([

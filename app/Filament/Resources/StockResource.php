@@ -52,7 +52,8 @@ class StockResource extends Resource
                             Select::make('category_id')  
                             ->label('Category')
                             ->options(Category::all()->pluck('categoryName', 'id')->toArray())
-                            ->reactive(), 
+                            ->reactive()
+                            ->required(), 
         
                             Select::make('stock_code_id')  
                             ->label('Stock Code')
@@ -63,7 +64,8 @@ class StockResource extends Resource
                                 }
                                 return $category->stockCode->pluck('code', 'id');
                             })
-                            ->reactive(), 
+                            ->reactive()
+                            ->required(), 
                         ]),
                     Wizard\Step::make('Enter Stock Details ')
                     ->description('Enter Stock Details for the new stock')
@@ -71,10 +73,11 @@ class StockResource extends Resource
                         ->columns(1)
                         ->schema([
                             // ...
-                            TextInput::make('serialNumber'),            
-                            TextInput::make('stockDescription'),                                    
-                            DatePicker::make('warrantyEndDate'),
-                            DatePicker::make('warrantyStartDate'),
+                            TextInput::make('serialNumber') ->required()->string(),            
+                           
+                            DatePicker::make('warrantyStartDate') ->before('first day of next month')->required(),                                    
+                            DatePicker::make('warrantyEndDate')->after('warrantyStartDate') ->required(),
+                           
                         ]),
                     Wizard\Step::make('Enter Stock Quantity ')
                     ->description('Enter the quantity of Stock')
@@ -82,9 +85,9 @@ class StockResource extends Resource
                         ->columns(1)
                         ->schema([
                             // ...
-                            TextInput::make('stockQuantity'),
-                            TextInput::make('price'),
-                            Checkbox::make('stockAvailability'),
+                          
+                            TextInput::make('price') ->required()->numeric(),
+                            Checkbox::make('stockAvailability') ->required(),
                         ]),
                 ])->columnSpan('full')
                     ]);
@@ -101,14 +104,14 @@ class StockResource extends Resource
                 TextColumn::make('Category.categoryName')->sortable(),               
                 TextColumn::make('stockCode.code')->sortable(),                    
                 TextColumn::make('serialNumber')->searchable()->sortable(),
-                TextColumn::make('stockQuantity')->searchable()->sortable(),
+               
                 IconColumn::make('stockAvailability')  
                 ->boolean()
                 ->label('Ready to Loan')
                 ->trueIcon('heroicon-o-check-badge')
                 ->falseIcon('heroicon-o-x-circle')
                 ->sortable(),   
-
+                TextColumn::make('price')->sortable(),
                 TextColumn::make('created_at')->dateTime('d-M-Y')->sortable(),
                 
             ])      

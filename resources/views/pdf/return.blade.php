@@ -45,51 +45,57 @@
 
                 <div class="invoice p-5">
 
-                    <h5>Summary Return Report is Stated as below!</h5>
+                    <h5>Summary Return Report</h5>
 
-
-                    <span class="font-weight-bold d-block mt-4"></span>
-                    <span>You Returned is being review and received!</span>
-
-                    <div class="payment border-top mt-3 mb-3 border-bottom table-responsive">
-
-                        <table border="0" cellpadding="0" cellspacing="0" id="sheet0" class="sheet0">
-                            <thead>
-                                <tr class="row0">
-                                <th> <span class="d-block text-muted">Loan Stock Id</span> </th>
-                                    <th> <span class="d-block text-muted">Name:</span> </th>
-                                    <th> <span class="d-block text-muted">ID Number: </span> </th>
-                                    <th> <span class="d-block text-muted">Status</span> </th>
-                                    <th> <span class="d-block text-muted">Stock Category</span> </th>
-                                 
-                                    <th> <span class="d-block text-muted">Approval By</span> </th>
-                                    <th> <span class="d-block text-muted">Approval Position</span> </th>
-                                    <th> <span class="d-block text-muted">Remarks</span> </th>
-
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr class="row1">
-                                <td> <span>{{$loan_stock_id}}</span> </td>
-                                    <td> <span>{{$name}}</span> </td>
-                                    <td> <span>{{$username}}</span> </td>
-                                    <td> <span>{{$status}}</span> </td>
-                                    <td> <span>{{$category}}</span> </td>
-                                    
-                                    <td> <span>{{$names}}</span> </td>
-                                    <td> <span>{{$position}}</span> </td>
-                                    <td> <span>{{$remark}}</span> </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <div> <span class="font-weight-bold d-block mt-4"></span>
+                        <span>Approved By <span>{{$position}}</span> of FOCS <span>{{$names}}</span>
+                        </span>
                     </div>
-                    <p>Thank you for choosing TARUMT Laboratory System, see you again!</p>
-                    <p class="font-weight-bold mb-0">Thanks for collaboration!</p>
-                    <span>TARUMT Team</span>
+
+
                 </div>
+
+
             </div>
+            <div class="payment border-top mt-3 mb-3 border-bottom table-responsive">
+
+                <table border="0" cellpadding="0" cellspacing="0" id="sheet0" class="sheet0">
+                    <thead>
+                        <tr class="row0">
+                            <th> <span class="d-block text-muted">Loan Stock Id</span> </th>
+                            <th> <span class="d-block text-muted">Name:</span> </th>
+                            <th> <span class="d-block text-muted">ID Number: </span> </th>
+                            <th> <span class="d-block text-muted">Status</span> </th>
+                            <th> <span class="d-block text-muted">Stock Category</span> </th>
+                            <th> <span class="d-block text-muted">Penalty Amount</span> </th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="row1">
+                            <td> <span>{{$loan_stock_id}}</span> </td>
+                            <td> <span>{{$name}}</span> </td>
+                            <td> <span>{{$username}}</span> </td>
+                            <td> <span>{{$status}}</span> </td>
+                            <td> <span>{{$category}}</span> </td>
+                            <td> <span>{{$penalty}}</span> </td>
+                        </tr>
+                    </tbody>
+
+                </table>
+                <div>
+                    <span class="d-block text-muted">Remarks:</span>
+                    <span>{{$remark}}</span>
+                </div>
+
+            </div>
+            <p>Thank you for choosing TARUMT Laboratory System, see you again!</p>
+            <p class="font-weight-bold mb-0">Thanks for collaboration!</p>
+            <span>TARUMT Team</span>
         </div>
     </div>
+</div>
+</div>
 </div>
 
 </html>

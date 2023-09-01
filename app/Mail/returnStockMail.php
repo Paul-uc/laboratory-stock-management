@@ -1,7 +1,7 @@
 <?php
-  
+
 namespace App\Mail;
-  
+
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -9,8 +9,8 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Mail\Mailables\Attachment;
-  
-class MailExample extends Mailable
+
+class returnStockMail extends Mailable
 {
     use Queueable, SerializesModels;
   
@@ -40,7 +40,7 @@ class MailExample extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'pdf.index',
+            view: 'pdf.return',
             with: $this->mailData
         );
     }
@@ -54,7 +54,7 @@ class MailExample extends Mailable
     public function attachments(): array
     {
         return [
-            Attachment::fromData(fn () => $this->mailData['pdf']->output(), 'Approval.pdf')
+            Attachment::fromData(fn () => $this->mailData['pdf']->output(), 'ReturnStock.pdf')
                 ->withMime('application/pdf'),
         ];
     }

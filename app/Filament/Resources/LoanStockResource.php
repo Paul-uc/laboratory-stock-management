@@ -66,6 +66,20 @@ class LoanStockResource extends Resource
                                 })
                                 ->reactive()
                                 ->required(),
+
+                                Select::make('stock_id')
+                                ->label('Stock Serial Number')
+                                ->options(function (callable $get) {
+                                    $category = stockCode::find($get('category_id'));
+                                   
+                                    if (!$category) {
+                                        return Stock::all()->pluck('serialNumber', 'id');
+                                    }
+                                    return $category->stock->pluck('serialNumber', 'id');
+                                })
+                                ->reactive()
+                                ->required(),
+                                
                         ]),
 
                     Wizard\Step::make('Select User')
@@ -107,24 +121,31 @@ class LoanStockResource extends Resource
                             // ...
                             TextInput::make('email')
                                 ->label('Email address')
-                                ->email(),
+                                ->email()
+                                ->required(),
                             TextInput::make('phoneNumber')
                                 ->label('Phone Number')
                                 ->tel()
-                                ->prefix('60+'),
+                                ->prefix('60+')->required(),
                             TextInput::make('supervisorName')
-                                ->label('TAR UMT supervisor(s) or lecturer(s) name involved in approved project (if applicable)')
-                                ,
+                            ->string()
+                                ->label('TAR UMT supervisor(s) or lecturer(s) name involved in approved project (if applicable)')->required(),
+                                
 
                             DatePicker::make('startLoanDate')
-                                ->label('Start Loan Date'),
+                                ->label('Start Loan Date')
+                                ->required(),
 
                             DatePicker::make('estReturnDate')
                                 ->after('startLoanDate')
-                                ->label('Estimated Return Date'),
+                                ->label('Estimated Return Date')
+                                ->after('startLoanDate')
+                                ->required(),
 
                             TextArea::make('reason')
-                                ->label('Reason to Loan'),
+                                ->label('Reason to Loan')
+                                ->alphaNum()
+                                ->required(),
 
                             Checkbox::make('termsAndCondition')
                                 ->label('By ticking, I hereby agree with the Terms and Conditions')
@@ -155,7 +176,8 @@ class LoanStockResource extends Resource
                     ->weight(FontWeight::Bold)
                     ->sortable(),
 
-                TextColumn::make('estReturnDate')->sortable(),
+                TextColumn::make('estReturnDate')
+                ->dateTime('d-M-Y')->sortable() ->icon('heroicon-m-calendar-days'),
 
             ])
             ->filters([

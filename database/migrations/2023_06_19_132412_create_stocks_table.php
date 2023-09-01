@@ -17,13 +17,13 @@ return new class extends Migration
             $table->foreignId('stock_code_id')->constrained()->cascadeOnDelete();
 
             $table->string('serialNumber');
-            $table->string('stockDescription');
+
 
             $table->string('warrantyStartDate');
             $table->string('warrantyEndDate');
             
            
-            $table->integer('stockQuantity');
+           
             $table->integer('price');
             
             $table->boolean('stockAvailability')->default(false);

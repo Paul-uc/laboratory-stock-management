@@ -14,6 +14,8 @@ class stockCode extends Model
     protected $fillable = [
         'category_id',
         'code',
+
+        'stockDescription',
     ];
 
     //belongs to relationship
@@ -21,6 +23,11 @@ class stockCode extends Model
     {
         return $this->belongsTo(Category::class);
     }
+     //belongs to relationship
+     public function stocks():BelongsTo
+     {
+         return $this->belongsTo(Stock::class);
+     }
 
 
     //has many relations
@@ -28,6 +35,12 @@ class stockCode extends Model
     {
         return $this->hasMany(Stock::class);
     }
+
+    public function serial_numbers():HasMany
+    {
+        return $this->hasMany(Stock::class);
+    }
+
 
     public function loan():HasMany
     {

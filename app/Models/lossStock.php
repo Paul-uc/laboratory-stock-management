@@ -19,6 +19,7 @@ class lossStock extends Model
         'name',
         'position',
         'remark', 
+        'loan_stock_id',
         
 ]; //
 

@@ -6,6 +6,7 @@ use App\Filament\Resources\LossStockResource\Pages;
 use App\Filament\Resources\LossStockResource\RelationManagers;
 use App\Models\Approval;
 use App\Models\Category;
+use App\Models\loanStock;
 use App\Models\LossStock;
 use App\Models\returnStock;
 use App\Models\stockCode;
@@ -29,6 +30,8 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Section;
 use Filament\Support\Enums\FontWeight;
 
+use Filament\Tables\Columns\IconColumn;
+
 class LossStockResource extends Resource
 {
     protected static ?string $model = LossStock::class;
@@ -44,7 +47,7 @@ class LossStockResource extends Resource
             ->schema([
                 //
                 Section::make('Loss Stock Management')
-                ->description('Please ensure the penalty has been paid')
+                ->description('Please ensure to pay the penalty')
                 ->aside()
                 ->schema([
           
@@ -92,7 +95,31 @@ class LossStockResource extends Resource
                         ->required(),
     
                       
-    
+                        Select::make('loan_stock_id',)
+                            ->label('Loan Stock Id')
+                            ->options(function (callable $get) {
+                                $selectedApprovalkId = $get('approval_id'); // Get the previously selected loan_stock_id
+
+                                $options = [];
+
+                                if ($selectedApprovalkId) {
+
+                                    $selectedApproval = Approval::find($selectedApprovalkId);
+
+
+                                    if ($selectedApproval) {
+                                        $selectedLoanStock = $selectedApproval->loan_stock_id; // Assuming there's a userId column in the LoanStock model
+
+                                    
+                                      
+                                    }
+                                    $options[$selectedLoanStock] = $selectedLoanStock;
+                                }
+
+                                return $options;
+                            })
+                            ->reactive()
+                            ->required(),
                         
                         Select::make('stock_id') 
                         ->label('Stock id')
@@ -145,14 +172,17 @@ class LossStockResource extends Resource
     
     
                     TextInput::make('name')
-                        ->label('Supervisor Name')
+                    ->string()
+                        ->label('Reiewer Name')
                         ->required(),
     
                     TextInput::make('position')
+                    ->string()
                         ->label('Position')
                         ->required(),
     
                     TextInput::make('remark')
+                    ->string()
                         ->label('Remark'),
     
                         
@@ -180,15 +210,23 @@ class LossStockResource extends Resource
                 
              
                 TextColumn::make('name')
-                    ->label('Supervisor Name')
+                    ->label('Reviewer Name')
                     ->weight(FontWeight::Bold)
                     ->sortable(),
 
+                    IconColumn::make('status')
+                    ->label('Payment Status')
+                    ->boolean()
+                  
+                    ->trueIcon('heroicon-o-check-badge')
+                    ->falseIcon('heroicon-o-x-circle') ,
+
                 TextColumn::make('position')->sortable(),
                 TextColumn::make('remark')->sortable()
-                ->label('Loss Destination'),
+                ->label('Loss Type'),
                 TextColumn::make('created_at')->dateTime()
-                ->label('Loss At')
+                ->label('Loss Record at')
+                ->dateTime('d-M-Y')->sortable() ->icon('heroicon-m-calendar-days'),
             ])
             ->filters([
                 //
@@ -198,12 +236,12 @@ class LossStockResource extends Resource
                 Tables\Actions\DeleteAction::make(),
                 Action::make('Send pdf')
                 ->icon('heroicon-o-paper-airplane')
-                ->url(fn (LossStock $record) => route('returnStock.download', $record))
+                ->url(fn (LossStock $record) => route('lossStock.download', $record))
                 ->openUrlInNewTab(),
 
             Action::make('Dowload pdf')
                 ->icon('heroicon-o-document-arrow-down')
-                ->url(fn (LossStock $record) => route('returnStock.pdf.download', $record))
+                ->url(fn (LossStock $record) => route('lossStock.pdf.download', $record))
                 ->openUrlInNewTab(),
             ])
             ->bulkActions([

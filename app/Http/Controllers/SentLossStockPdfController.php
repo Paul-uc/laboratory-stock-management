@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\lossStockMail;
 use App\Mail\MailExample;
-use App\Mail\returnStockMail;
 use App\Models\Category;
+use App\Models\lossStock;
 use App\Models\returnStock;
 use App\Models\Stock;
 use App\Models\User;
@@ -12,52 +13,59 @@ use PDF;
 use Mail;
 use Illuminate\Http\Request;
 
-class SentReturnStockPdfController extends Controller
+class SentLossStockPdfController extends Controller
 {
-   public function index($id)
+    /**
+     * Display a listing of the resource.
+     */
+    public function index($id)
     {
-        $returnStockModel = returnStock::find($id);
+        $approval = lossStock::find($id);
 
-        if ($returnStockModel) {
-            // Assign fetched data to variables
-            $username = $returnStockModel->userId;
+        if ($approval) {
+            //Assign fetched data to variables
+            $username = $approval->userId;
+
             if ($username) {
                 $user = User::find($username); // Assuming User model exists with a 'username' attribute
-                if ($username) {
-                    $formattedOption = "{$user->username} ";
+
+                if ($user) {
+                    $formattedOption = "{$user->username}";
                     $username = $formattedOption;
                 }
             }
-            $name = $returnStockModel->userId;
+            $name = $approval->userId;
 
             $user = User::find($name); // Assuming User model exists with a 'name' attribute
-            if ($name) {
+            if ($user) {
                 $formattedOption = "{$user->name} ";
                 $name = $formattedOption;
             }
 
-            $category_id = $returnStockModel->stock_id;
-            $stock = Stock::find($category_id); // Assuming Stock model exists with a 'category_id' attribute
+            $category_id = $approval->stock_id;
+            $stock = Stock::find($category_id); // Assuming User model exists with a 'name' attribute
             if ($stock) {
                 $formattedOption = "{$stock->category_id} ";
                 $category_id = $formattedOption;
             }
 
             $categoryName = $category_id;
-            $category = Category::find($categoryName); // Assuming Category model exists with a 'categoryName' attribute
+            $category = Category::find($categoryName); // Assuming User model exists with a 'name' attribute
             if ($categoryName) {
                 $formattedOption = "{$category->categoryName} ";
                 $categoryName = $formattedOption;
             }
-        
-            $loan_stock_id = $returnStockModel->id;
-            $status = $returnStockModel->status;
-            $statusString = $status ? 'Returned' : 'Not Returned';
-            $names = $returnStockModel->name;
-            $position = $returnStockModel->position;
-            $remark = $returnStockModel->remark;
-            $penalty = $returnStockModel->penalty;
 
+
+
+
+
+            $loan_stock_id = $approval->loan_stock_id;
+            $status = $approval->status;
+            $statusString = $status ? 'Approved' : 'Not Approved';
+            $names = $approval->name;
+            $position = $approval->position;
+            $remark = $approval->remark;
 
             $data = [
                 'title' => 'TARUMT Return Stock Summary Report',
@@ -69,14 +77,13 @@ class SentReturnStockPdfController extends Controller
 
                 'names' => $names,
                 'position' => $position,
-                'remark' => $remark,
-                'penalty' => $penalty
+                'remark' => $remark
             ];
 
-            $pdf = PDF::loadView('pdf.return', $data);
+            $pdf = PDF::loadView('pdf.loss', $data);
             $data["pdf"] = $pdf;
 
-            Mail::to(["your@gmail.com"])->send(new returnStockMail($data));
+            Mail::to(["your@gmail.com"])->send(new lossStockMail($data));
 
 
             return redirect();

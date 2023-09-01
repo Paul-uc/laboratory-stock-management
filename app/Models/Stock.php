@@ -16,7 +16,7 @@ class Stock extends Model
         'stock_code_id',
         
         'serialNumber',
-        'stockDescription',
+
 
         'warrantyStartDate',
         'warrantyEndDate',
@@ -39,7 +39,7 @@ class Stock extends Model
     }
 
 //has many relations
-    public function LoanStock():HasMany
+    public function loanStock():HasMany
     {
         return $this->hasMany(loanStock::class);
     }

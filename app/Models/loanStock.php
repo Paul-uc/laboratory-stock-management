@@ -34,7 +34,7 @@ class loanStock extends Model
         return $this->belongsTo(Category::class);
     }
 
-    public function Stock():BelongsTo
+    public function stock():BelongsTo
     {
         return $this->belongsTo(Stock::class);
     }
