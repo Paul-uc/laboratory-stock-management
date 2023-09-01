@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use Filament\Models\Contracts\FilamentUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -13,10 +13,11 @@ use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Str;
 
 
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 //implements FilamentUser
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
@@ -34,6 +35,9 @@ class User extends Authenticatable
         'email',
         'password',
         'username',
+        'provider',
+        'provider_id',
+        'provider_token'
     ];
 
     /**
@@ -56,10 +60,22 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    public static function generateUserName($username)
+    {
+        if($username === null){
+            $username = Str::lower(Str::random(8));
+        }
+        if(User::where('username', $username)->exists()){
+            $newUsername = $username.Str::lower(Str::random(3));
+            $username = self::generateUserName($newUsername);
+        }
+        return $username;
+    }
+
     public function isAdmin()
-{
+    {
     return $this->roles->whereIn('name', ['SuperAdmin', 'Admin'])->count() > 0;
-}
+    }
 
     public function loans():HasMany
     {

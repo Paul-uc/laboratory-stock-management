@@ -72,11 +72,11 @@
                 });
             }
         </script>
-{{--        <script>--}}
+<!-- {{--        <script>--}}
 {{--            function onSubmit(token) {--}}
 {{--                document.getElementById("registerForm").submit();--}}
 {{--            }--}}
-{{--        </script>--}}
+{{--        </script>--}} -->
         <script>
             grecaptcha.ready(function () {
                 document.getElementById('registerForm').addEventListener("submit", function (event) {
