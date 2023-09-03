@@ -1,11 +1,11 @@
 <x-app-layout>
     <x-slot name="header">
         <div class="flex justify-between items-center">
-            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight ">
                 {{ __('Loan Stock Records') }}
             </h2>
             <div>
-                <a href="{{ route('loans.create') }}" class="dark:text-white hover:text-slate-200">
+                <a href="{{ route('loans.create') }}" class="dark:text-white hover:text-slate-200 ">
                     New Loans
                 </a>
             </div>

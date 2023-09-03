@@ -14,8 +14,8 @@
         <script src="https://www.google.com/recaptcha/api.js?render={{ config('services.recaptcha.site_key') }}"></script>
 {{--        <script src="https://www.google.com/recaptcha/api.js"></script>--}}
     </head>
-    <body class="font-sans text-gray-900 antialiased">
-        <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100 dark:bg-gray-900">
+    <body class="font-sans text-gray-900 antialiased" >
+        <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 "style="background-image: url('/images/guest_background.png'); background-size: cover; background-position: center;">
             <div>
                 <a href="/">
                     <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
