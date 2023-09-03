@@ -9,7 +9,7 @@ use App\Mail\ContactFormMail;
 class ContactController extends Controller
 {
     
-    public function showContactForm()
+    public function show()
     {
         return view('terms-and-conditions.contact');
     }

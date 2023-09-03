@@ -33,7 +33,7 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    return view('loan');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/auth/{provider}/redirect', [ProviderController::class, 'redirect']);
@@ -46,6 +46,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::resource('/loans', LoanController::class,);
+    
+   
 
     Route::get('/{record}/DowloadApproval/download', [DownloadPdfController::class, 'download'])->name('approval.pdf.download');
     Route::get('/{record}/DowloadReturnStock/dowload', [ReturnStockPdfController::class, 'download'])->name('returnStock.pdf.download');
@@ -60,7 +62,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/{record}/SentLossStock/index', [SentLossStockPdfController::class, 'index'])->name('lossStock.download');
 
     Route::get('/terms-and-conditions/index', [TermsAndConditionsController::class, 'index'])->name('terms-and-conditions');
-    Route::get('/contact', [ContactController::class, 'showContactForm'])->name('contact');
+    Route::get('/contact', [ContactController::class, 'show'])->name('contact');
     Route::post('/contact', [ContactController::class, 'sendContactForm'])->name('contact.send');
    
 

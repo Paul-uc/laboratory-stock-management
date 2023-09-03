@@ -11,22 +11,25 @@
                 </div>
 
                 <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
-                    </x-nav-link>
-                </div>
+
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('loans.index')" :active="request()->routeIs('loans')">
-                        {{ __('Loan') }}
+                        {{ __('Loan Stock Dashboard') }}
                     </x-nav-link>
+                </div>
+
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                <x-nav-link :href="route('contact')"> <!-- Update the route name here -->
+    {{ __('Contact Us') }}
+</x-nav-link>
+
                 </div>
             </div>
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ml-6">
-               
-                <img src="http://ui-avatars.com/api/?name={{ urlencode(auth()->user()->name)}}" width="20" class="rounded-full m-1 h-12 w-12 relative justify-center uppercase bg-gray-200 flex items-center text-2xl font-semibold" v-text="name.split(' ').slice(0, 2).join(' ').split(' ').map((n) => n[0]).join('')"/>
+
+                <img src="http://ui-avatars.com/api/?name={{ urlencode(auth()->user()->name)}}" width="20" class="rounded-full m-1 h-12 w-12 relative justify-center uppercase bg-gray-200 flex items-center text-2xl font-semibold" v-text="name.split(' ').slice(0, 2).join(' ').split(' ').map((n) => n[0]).join('')" />
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
@@ -49,8 +52,7 @@
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
 
-                            <x-dropdown-link :href="route('logout')"
-                                    onclick="event.preventDefault();
+                            <x-dropdown-link :href="route('logout')" onclick="event.preventDefault();
                                                 this.closest('form').submit();">
                                 {{ __('Log Out') }}
                             </x-dropdown-link>
@@ -95,8 +97,7 @@
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
 
-                    <x-responsive-nav-link :href="route('logout')"
-                            onclick="event.preventDefault();
+                    <x-responsive-nav-link :href="route('logout')" onclick="event.preventDefault();
                                         this.closest('form').submit();">
                         {{ __('Log Out') }}
                     </x-responsive-nav-link>

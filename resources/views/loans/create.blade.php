@@ -113,7 +113,9 @@
                     <div class="col-md-6 form-check">
                         <div class="form-check form-check-inline">
                             <input type="checkbox" id="termsAndCondition" name="termsAndCondition" value="1">
-                            <label class="form-check-label" for="termsAndCondition">I have read and agree to the terms and conditions</label>
+                            <label class="form-check-label" for="termsAndCondition">
+                                I have read and agree to the <a href="{{ route('terms-and-conditions') }}" target="_blank" class="text-blue-500">terms and conditions</a>
+                            </label>
                             @error('termsAndCondition')
                             <div class="text-sm text-red-400">{{ $message }}</div>
                             @enderror
