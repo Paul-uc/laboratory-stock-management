@@ -7,7 +7,7 @@ use App\Models\Approval;
 use App\Models\Category;
 use App\Models\Stock;
 use App\Models\User;
-
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use App\Mail\MailExample;
 use App\Mail\SentMail;
 use Mail;
@@ -60,7 +60,7 @@ class DownloadPdfController extends Controller
             }
            
            
-
+            $id = $approval->id;
             $loan_stock_id = $approval->loan_stock_id;
             $status = $approval->status;
             $statusString = $status ? 'Approved' : 'Not Approved';
@@ -68,12 +68,15 @@ class DownloadPdfController extends Controller
             $position = $approval->position;
             $remark = $approval->remark;
 
+           
+            $id = QrCode::format('png')->size(100)->generate($id);
 
 
 
             $pdf = Pdf::loadView(
                 'pdf.index',
                 [
+                    'id' => $id,
                     'name' => $name,
                     'username' => $username,
                     'category' => $categoryName,

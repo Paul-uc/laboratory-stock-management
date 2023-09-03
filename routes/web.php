@@ -7,6 +7,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\LoanController;
 use App\Http\Controllers\LossStockPdfController;
 use App\Http\Controllers\PDFController;
+
 use App\Http\Controllers\ReturnStockPdfController;
 use App\Http\Controllers\SentLossStockPdfController;
 use App\Http\Controllers\SentReturnStockPdfController;
@@ -61,7 +62,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/terms-and-conditions/index', [TermsAndConditionsController::class, 'index'])->name('terms-and-conditions');
     Route::get('/contact', [ContactController::class, 'showContactForm'])->name('contact');
     Route::post('/contact', [ContactController::class, 'sendContactForm'])->name('contact.send');
-
+   
 
 
     Route::middleware(['auth', 'admin'])->group(function () {

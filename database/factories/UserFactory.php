@@ -17,12 +17,20 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+        $numericPart = rand(10, 99); // Generate a random 2-digit numeric part
+$alphabetPart = strtoupper(Str::random(3)); // Generate a random 3-character alphabet part
+$numericPart2 = rand(10000, 99999); // Generate a random 5-digit numeric part
         return [
+           
             'name' => fake()->name(),
+            'username' => $numericPart . $alphabetPart . $numericPart2,
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token' => Str::random(10),
+            'avatar' => $this->faker->imageUrl(640, 480, 'people', true),
+
+
         ];
     }
 

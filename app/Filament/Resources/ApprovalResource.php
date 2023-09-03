@@ -190,6 +190,11 @@ class ApprovalResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
+                Action::make('View QR Code')
+                ->icon('heroicon-o-qr-code')
+                ->url(fn (Approval $record) => static::getUrl('qr-code', ['record' => $record])),
+                
+
                 Action::make('Send pdf')
                     ->icon('heroicon-o-paper-airplane')
                     ->url(fn (Approval $record) => route('approval.download', $record))
@@ -218,6 +223,7 @@ class ApprovalResource extends Resource
             'index' => Pages\ListApprovals::route('/'),
             'create' => Pages\CreateApproval::route('/create'),
             'edit' => Pages\EditApproval::route('/{record}/edit'),
+            'qr-code' => Pages\ViewQrCode::route('/{record}/qr-code'),
         ];
     }
 }

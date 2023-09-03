@@ -10,6 +10,7 @@
     "require": {
         "php": "^8.1",
         "barryvdh/laravel-dompdf": "^2.0",
+        "fakerphp/faker": "^1.23",
         "filament/filament": "*",
         "filament/tables": "*",
         "filament/widgets": "^3.0",
@@ -22,14 +23,16 @@
         "laravel/socialite": "^5.8",
         "laravel/tinker": "^2.8",
         "laraveldaily/laravel-invoices": "^3.1",
+        "laravolt/avatar": "^5.0",
+        "league/flysystem-aws-s3-v3": "3.0",
         "livewire/livewire": "*",
+        "simplesoftwareio/simple-qrcode": "~4",
         "spatie/laravel-activitylog": "^4.7",
         "spatie/laravel-permission": "^5.10",
         "tightenco/ziggy": "^1.0"
     },
     "require-dev": {
         "doctrine/dbal": "^3.6",
-        "fakerphp/faker": "^1.9.1",
         "filament/upgrade": "3.0-stable",
         "laravel/breeze": "^1.21",
         "laravel/pint": "^1.0",
@@ -38,6 +41,7 @@
         "nunomaduro/collision": "^7.0",
         "pestphp/pest": "^2.0",
         "pestphp/pest-plugin-laravel": "^2.0",
+        "smknstd/fakerphp-picsum-images": "^1.0",
         "spatie/laravel-ignition": "^2.0"
     },
     "autoload": {

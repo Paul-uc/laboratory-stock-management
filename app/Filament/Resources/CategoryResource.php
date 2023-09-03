@@ -13,9 +13,10 @@ use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Forms\Components\TextInput;
-
+use Filament\Forms\Components\FileUpload;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\Section;
+use Filament\Tables\Columns\ImageColumn;
 
 class CategoryResource extends Resource
 {
@@ -40,9 +41,25 @@ class CategoryResource extends Resource
                     ->label('Category Name')
                     ->required()
                     ->alpha(),
-                ])
-                ->columnSpan('full')
 
+                    FileUpload::make('image')
+                  
+                 
+                    
+                   
+                    
+                    
+                 
+                    ,
+                ])
+
+              
+            
+
+                ->columnSpan('full'),
+                
+ 
+              
                 
             ]);
     }
@@ -54,6 +71,10 @@ class CategoryResource extends Resource
                 //
                 TextColumn::make('id')->sortable(),
                 TextColumn::make('categoryName')->label('Category Name')->searchable()->sortable(),
+                ImageColumn::make('image')
+                ->label('Category Image') 
+                ->size(70)
+                ->circular(), 
                 TextColumn::make('created_at')->dateTime('d-M-Y')->sortable(),
                 
             ])

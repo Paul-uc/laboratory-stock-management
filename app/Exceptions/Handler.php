@@ -23,8 +23,8 @@ class Handler extends ExceptionHandler
      */
     public function register(): void
     {
-        $this->reportable(function (Throwable $e) {
-            //
+        $this->renderable(function(CustomException $e, Request $request) {
+           return response()->json(['message' => $e->getMessage()],$e->getCode());
         });
     }
 }

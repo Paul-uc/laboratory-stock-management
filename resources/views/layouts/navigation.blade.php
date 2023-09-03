@@ -25,6 +25,8 @@
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ml-6">
+               
+                <img src="http://ui-avatars.com/api/?name={{ urlencode(auth()->user()->name)}}" width="20" class="rounded-full m-1 h-12 w-12 relative justify-center uppercase bg-gray-200 flex items-center text-2xl font-semibold" v-text="name.split(' ').slice(0, 2).join(' ').split(' ').map((n) => n[0]).join('')"/>
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">

@@ -12,9 +12,12 @@ class Category extends Model
 
     protected $fillable = [
         'categoryName',
+        'image'
     ];
 
-   
+    protected $casts = [
+        'image' => 'array',
+    ];
     public function stockCode():HasMany
     {
         return $this->hasMany(stockCode::class);

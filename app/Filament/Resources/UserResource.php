@@ -25,6 +25,9 @@ use Filament\Forms\Components\Section;
 use Filament\Support\Enums\FontWeight;
 use Filament\Notifications\Notification;
 use Illuminate\Validation\ValidationException;
+use Filament\Forms\Components\FileUpload;
+use Filament\Tables\Columns\ImageColumn;
+
 
 
 class UserResource extends Resource
@@ -62,6 +65,8 @@ class UserResource extends Resource
                     ->required()
                     ->maxLength(255),
 
+                    FileUpload::make('avatar'),
+
                 DatePicker::make('email_verified_at'),
                TextInput::make('password')
                     ->password()
@@ -78,6 +83,8 @@ class UserResource extends Resource
                     ->multiple()
                     ->relationship('permissions', 'name')
                     ->preload(),
+
+                   
                 ])
                
             ]);
@@ -105,6 +112,10 @@ protected function onValidationError(ValidationException $exception): void
                 ->translateLabel(),
                 TextColumn::make('email')->searchable()
                 ->translateLabel(),
+                ImageColumn::make('avatar')
+                ->label('Profile Image') 
+                ->size(70)
+                ->circular(), 
                 TextColumn::make('roles.name')
                 ->translateLabel()
                     ->sortable(),
