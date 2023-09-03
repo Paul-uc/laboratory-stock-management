@@ -14,10 +14,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Str;
+use Filament\Panel;
 
 
-
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable implements MustVerifyEmail, FilamentUser
 //implements FilamentUser
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
@@ -114,7 +114,8 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
 
-    // public function canAccessFilament(): bool{
-    //     return $this->hasRole('Admin', 'SuperAdmin', '');
-    // }
+     public function canAccessPanel(Panel $panel): bool {
+        return $this->hasRole(['Admin', 'SuperAdmin']);
+    }
+    
 }
