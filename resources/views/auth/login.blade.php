@@ -1,6 +1,6 @@
 <x-guest-layout>
 
-        <!-- Your existing content goes here -->
+        
     <!-- Logo and Navigation -->
     <div class="text-center mb-6">
         <p class="text-gray-600 text-lg font-semibold">Welcome to Laboratory Stock Loaning System</p>

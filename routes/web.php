@@ -33,7 +33,7 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return view('loan');
+    return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/auth/{provider}/redirect', [ProviderController::class, 'redirect']);
@@ -46,8 +46,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::resource('/loans', LoanController::class,);
-    
-   
 
     Route::get('/{record}/DowloadApproval/download', [DownloadPdfController::class, 'download'])->name('approval.pdf.download');
     Route::get('/{record}/DowloadReturnStock/dowload', [ReturnStockPdfController::class, 'download'])->name('returnStock.pdf.download');
