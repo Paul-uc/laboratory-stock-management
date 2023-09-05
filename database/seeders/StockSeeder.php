@@ -19,9 +19,11 @@ class StockSeeder extends Seeder
     {
         //
         //Default Category 
-        Category::create(['categoryName' => 'Beaker']);
-        Category::create(['categoryName' => 'Bunsen Burner']);
-        Category::create(['categoryName' => 'Burner Stand']);
+        // Category::create(['categoryName' => 'Beaker']);
+        // Category::create(['categoryName' => 'Bunsen Burner']);
+        // Category::create(['categoryName' => 'Burner Stand']);
+        Category::factory(3)->create();
+       
 
         stockCode::create(['category_id' => 1, 'code' => 'B001',  'stockDescription' => 'not necessary']);
         stockCode::create(['category_id' => 1, 'code' => 'B002',  'stockDescription' => 'not necessary']);

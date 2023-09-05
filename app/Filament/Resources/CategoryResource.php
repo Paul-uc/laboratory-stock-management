@@ -40,7 +40,7 @@ class CategoryResource extends Resource
                     TextInput::make('categoryName')
                     ->label('Category Name')
                     ->required()
-                    ->alpha(),
+                    ->string(),
 
                     FileUpload::make('image')
                   

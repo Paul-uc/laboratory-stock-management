@@ -18,10 +18,10 @@ class UserFactory extends Factory
     public function definition(): array
     {
         $numericPart = rand(10, 99); // Generate a random 2-digit numeric part
-$alphabetPart = strtoupper(Str::random(3)); // Generate a random 3-character alphabet part
-$numericPart2 = rand(10000, 99999); // Generate a random 5-digit numeric part
+        $alphabetPart = strtoupper(Str::random(3)); // Generate a random 3-character alphabet part
+        $numericPart2 = rand(10000, 99999); // Generate a random 5-digit numeric part
         return [
-           
+
             'name' => fake()->name(),
             'username' => $numericPart . $alphabetPart . $numericPart2,
             'email' => fake()->unique()->safeEmail(),

@@ -45,7 +45,7 @@ class ProviderController extends Controller
                ]);
            }
             Auth::login($user);
-            return redirect('/dashboard');
+            return redirect('/');
         } catch (\Exception $e){
             return redirect('/login');
         }

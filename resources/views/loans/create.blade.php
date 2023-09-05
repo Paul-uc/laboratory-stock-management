@@ -70,12 +70,13 @@
 
 
                     <div>
-        <label for="startLoanDate" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Start Date</label>
-        <input type="date" id="startLoanDate" name="startLoanDate" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Laravel event" required>
-        @error('startLoanDate')
-        <div class="text-sm text-red-400">{{ $message }}</div>
-        @enderror
-    </div>
+    <label for="startLoanDate" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Start Date</label>
+    <input type="date" id="startLoanDate" name="startLoanDate" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Laravel event" required min="{{ now()->format('Y-m-d') }}">
+    @error('startLoanDate')
+    <div class="text-sm text-red-400">{{ $message }}</div>
+    @enderror
+</div>
+
 
     <div>
         <label for="estReturnDate" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">End Date</label>
@@ -135,9 +136,15 @@
     <script>
     // Add a JavaScript function to validate the date range and calculate the loan duration
     function updateLoanDuration() {
-        const startDate = new Date(document.getElementById('startLoanDate').value);
-        const estReturnDate = new Date(document.getElementById('estReturnDate').value);
+        const startDateInput = document.getElementById('startLoanDate');
+        const estReturnDateInput = document.getElementById('estReturnDate');
         const loanDurationField = document.getElementById('loanDuration');
+
+        const startDate = new Date(startDateInput.value);
+        const estReturnDate = new Date(estReturnDateInput.value);
+
+        // Set the minimum date for the startLoanDate picker to today
+        startDateInput.setAttribute('min', new Date().toISOString().split('T')[0]);
 
         if (isNaN(startDate) || isNaN(estReturnDate)) {
             loanDurationField.value = '';
@@ -149,7 +156,7 @@
 
         if (daysDiff < 0 || daysDiff > 30) {
             loanDurationField.value = 'Invalid Date Range';
-            document.getElementById('estReturnDate').value = ''; // Clear invalid date
+            estReturnDateInput.value = ''; // Clear invalid date
         } else {
             loanDurationField.value = daysDiff;
         }

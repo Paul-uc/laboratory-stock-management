@@ -26,6 +26,7 @@ use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\Wizard;
 use Filament\Support\Enums\FontWeight;
+use Illuminate\Support\Facades\Date; 
 
 
 class LoanStockResource extends Resource
@@ -134,12 +135,15 @@ class LoanStockResource extends Resource
 
                             DatePicker::make('startLoanDate')
                                 ->label('Start Loan Date')
+                                ->after(Date::today())
+                               
                                 ->required(),
 
                             DatePicker::make('estReturnDate')
                                 ->after('startLoanDate')
                                 ->label('Estimated Return Date')
                                 ->after('startLoanDate')
+                                
                                 ->required(),
 
                             TextArea::make('reason')
@@ -207,4 +211,5 @@ class LoanStockResource extends Resource
             'edit' => Pages\EditLoanStock::route('/{record}/edit'),
         ];
     }
+    
 }

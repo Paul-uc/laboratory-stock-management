@@ -63,59 +63,58 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
 
     public static function generateUserName($username)
     {
-        if($username === null){
-            $username = Str::lower(Str::random(8));
-        }
-        if(User::where('username', $username)->exists()){
-            $newUsername = $username.Str::lower(Str::random(3));
-            $username = self::generateUserName($newUsername);
+        $numericPart = rand(10, 99); // Generate a random 2-digit numeric part
+        $alphabetPart = strtoupper(Str::random(3)); // Generate a random 3-character alphabet part
+        $numericPart2 = rand(10000, 99999); // Generate a random 5-digit numeric part
+        if ($username === null) {
+            $username = $numericPart . $alphabetPart . $numericPart2;
         }
         return $username;
     }
 
     public function isAdmin()
     {
-    return $this->roles->whereIn('name', ['SuperAdmin', 'Admin'])->count() > 0;
+        return $this->roles->whereIn('name', ['SuperAdmin', 'Admin'])->count() > 0;
     }
 
-    public function loans():HasMany
+    public function loans(): HasMany
     {
         return $this->hasMany(Loan::class);
     }
 
-  public function returnStock():HasMany
+    public function returnStock(): HasMany
     {
         return $this->hasMany(returnStock::class);
     }
 
-    public function username():HasOne
+    public function username(): HasOne
     {
         return $this->hasOne(User::class, 'username');
     }
 
-    public function userId():HasOne
+    public function userId(): HasOne
     {
         return $this->hasOne(User::class, 'id');
     }
 
-    public function user():BelongsTo
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'id');
     }
 
-    public function loanstock():HasMany
+    public function loanstock(): HasMany
     {
         return $this->hasMany(loanstock::class, 'loan_stock_id');
     }
 
-    public function approvals():HasMany
+    public function approvals(): HasMany
     {
         return $this->hasMany(Approval::class, 'approval_id');
     }
 
 
-     public function canAccessPanel(Panel $panel): bool {
+    public function canAccessPanel(Panel $panel): bool
+    {
         return $this->hasRole(['Admin', 'SuperAdmin']);
     }
-    
 }

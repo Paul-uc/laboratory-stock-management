@@ -19,9 +19,9 @@
                 </div>
 
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                <x-nav-link :href="route('contact')"> <!-- Update the route name here -->
-    {{ __('Contact Us') }}
-</x-nav-link>
+                    <x-nav-link :href="route('contact')"> <!-- Update the route name here -->
+                        {{ __('Contact Us') }}
+                    </x-nav-link>
 
                 </div>
             </div>
