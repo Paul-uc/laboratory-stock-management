@@ -69,27 +69,26 @@
 
 
 
+                            <!-- Loan Start Date -->
+                            <div>
+                        <label for="startLoanDate" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Start Date</label>
+                        <input type="date" id="startLoanDate" name="startLoanDate" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required min="{{ now()->format('Y-m-d') }}">
+                        @error('startLoanDate')
+                        <div class="text-sm text-red-400">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <!-- Loan Estimated Return Date and Duration -->
                     <div>
-    <label for="startLoanDate" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Start Date</label>
-    <input type="date" id="startLoanDate" name="startLoanDate" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Laravel event" required min="{{ now()->format('Y-m-d') }}">
-    @error('startLoanDate')
-    <div class="text-sm text-red-400">{{ $message }}</div>
-    @enderror
-</div>
+                        <label for="estReturnDate" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Estimated Return Date</label>
+                        <input type="date" id="estReturnDate" name="estReturnDate" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required min="{{ now()->format('Y-m-d') }}">
+                        @error('estReturnDate')
+                        <div class="text-sm text-red-400">{{ $message }}</div>
+                        @enderror
+                        <div class="mt-2 text-sm text-gray-600 dark:text-gray-300">Loan Duration (in days): <span id="loanDuration">0</span></div>
+                    </div>
 
-
-    <div>
-        <label for="estReturnDate" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">End Date</label>
-        <input type="date" id="estReturnDate" name="estReturnDate" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Laravel event" required>
-        @error('estReturnDate')
-        <div class="text-sm text-red-400">{{ $message }}</div>
-        @enderror
-    </div>
-
-    <div>
-        <label for="loanDuration" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Loan Duration (in days)</label>
-        <input type="text" id="loanDuration" name="loanDuration" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" readonly disabled>
-    </div>
+ 
                     <div>
                         <label for="supervisorName" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Person In charge</label>
                         <input type="text" id="supervisorName" name="supervisorName" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Write your Supervisor/Lecture Name">
@@ -158,7 +157,7 @@
             loanDurationField.value = 'Invalid Date Range';
             estReturnDateInput.value = ''; // Clear invalid date
         } else {
-            loanDurationField.value = daysDiff;
+            loanDurationField.textContent  = daysDiff;
         }
     }
 

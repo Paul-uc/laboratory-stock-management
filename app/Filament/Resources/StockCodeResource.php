@@ -34,18 +34,19 @@ class StockCodeResource extends Resource
         return $form
             ->schema([
                 //
-                Section::make('Enter New Stock Code')
+                Section::make('Enter New Asset Code')
                 ->description('Please ensure the information entered is accurate and correct')
                 ->aside()
                 ->schema([
                     // ...
                     Select::make('category_id')  
-                    ->relationship('category', 'categoryName')->required(), 
+                    ->relationship('category', 'categoryName')->required()->label('Selectcategory'), 
+
                     TextInput::make('code')
                     ->required()
                     ->string(),
                  
-                    TextInput::make('stockDescription') ->alphaNum()->required(),
+                    TextInput::make('stockDescription') ->alphaNum()->required()->label('Asset Description'),
                 ])
                 ->columns(2)
 
